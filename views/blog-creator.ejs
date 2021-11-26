@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/header.ejs') %>
+<body>
+    <div id="bc-header">
+        <div class="logo">
+            <a href="/"><h1>GameRange</h1></a>
+            <p>...for everything gaming.</p>
+        </div>
+        <div id="bc-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.997 13.985c.01 1.104-.88 2.008-1.986 2.015-1.105.009-2.005-.88-2.011-1.984-.01-1.105.879-2.005 1.982-2.016 1.106-.007 2.009.883 2.015 1.985zm-.978-3.986c-1.104.008-2.008-.88-2.015-1.987-.009-1.103.877-2.004 1.984-2.011 1.102-.01 2.008.877 2.012 1.982.012 1.107-.88 2.006-1.981 2.016zm7.981-4.014c.004 1.102-.881 2.008-1.985 2.015-1.106.01-2.008-.879-2.015-1.983-.011-1.106.878-2.006 1.985-2.015 1.101-.006 2.005.881 2.015 1.983zm-12 15.847c4.587.38 2.944-4.492 7.188-4.537l1.838 1.534c.458 5.537-6.315 6.772-9.026 3.003zm14.065-7.115c1.427-2.239 5.846-9.748 5.846-9.748.353-.623-.429-1.273-.975-.813 0 0-6.572 5.714-8.511 7.525-1.532 1.432-1.539 2.086-2.035 4.447l1.68 1.4c2.227-.915 2.868-1.04 3.995-2.811zm-12.622 4.806c-2.084-1.82-3.42-4.479-3.443-7.447-.044-5.51 4.406-10.03 9.92-10.075 3.838-.021 6.479 1.905 6.496 3.447l1.663-1.456c-1.01-2.223-4.182-4.045-8.176-3.992-6.623.055-11.955 5.466-11.903 12.092.023 2.912 1.083 5.57 2.823 7.635.958.492 2.123.329 2.62-.204zm12.797-1.906c1.059 1.97-1.351 3.37-3.545 3.992-.304.912-.803 1.721-1.374 2.311 5.255-.591 9.061-4.304 6.266-7.889-.459.685-.897 1.197-1.347 1.586z"/></svg>
+            <p>Blog Creator Tool</p>
+        </div>
+    </div>
+    <form method="post" action="/create-blog" enctype="multipart/form-data" id="bc-form">
+        <div class="header">
+            <h2>
+                create a new blog below
+            </h2>
+            <p>all input fields are required.no input field should be submitted blank. </p>
+        </div>
+        <hr>
+        <div class="dropdown">
+            <label for="val">select category:</label>
+            <ul id="input">
+                <input type="text" id="val" readonly placeholder="Choose from list" name="category" required>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M23.677 18.52c.914 1.523-.183 3.472-1.967 3.472h-19.414c-1.784 0-2.881-1.949-1.967-3.472l9.709-16.18c.891-1.483 3.041-1.48 3.93 0l9.709 16.18z"/></svg>
+            </ul>
+            <ul id="options">
+                <li>playstation</li>
+                <li>xbox</li>
+                <li>nintendo</li>
+                <li>PC</li>
+            </ul>
+        </div>
+        <div class="title">
+            <label for="title-box">title:</label>
+            <input type="text" id="title-box" name="title" placeholder="E.g Dele goes to school" required>
+        </div>
+        <div class="author-name">
+            <label for="author">author:</label>
+            <input type="text" id="author-name" name="author" placeholder="E.g John schmidt" required>
+        </div>
+        <div id="hero">
+            <div id="hero-text">
+                <p>poster:</p>
+                <span>click on button below to select image from device storage.</span>
+                <label for="hero-img">select poster</label>
+                <input type="file" name="hero" id="hero-img" accept="image/png, image/gif, image/jpeg" required>
+            </div>
+            <div id="hero-img-sect">
+                <p>*selected image should preview here.</p>
+                <img id="poster" data-text="poster preview" src="" alt="Poster">
+            </div>
+        </div>
+        <div class="snippet">
+            <label for="snippet">snippet:</label>
+            <input type="text" id="snippet" name="snippet" placeholder="E.g The sun shall soon shine!!!" required>
+        </div>
+        <div class="blog-sect">
+            <label for="blog-sect-1">first blog section:</label>
+            <textarea id="blog-sect-1" name="blog-sect-1" placeholder="Input first blog post section here" required></textarea>
+        </div>
+        <div id="blog-images">
+            <div id="blog-images-text">
+                <p>Blog Image(s):</p>
+                <span>Click On Button Below To Select Image(s) From Device Storage.</span>
+                <label for="blog-posters">select blog images</label>
+                <input type="file" name="body-images" id="blog-posters" accept="image/png, image/gif, image/jpeg" multiple required>
+            </div>
+            <div id="blog-images-sect">
+                <p>*Selected Image(s) Should Preview Here.</p>
+                <div id="blog-images-preview">
+                    <div class="note">
+                        <i><img src="preview-icon.png" alt=""></i>
+                        <p>blog images preview</p>
+                    </div>
+                </div>
+                <p class="previewed-images">No Image Previewed.</p>
+            </div>
+        </div>
+        <div class="blog-sect">
+            <label for="blog-sect-2">second blog section:</label>
+            <textarea id="blog-sect-2" name="blog-sect-2" placeholder="Input second blog post section here" required></textarea>
+        </div>
+        <button class="submit" type="submit">publish blog</button>
+    </form>
+    <script src="create-blog.js"></script>
+</body>
+</html>

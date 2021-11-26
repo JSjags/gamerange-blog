@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./partials/header.ejs') %>
+
+<body>
+<div class="container">
+
+    <%- include('./partials/nav.ejs') %>
+    <%- include('./partials/search.ejs') %>
+
+    <div class="carousel">
+        <div class="carousel-slider">
+            <div class="img">
+                <img src="https://th.bing.com/th/id/R.4c480815c259ca5414c7782d892397c3?rik=d4gIrkiX9eSB%2bw&pid=ImgRaw&r=0" alt="spiderman">
+                <div class="caption">
+                    <h2>Insomniac Games Announce Spiderman 2.</h2>
+                </div>
+            </div>
+            <div class="img">
+                <img src="https://www.pcgamesn.com/wp-content/uploads/2020/07/halo-infinite-xbox.jpg" alt="halo-infinite">
+                <div class="caption">
+                    <h2>343 Industries to showcase new halo campaign footage tomorrow.</h2>
+                </div>
+            </div>
+            <div class="img">
+            <img src="https://www.nme.com/wp-content/uploads/2021/06/forza-horizon-5-modes.jpg" alt="forza-horizon-5">
+                <div class="caption">
+                    <h2>forza horizon 5 getting rave reactions.</h2>
+                </div>
+            </div>
+            <div class="img">
+            <img src="https://assets2.rockpapershotgun.com/perfect-dark.jpg/BROK/resize/1920x1920%3E/format/jpg/quality/80/perfect-dark.jpg" alt="perfect-dark">
+                <div class="caption">
+                    <h2>the initiative studio partners with crystal dynamics for perfect dark.</h2>
+                </div>
+            </div>
+        </div>
+        <button id="previous-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13.427 3.021h-7.427v-3.021l-6 5.39 6 5.61v-3h7.427c3.071 0 5.561 2.356 5.561 5.427 0 3.071-2.489 5.573-5.561 5.573h-7.427v5h7.427c5.84 0 10.573-4.734 10.573-10.573s-4.733-10.406-10.573-10.406z"/></svg></button>
+        <button id="next-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10.573 3.021h7.427v-3.021l6 5.39-6 5.61v-3h-7.427c-3.071 0-5.561 2.356-5.561 5.427 0 3.071 2.489 5.573 5.561 5.573h7.427v5h-7.427c-5.84 0-10.573-4.734-10.573-10.573s4.733-10.406 10.573-10.406z"/></svg></button>
+        
+        <div class="slider-dots">
+
+        </div>
+    </div>
+    <div class="top-stories">
+        <h1>top stories</h1>
+        <hr>
+        <section class="blog-card-sect">
+            <% if(blogs.length > 0) {                                           %>
+                <% blogs.forEach(blog => {                                      %>
+                    <% let mimetype = blog.hero[0]['mimetype']                  %>
+                    <% let base64 = blog.hero[0]['base64']                      %>
+                    <div class="blog-card">
+                        <% if(blog.category === 'Xbox') { %>
+                        <div style="background: green; display: flex; align-items: center; justify-content: center;" class="category">
+                            <img src="https://img.icons8.com/ios-glyphs/30/ffffff/xbox.png"/>
+                        </div>
+                        <% } %>
+                        <% if(blog.category === 'Playstation') { %>
+                        <div style="background: blue; display: flex; align-items: center; justify-content: center;" class="category">
+                            <img src="https://img.icons8.com/ios-glyphs/30/ffffff/play-station.png"/>
+                        </div>
+                        <% } %>
+                        <% if(blog.category === 'Nintendo') { %>
+                        <div style="background: red; display: flex; align-items: center; justify-content: center;" class="category">
+                            <img src="https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png"/>
+                        </div>
+                        <% } %>
+                        <% if(blog.category === 'PC') { %>
+                        <div style="background: black; display: flex; align-items: center; justify-content: center;" class="category">
+                            <img src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png"/>
+                        </div>
+                        <% } %>
+                        <div style="background: url()" class="bc-img-div">
+                        <img class="blog-card-img" src='data:<%- mimetype %>;base64,<%= base64 %>' alt="poster">
+                        </div>
+                        <h3 class="blog-card-title"><%= blog.title %></h3>
+                        <!-- <p class="blog-card-snippet"><%= blog.snippet %></p> -->
+                        <p class="blog-card-body"><%= blog.blogSect1%></p>
+                        <button class="blog-card-btn">read more</button>
+                    </div>
+                <% }) %>
+            <% } %>
+        </section>
+    </div>
+    
+</div>
+
+<%- include('./partials/footer.ejs') %>
+
+<script src="functions.js"></script>
+<script>
+     let imgDiv = document.querySelectorAll('.bc-img-div'); 
+     let img = document.querySelectorAll('.blog-card-img'); 
+     img.forEach((img) => {
+         img.parentElement.style.background = `url(${img.src})`;
+         img.parentElement.style.backgroundSize = `160%`;
+         img.parentElement.style.backgroundPosition = "center center";
+         if(img.clientWidth > img.clientHeight) {
+             return img.style.width = '100%'; img.style.height = '100%';
+         }
+         if(img.clientHeight > img.clientWidth) {
+            return img.style.height = '100%'; img.style.width = '100%';
+         }
+     });
+</script>
+</body>
+</html>
