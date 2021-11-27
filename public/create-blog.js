@@ -18,57 +18,66 @@ const poster = document.querySelector("#poster");
 const posterInput = document.querySelector("#hero-img");
 const posterBtn = document.querySelector("#hero-text label");
 
-posterInput.addEventListener('change', () => {
-    const reader = new FileReader();
-    const file = posterInput.files[0];
-    if (file) {
-        posterBtn.innerText = "change poster";
-    }
-    reader.readAsDataURL(file);
-    reader.addEventListener('load', () => {
-        const src = reader.result;
-        poster.src = src;
+posterBtn.addEventListener("click", () => {
+    let heroUrl = posterInput.value;
+    poster.setAttribute("src", heroUrl);
+});
+
+const blogImagesLinks = document.querySelector("#blog-images-links");
+const addLinksBtn = document.querySelector("#blog-images-links-btn");
+const linkDeleteBtn = document.querySelector(".delete-btn");
+const BlogImagesPreview = document.querySelector("#blog-images-review-btn");
+
+addLinksBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const parent = document.querySelector("#blog-images-links");
+    const inputCont = document.createElement("div");
+    const inputBox = document.createElement("input");
+    const deleteBtn = document.createElement("button")
+
+    deleteBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        deleteBtn.parentElement.remove();
     })
+
+    inputCont.classList.add("link-cont");
+    inputBox.classList.add("blog-posters");
+    deleteBtn.classList.add("delete-btn");
+
+    deleteBtn.innerText = "✕";
+
+    inputCont.appendChild(inputBox);
+    inputCont.appendChild(deleteBtn);
+    parent.appendChild(inputCont);
+
+    inputBox.setAttribute("placeholder", "E.g https://justcopyandpaste.com/img.jpg");
 })
 
-// blog images input
-const blogImgCont = document.querySelector("#blog-images-preview");
-const blogImages = document.querySelector("#blog-posters");
-const blogImgBtn = document.querySelector("#blog-images-text label");
-let previewedImages = document.querySelector(".previewed-images");
+linkDeleteBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    linkDeleteBtn.parentElement.remove();
+})
 
-blogImages.addEventListener('change', async (event) => {
-    // empty blog image container first
-    blogImgCont.innerHTML = "";
-    // Convert the FileList into an array and iterate
-    let files = Array.from(event.target.files).map(file => {
-    
-        // Define a new file reader
-            let reader = new FileReader();
-    
-        // Create a new promise
-        return new Promise(resolve => {
-    
-            // Resolve the promise after reading file
-            reader.onload = () => resolve(reader.result);
-    
-            // Read the file as a DataURL
-            reader.readAsDataURL(file);
-    
-        });
-    
+BlogImagesPreview.addEventListener("click", () => {
+    const parent = document.querySelector("#blog-images-preview")
+    let images = [];
+    let imgUrls = Array.from(document.querySelectorAll(".blog-posters"))
+    imgUrls.forEach(url => {
+        images.push(url.value);
     });
-    
-        // At this point you'll have an array of results
-        let images = await Promise.all(files);
-        images.forEach((img) => {
-            let imgPreview = document.createElement('img');
-            imgPreview.setAttribute('src', img);
-            imgPreview.classList.add('img-preview');
-            blogImgCont.appendChild(imgPreview);
-        });
-        let numOfImages = images.length;
-        let previewText;
-        (numOfImages < 2) ? previewText = "Image" : previewText = "Images" 
-        previewedImages.innerText = `${numOfImages} ${previewText} Previewed`;
+    if(images.every(img => img === "")) {
+        return
+    };
+
+    for(i = 0; i < imgUrls.length; i++) {
+        imgUrls[i].setAttribute("name", `blog-image-${i+1}`);
+    };
+
+    parent.innerHTML = "";
+    images.forEach(imgUrl => {
+        const image = document.createElement("img")
+        image.classList.add("img-preview");
+        image.setAttribute("src", imgUrl);
+        parent.appendChild(image);
+    });
 })
