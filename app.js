@@ -46,6 +46,7 @@ app.set('view engine', 'ejs');
 
 //static folder
 app.use(express.static('public'));
+app.use(express.urlencoded({ extended : true }));
 
 //GET route handlers
 app.get('/', (req, res) => {
@@ -75,59 +76,60 @@ res.render('videos', {title: 'Videos Page'});
 app.get('/create-blog', (req, res) => {
   res.render('blog-creator', {title: 'Blog Creator'});
 });
-app.post('/create-blog', upload.fields([{name: 'hero', maxCount: 1}, {name: 'body-images', maxCount: 3}]), (req, res, next) => {
+app.post('/create-blog/publish', (req, res) => {
   //poster image encoded
-  let poster = req.files['hero'].map(file => {
-    let img = fs.readFileSync(file.path);
-    return encodeImage = img.toString('base64')
-  })
-  let finalPoster = poster.map((src, index) => {
-    return {
-      filename: req.files['hero'][index].originalname,
-      mimetype: req.files['hero'][index].mimetype,
-      base64: src
-    }
-  })
+  // let poster = req.files['hero'].map(file => {
+  //   let img = fs.readFileSync(file.path);
+  //   return encodeImage = img.toString('base64')
+  // })
+  // let finalPoster = poster.map((src, index) => {
+  //   return {
+  //     filename: req.files['hero'][index].originalname,
+  //     mimetype: req.files['hero'][index].mimetype,
+  //     base64: src
+  //   }
+  // })
 
-  //blog images encoded
-  let blogImages = req.files['body-images'].map(file => {
-    let img = fs.readFileSync(file.path);
-    return encodeImage = img.toString('base64')
-  })
-  let finalBlogImages = blogImages.map((src, index) => {
-    return {
-          filename: req.files['body-images'][index].originalname,
-          mimetype: req.files['body-images'][index].mimetype,
-          base64: src
-        }
-  })
+  // //blog images encoded
+  // let blogImages = req.files['body-images'].map(file => {
+  //   let img = fs.readFileSync(file.path);
+  //   return encodeImage = img.toString('base64')
+  // })
+  // let finalBlogImages = blogImages.map((src, index) => {
+  //   return {
+  //         filename: req.files['body-images'][index].originalname,
+  //         mimetype: req.files['body-images'][index].mimetype,
+  //         base64: src
+  //       }
+  // })
 
-  const blog = new Blog({
-    category: req.body.category,
-    title: req.body.title,
-    author: req.body.author,
-    hero: finalPoster,
-    snippet: req.body.snippet,
-    blogSect1: req.body['blog-sect-1'],
-    bodyImages: finalBlogImages,
-    blogSect2: req.body['blog-sect-2']
-  })
-  blog.save()
-    .then((result) => {
-      console.log('upload to database successful');
-      fs.rmdir('./my-uploads',() => {
-        console.log('my-uploads folder deleted')
-      });
-      fs.mkdir('./my-uploads', (err) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        console.log('my-uploads folder created');
-      })
-      res.status(201).json({"message": "Blog Published"});
-    })
-    .catch((err) => console.log(err))
+  // const blog = new Blog({
+  //   category: req.body.category,
+  //   title: req.body.title,
+  //   author: req.body.author,
+  //   hero: finalPoster,
+  //   snippet: req.body.snippet,
+  //   blogSect1: req.body['blog-sect-1'],
+  //   bodyImages: finalBlogImages,
+  //   blogSect2: req.body['blog-sect-2']
+  // })
+  // blog.save()
+  //   .then((result) => {
+  //     console.log('upload to database successful');
+  //     fs.rmdir('./my-uploads',() => {
+  //       console.log('my-uploads folder deleted')
+  //     });
+  //     fs.mkdir('./my-uploads', (err) => {
+  //       if (err) {
+  //         console.log(err);
+  //         return;
+  //       }
+  //       console.log('my-uploads folder created');
+  //     })
+  //     res.status(201).json({"message": "Blog Published"});
+  //   })
+  //   .catch((err) => console.log(err))
+  res.send(req.body);
 });
 app.get('/blogs/delete-blog', (req, res) => {
   // Blog.find()

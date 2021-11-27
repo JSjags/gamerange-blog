@@ -12,7 +12,7 @@
             <p>Blog Creator Tool</p>
         </div>
     </div>
-    <form method="post" action="/create-blog" enctype="multipart/form-data" id="bc-form">
+    <form method="post" action="/create-blog/publish" enctype="application/x-www-form-urlencoded" id="bc-form">
         <div class="header">
             <h2>
                 create a new blog below
@@ -44,9 +44,9 @@
         <div id="hero">
             <div id="hero-text">
                 <p>poster:</p>
-                <span>click on button below to select image from device storage.</span>
-                <label for="hero-img">select poster</label>
-                <input type="file" name="hero" id="hero-img" accept="image/png, image/gif, image/jpeg" required>
+                <span>input image URL below.</span>
+                <input type="text" name="hero" id="hero-img" placeholder="E.g https://ireallydontcare.com/img.jpg" required>
+                <label for="hero-img" id="poster-preview">preview poster</label>
             </div>
             <div id="hero-img-sect">
                 <p>*selected image should preview here.</p>
@@ -64,9 +64,15 @@
         <div id="blog-images">
             <div id="blog-images-text">
                 <p>Blog Image(s):</p>
-                <span>Click On Button Below To Select Image(s) From Device Storage.</span>
-                <label for="blog-posters">select blog images</label>
-                <input type="file" name="body-images" id="blog-posters" accept="image/png, image/gif, image/jpeg" multiple required>
+                <span>Input Or Add Image Link(s) Below.</span>
+                    <div id="blog-images-links">
+                        <div class="link-cont">
+                            <input type="text" class="blog-posters" placeholder="E.g https://justcopyandpaste.com/img.jpg" required>
+                            <button class="delete-btn">✕</button>
+                        </div>
+                    </div>
+                <button id="blog-images-links-btn">+</button>
+                <label for="blog-posters" id="blog-images-review-btn">preview blog images</label>
             </div>
             <div id="blog-images-sect">
                 <p>*Selected Image(s) Should Preview Here.</p>
