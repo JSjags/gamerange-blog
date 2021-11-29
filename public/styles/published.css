@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Average+Sans&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background: white;
+    font-family: 'Average Sans', sans-serif;
+    color: #2F2E41;
+    width: 100vw;
+    height: 100vh;
+}
+div {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+section {
+    padding: 0 20px 0 0;
+}
+h1, h3 {
+    text-decoration: underline;
+    text-decoration-color: #03ff03;
+    text-decoration-thickness: 3px;
+}
+p {
+    padding: 10px 0 0;
+}
+ul {
+    padding: 10px 0 0;
+}
+ul li {
+    margin-left: 10px;
+    padding-bottom: 5px;
+    list-style-type: none;
+    text-transform: capitalize;
+}
+ul li::before {
+    content: "\2713";
+    margin-right: 5px;
+    color: #03ff03;
+}

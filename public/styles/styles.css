@@ -10,8 +10,6 @@ font-family: 'Average Sans', sans-serif;
 :root{
     --background-color: linear-gradient(315deg, #cc01aa, #01d3c1);
 }
-
-
 *{
     margin: 0;
     padding: 0;
@@ -308,7 +306,6 @@ img {
     filter: drop-shadow(0 5px 5px black);
     transition: all 200ms ease-in-out;
 }
-
 #previous-btn {
     top: 50%;
     left: -15px;
@@ -317,7 +314,6 @@ img {
     transform: translateY(-50%) scale(0.7);
 
 }
-
 #previous-btn:hover{
     transform: translateY(-50%) scale(0.8);
     left: -10px;
@@ -378,11 +374,11 @@ img {
     0 0 3px white,
     0 0 6px white;
 }
-
 .slider-dot:not(:hover,.active) {
     background: rgba(255, 255, 255, 0.3);
     transition: background 300ms ease-in-out;
 }
+
 /* top stories section */
 .top-stories {
     width: 80vw;
@@ -599,7 +595,6 @@ footer .icons p:nth-child(3):hover svg {
     padding: 30px 10px 0;
     transition: all 500ms ease-in-out;
 }
-
 #bc-form .dropdown label {
     font-size: 1.2em;
     display: block;

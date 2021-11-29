@@ -8,25 +8,8 @@ const app = express();
 // for mongodb database
 const mongoose = require('mongoose');
 
-// for passing file uploads
-const multer = require('multer');
-
-// invoking multer
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './my-uploads')
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    cb(null, file.fieldname + '-' + uniqueSuffix)
-  }
-})
-
-const upload = multer({ storage: storage })
-
 //custom blog model
 const Blog = require('./models/blog');
-
 
 //port number
 const port = 3000;
@@ -76,60 +59,36 @@ res.render('videos', {title: 'Videos Page'});
 app.get('/create-blog', (req, res) => {
   res.render('blog-creator', {title: 'Blog Creator'});
 });
+app.get('/create-blog/publish', (req, res) => {
+  res.send("hello")
+});
 app.post('/create-blog/publish', (req, res) => {
-  //poster image encoded
-  // let poster = req.files['hero'].map(file => {
-  //   let img = fs.readFileSync(file.path);
-  //   return encodeImage = img.toString('base64')
-  // })
-  // let finalPoster = poster.map((src, index) => {
-  //   return {
-  //     filename: req.files['hero'][index].originalname,
-  //     mimetype: req.files['hero'][index].mimetype,
-  //     base64: src
-  //   }
-  // })
+  let re = new RegExp('blogImage', 'gi')
+  const blogImageUrlsKeys = [];
+  const blogImageUrls = [];
+  Object.keys(req.body).forEach(item => item.match(re) && blogImageUrlsKeys.push(item) );
+  blogImageUrlsKeys.forEach(key => blogImageUrls.push(req.body[key]));
 
-  // //blog images encoded
-  // let blogImages = req.files['body-images'].map(file => {
-  //   let img = fs.readFileSync(file.path);
-  //   return encodeImage = img.toString('base64')
-  // })
-  // let finalBlogImages = blogImages.map((src, index) => {
-  //   return {
-  //         filename: req.files['body-images'][index].originalname,
-  //         mimetype: req.files['body-images'][index].mimetype,
-  //         base64: src
-  //       }
-  // })
+  //Creating a new blog with defined blog schema
 
-  // const blog = new Blog({
-  //   category: req.body.category,
-  //   title: req.body.title,
-  //   author: req.body.author,
-  //   hero: finalPoster,
-  //   snippet: req.body.snippet,
-  //   blogSect1: req.body['blog-sect-1'],
-  //   bodyImages: finalBlogImages,
-  //   blogSect2: req.body['blog-sect-2']
-  // })
-  // blog.save()
-  //   .then((result) => {
-  //     console.log('upload to database successful');
-  //     fs.rmdir('./my-uploads',() => {
-  //       console.log('my-uploads folder deleted')
-  //     });
-  //     fs.mkdir('./my-uploads', (err) => {
-  //       if (err) {
-  //         console.log(err);
-  //         return;
-  //       }
-  //       console.log('my-uploads folder created');
-  //     })
-  //     res.status(201).json({"message": "Blog Published"});
-  //   })
-  //   .catch((err) => console.log(err))
-  res.send(req.body);
+  const blog = new Blog({
+    category: req.body.category,
+    title: req.body.title,
+    author: req.body.author,
+    hero: req.body.hero,
+    snippet: req.body.snippet,
+    blogSect1: req.body.blogSect1,
+    bodyImages: [...blogImageUrls],
+    blogSect2: req.body.blogSect2
+  });
+  
+  //saving blog document to blogs collection to database
+  blog.save()
+    .then((result) => {
+      console.log("blog document saved");
+      res.render("published", {title: "Blog Published", blogDets: result});
+    })
+    .catch((err) => console.log(err));
 });
 app.get('/blogs/delete-blog', (req, res) => {
   // Blog.find()

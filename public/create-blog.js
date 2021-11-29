@@ -27,6 +27,8 @@ const blogImagesLinks = document.querySelector("#blog-images-links");
 const addLinksBtn = document.querySelector("#blog-images-links-btn");
 const linkDeleteBtn = document.querySelector(".delete-btn");
 const BlogImagesPreview = document.querySelector("#blog-images-review-btn");
+const previewedImages = document.querySelector(".previewed-images");
+const publishBtn = document.querySelector("#publish-btn");
 
 addLinksBtn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -70,9 +72,11 @@ BlogImagesPreview.addEventListener("click", () => {
     };
 
     for(i = 0; i < imgUrls.length; i++) {
-        imgUrls[i].setAttribute("name", `blog-image-${i+1}`);
+        imgUrls[i].setAttribute("name", `blogImage${i+1}`);
     };
-
+    let text;
+    images.length > 1 ? text = "Images" : text = "Image";
+    images.length > 0 && ( previewedImages.innerText = `${imgUrls.length} ${text} Previewed`); 
     parent.innerHTML = "";
     images.forEach(imgUrl => {
         const image = document.createElement("img")
@@ -80,4 +84,11 @@ BlogImagesPreview.addEventListener("click", () => {
         image.setAttribute("src", imgUrl);
         parent.appendChild(image);
     });
+})
+
+publishBtn.addEventListener("click", () => {
+    let imgUrls = Array.from(document.querySelectorAll(".blog-posters"));
+    for(i = 0; i < imgUrls.length; i++) {
+        imgUrls[i].setAttribute("name", `blogImage${i+1}`);
+    };
 })

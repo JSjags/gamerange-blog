@@ -15,20 +15,8 @@ const blogSchema = new Schema({
         required: true
     },
     hero: {
-        type: [{
-            filename: {
-                type: String,
-                required: true,
-            },
-            mimetype: {
-                type: String,
-                required: true
-            },
-            base64: {
-                type: String,
-                required: true
-            }
-        }]
+        type: String,
+        required: true
     },
     snippet: {
         type: String,
@@ -39,21 +27,7 @@ const blogSchema = new Schema({
         required: true
     },
     bodyImages: {
-        type: [{
-            filename: {
-                type: String,
-                required: true,
-            },
-            mimetype: {
-                type: String,
-                required: true
-            },
-            base64: {
-                type: String,
-                required: true
-            }
-        }],
-        required: true
+        type: [String],
     },
     blogSect2: {
         type: String,
@@ -61,6 +35,6 @@ const blogSchema = new Schema({
     }
 }, {timestamps: true});
 
-const Blog = mongoose.model('Blogs', blogSchema);
+const Blog = mongoose.model('Blog', blogSchema);
 
 module.exports = Blog;

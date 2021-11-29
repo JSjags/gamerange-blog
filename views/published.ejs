@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/published.css">
+    <title><%= title %></title>
+</head>
+<body>
+    <div>
+        <section>
+            <h1>Success</h1>
+            <p>Blog post was successfully published.</p>
+            <br>
+            <h3>Blog details</h3>
+            <ul>
+                <li>ID: <%= blogDets._id %></li>
+                <li>Category: <%= blogDets.category %></li>
+                <li>Author: <%= blogDets.author %></li>
+                <li>Title: <%= blogDets.title %></li>
+                <li>Published: <%= blogDets.createdAt %></li>
+            </ul>
+        </section>
+        <img src="/published.svg" alt=" blog published" >
+    </div>
+</body>
+</html>
