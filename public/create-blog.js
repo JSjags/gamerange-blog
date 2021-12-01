@@ -91,4 +91,4 @@ publishBtn.addEventListener("click", () => {
     for(i = 0; i < imgUrls.length; i++) {
         imgUrls[i].setAttribute("name", `blogImage${i+1}`);
     };
-})
+});

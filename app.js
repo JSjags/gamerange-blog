@@ -59,9 +59,6 @@ res.render('videos', {title: 'Videos Page'});
 app.get('/create-blog', (req, res) => {
   res.render('blog-creator', {title: 'Blog Creator'});
 });
-app.get('/create-blog/publish', (req, res) => {
-  res.send("hello")
-});
 app.post('/create-blog/publish', (req, res) => {
   let re = new RegExp('blogImage', 'gi')
   const blogImageUrlsKeys = [];
@@ -86,7 +83,7 @@ app.post('/create-blog/publish', (req, res) => {
   blog.save()
     .then((result) => {
       console.log("blog document saved");
-      res.render("published", {title: "Blog Published", blogDets: result});
+      res.status(201).render("published", {title: "Blog Published", blogDets: result});
     })
     .catch((err) => console.log(err));
 });
@@ -104,4 +101,3 @@ app.get('/blogs/delete-blog', (req, res) => {
 app.use((req, res) => {
   res.status(404).render("404", {title: '404 Page Not Found'});
 });
-// app.listen(port, () => console.log(`GameRange listening on port ${port}!`))

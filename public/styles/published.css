@@ -41,3 +41,39 @@ ul li::before {
     margin-right: 5px;
     color: #03ff03;
 }
+.links {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.link-btn {
+    border: none;
+    border-radius: 5px;
+    display: block;
+    text-decoration: none;
+    padding: 10px;
+    margin: 10px 0;
+}
+.link-btn:nth-child(1) {
+    margin-top: 20px;
+    color: white;
+    background: #2F2E41;
+    box-shadow: 0 5px 10px #E6E6E6;
+    transition: all 200ms ease-in-out;
+}
+.link-btn:nth-child(1):hover {
+    background: #03ff03;
+    color: #2F2E41;
+}
+
+.link-btn:nth-child(2) {
+    color: #2F2E41;
+    border: 1px solid #2F2E41;
+    box-shadow: 0 5px 10px #E6E6E6;
+}
+.link-btn:nth-child(2):hover {
+    border: 1px solid #03ff03;
+    color: #03ff03;
+    transition: all 200ms ease-in-out;
+}
