@@ -73,12 +73,12 @@
                         </div>
                         <% } %>
                         <div style="background: url()" class="bc-img-div">
-                        <img class="blog-card-img" src='data:<%- mimetype %>;base64,<%= base64 %>' alt="poster">
+                        <img class="blog-card-img" src=<%= blog.hero %> alt="poster">
                         </div>
                         <h3 class="blog-card-title"><%= blog.title %></h3>
                         <!-- <p class="blog-card-snippet"><%= blog.snippet %></p> -->
                         <p class="blog-card-body"><%= blog.blogSect1%></p>
-                        <button class="blog-card-btn">read more</button>
+                        <a href="blogs/<%= blog._id%>" class="blog-card-btn">read more</a>
                     </div>
                 <% }) %>
             <% } %>

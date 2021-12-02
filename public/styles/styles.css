@@ -1218,7 +1218,7 @@ button.submit:hover {
     width: 345px;
     height: 440px;
     /* height: fit-content; */
-    background: white;
+    background: #dadada;
     border-radius: 10px;
     margin: 20px 5px;
     transition: all 300ms ease-in-out;

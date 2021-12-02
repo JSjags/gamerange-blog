@@ -33,7 +33,7 @@ app.use(express.urlencoded({ extended : true }));
 
 //GET route handlers
 app.get('/', (req, res) => {
-  Blog.find()
+  Blog.find().sort({ 'createdAt': -1 }).limit(6)
     .then((result) => {
       res.render('index', {title: 'Home Page', blogs: result});
     })
@@ -49,6 +49,15 @@ app.get('/about', (req, res) => {
 });
 app.get('/blogs', (req, res) => {
   res.render('blogs', {title: 'Blogs Page'});
+});
+app.get('/blogs/:id', (req, res) => {
+  const _id = req.params.id;
+  Blog.findById(_id)
+    .then(result => {
+      const title = result.title;
+      res.render('details', { title: title, blog: result})
+    })
+    .catch(e => res.send(e))
 });
 app.get('/reviews', (req, res) => {
   res.render('reviews', {title: 'Reviews Page'});

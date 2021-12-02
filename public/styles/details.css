@@ -1,0 +1,57 @@
+* {
+    font-family: "Average Sans", sans-serif;
+}
+.content-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 30px 20px
+}
+.details-box {
+    flex: 0.6;
+} 
+.details-box h1 {
+    text-transform: capitalize;
+    margin-bottom: 20px;
+    font-size: 3em;
+}
+.details-box img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #00000067;
+}
+.details-box .blog-info {
+    padding: 10px 0;
+}
+.details-box .blog-info p {
+    text-transform: capitalize;
+    padding-bottom: 5px;
+    font-size: 1.3em;
+}
+.details-box hr {
+    border-image: linear-gradient(315deg, #cc01aa, #01d3c1) 1;
+}
+.details-box .snippet {
+    font-style: italic;
+    color: #00000080;
+    text-transform: capitalize;
+    margin-top: 10px;
+    font-size: 1.4em;
+}
+.details-box .snippet::before {
+    content: open-quote;
+    color: #cc01aa;
+    font-size: 2em;
+}
+.details-box .snippet::after {
+    content: close-quote;
+    color: #00bdad;
+    font-size: 2em;
+}
+.details-box .blog-article p{
+    font-size: 1.4em;
+    padding: 20px 0 0;
+}
+.side-bar {
+    flex: 0.3;
+}
