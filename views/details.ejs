@@ -12,6 +12,30 @@
 
     <div class="content-box">
         <div class="details-box">
+                <% if(blog.category === 'Xbox') { %>
+                    <div style="background: green; display: flex; align-items: center; justify-content: center;" class="category-logo">
+                        <img src="https://img.icons8.com/ios-glyphs/30/ffffff/xbox.png"/>
+                        <span>XBOX</span>
+                    </div>
+                    <% } %>
+                    <% if(blog.category === 'Playstation') { %>
+                    <div style="background: blue; display: flex; align-items: center; justify-content: center;" class="category-logo">
+                        <img src="https://img.icons8.com/ios-glyphs/30/ffffff/play-station.png"/>
+                        <span>PlayStation</span>
+                    </div>
+                    <% } %>
+                    <% if(blog.category === 'Nintendo') { %>
+                    <div style="background: red; display: flex; align-items: center; justify-content: center;" class="category-logo">
+                        <img src="https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png"/>
+                        <span>Nintendo</span>
+                    </div>
+                    <% } %>
+                    <% if(blog.category === 'PC') { %>
+                    <div style="background: black; display: flex; align-items: center; justify-content: center;" class="category-logo">
+                        <img src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png"/>
+                        <span>PC</span>
+                    </div>
+                    <% } %>
             <h1 class="blog-title"><%= blog.title %></h1>
             <img src="<%= blog.hero %>" alt="Blog Image">
             <div class="blog-info">
@@ -23,18 +47,138 @@
                 <%= blog.snippet %>
             </p>
             <div class="blog-article">
-                <p><%= blog.blogSect1 %></p>
-                <p><%= blog.blogSect2 %></p>
+                <p class="blog" ><%= blog.blogSect1 %></p>
+                <% if(blog.bodyImages.length < 2) { %>
+                    <img src="<%= blog.bodyImages[0] %>" alt="Blog Image">
+                <% } %>
+                <p class="blog" ><%= blog.blogSect2 %></p>
+                <p class="remark"><%= blog.closingRemark %></p>
+                <hr>
             </div>
+            <section class="tags-box">
+                <h3 class="tag-title">Tags:</h3>
+                <% blog.tags.forEach((tag) => { %>
+                    <span class="tag-item">
+                        <a href="http://">
+                            <%= tag %>
+                        </a>
+                    </span>
+                <% }) %>
+            </section>
         </div>
-        <aside class="side-bar"></aside>
+        <aside class="side-bar">
+            <div class="recent-blogs">
+                <h3 class="recent-blogs-header">Recent Articles:</h3>
+                <div class="recent-blogs-box">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </aside>
     </div>
-
 </div>
 
 <%- include('./partials/footer.ejs') %>
 
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 <script src="/functions.js"></script>
+<script>
+
+    const recentArticleContainer = document.querySelector(".recent-blogs-box")
+    const recentArticleSpinner = document.querySelector(".recent-blogs-box .spinner")
+    const btnContainer = document.querySelector(".side-bar .recent-blogs")
+
+    window.addEventListener("load", () => {
+        fetch('/blogs/recent')
+            .then(blob => blob.json())
+            .then(data => {
+                data.forEach(data => {
+                    const parent = document.createElement("div")
+                    const img = document.createElement("img")
+                    const title = document.createElement("h3")
+                    const date = document.createElement("p")
+                    const snippet = document.createElement("span")
+
+                    parent.classList.add("recent-blog-item");
+
+                    img.src = data.hero;
+                    title.innerText = data.title;
+                    date.innerText = `Published: ${data.createdAt}`;
+                    snippet.innerText = data.snippet;
+
+                    switch (data.category) {
+                        case 'Xbox':
+                            parent.style.borderRight = "5px solid green";
+                            parent.style.borderRadius = "5px";
+                            break;
+                        case 'Playstation':
+                            parent.style.borderRight = "5px solid blue";
+                            parent.style.borderRadius = "5px";
+                            break;
+                        case 'Nintendo':
+                            parent.style.borderRight = "5px solid red";
+                            parent.style.borderRadius = "5px";
+                            break;
+                        case 'PC':
+                            parent.style.borderRight = "5px solid black";
+                            parent.style.borderRadius = "5px";
+                            break;
+                        default:
+                            break;
+                    }
+
+                    parent.appendChild(img);
+                    parent.appendChild(title);
+                    parent.appendChild(date);
+                    parent.appendChild(snippet);
+
+                    recentArticleSpinner.remove();
+                    recentArticleContainer.appendChild(parent);
+                })
+            })
+            .catch(e => console.log(e));
+
+            const btn = document.createElement("button");
+            btn.classList.add("recent-btn");
+            btn.innerText = "See More";
+            btnContainer.appendChild(btn);
+
+            btn.addEventListener("click", () => {
+                window.location.assign('/blogs');
+            })
+    })
+
+    const categoryIcon = document.querySelector(".category-logo img");
+    const tagItems = document.querySelectorAll(".tag-item");
+    const remark = document.querySelector(".remark");
+    const category = <%- JSON.stringify(blog.category) %>;
+
+    switch (category) {
+        case 'Xbox': 
+            tagItems.forEach(tag => tag.classList.add("xbox"));
+            remark.style.borderLeft = "5px solid green";
+            categoryIcon.style.background = "green";
+            break;
+        case 'Playstation': 
+            tagItems.forEach(tag => tag.classList.add("ps"));
+            remark.style.borderLeft = "5px solid blue";
+            categoryIcon.style.background = "blue";
+            break;
+        case 'Nintendo': 
+            tagItems.forEach(tag => tag.classList.add("nintendo"));
+            remark.style.borderLeft = "5px solid red";
+            categoryIcon.style.background = "red";
+            break;
+        case 'PC': 
+            tagItems.forEach(tag => tag.classList.add("pc"));
+            remark.style.borderLeft = "5px solid black";
+            categoryIcon.style.background = "black";
+            break;
+        default: 
+            tagItems.forEach(tag => tag.classList.add("default"));
+            remark.style.borderLeft = "5px solid green";
+    }
+
+
+</script>
 </body>
 </html>
