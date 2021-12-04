@@ -32,6 +32,14 @@ const blogSchema = new Schema({
     blogSect2: {
         type: String,
         required: true
+    },
+    closingRemark: {
+        type: String,
+        required: true
+    },
+    tags: {
+        type: [String],
+        required: true
     }
 }, {timestamps: true});
 
