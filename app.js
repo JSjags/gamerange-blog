@@ -29,7 +29,8 @@ app.set('view engine', 'ejs');
 
 //static folder
 app.use(express.static('public'));
-app.use(express.urlencoded({ extended : true }));
+app.use(express.urlencoded({ extended : false }));
+app.use(express.json());
 
 //GET route handlers
 app.get('/', (req, res) => {
@@ -50,6 +51,11 @@ app.get('/about', (req, res) => {
 app.get('/blogs', (req, res) => {
   res.render('blogs', {title: 'Blogs Page'});
 });
+app.get('/blogs/recent', (req, res) => {
+  Blog.find().sort({ 'createdAt': -1 }).limit(5)
+    .then(result => res.json(result))
+    .catch(e => console.log(e))
+});
 app.get('/blogs/:id', (req, res) => {
   const _id = req.params.id;
   Blog.findById(_id)
@@ -69,6 +75,7 @@ app.get('/create-blog', (req, res) => {
   res.render('blog-creator', {title: 'Blog Creator'});
 });
 app.post('/create-blog/publish', (req, res) => {
+
   let re = new RegExp('blogImage', 'gi')
   const blogImageUrlsKeys = [];
   const blogImageUrls = [];
@@ -85,7 +92,9 @@ app.post('/create-blog/publish', (req, res) => {
     snippet: req.body.snippet,
     blogSect1: req.body.blogSect1,
     bodyImages: [...blogImageUrls],
-    blogSect2: req.body.blogSect2
+    blogSect2: req.body.blogSect2,
+    closingRemark: req.body.closingRemark,
+    tags: req.body.tags
   });
   
   //saving blog document to blogs collection to database
