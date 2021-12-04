@@ -92,3 +92,23 @@ publishBtn.addEventListener("click", () => {
         imgUrls[i].setAttribute("name", `blogImage${i+1}`);
     };
 });
+
+//tag creator 
+const tagsInputBox = document.querySelector("#tags");
+const tagsDisplay = document.querySelector(".tags-display");
+const tagBtn = document.querySelector(".add-tag");
+
+tagBtn.addEventListener('click', () => {
+    const tagValue = document.querySelector("#tags").value;
+    const tag = document.createElement("input");
+    
+    if(tagValue.length < 1) return;
+
+    tag.setAttribute("name", "tags");
+    tag.setAttribute("readonly", "true");
+    tag.classList.add("tag");
+    tag.style.width = `calc((${(tagValue.length)}ch) + 20px)`
+    tag.value = tagValue;
+    tagsDisplay.appendChild(tag);
+    tagsInputBox.value = "";
+})
