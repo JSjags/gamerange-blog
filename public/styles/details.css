@@ -8,8 +8,28 @@
     padding: 30px 20px
 }
 .details-box {
-    flex: 0.6;
+    flex: 0.7;
 } 
+.details-box .category-logo {
+    width: fit-content;
+    height: 40px;
+    padding: 0 10px;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: all 200ms ease;
+}
+.details-box .category-logo:hover {
+    box-shadow: 0 0 20px #0000005b;
+    filter: brightness(170%);
+    -webkit-filter: brightness(170%);
+}
+.details-box .category-logo img {
+    box-shadow: none;
+}
+.details-box .category-logo span {
+    color: white;
+    margin-left: 5px;
+}
 .details-box h1 {
     text-transform: capitalize;
     margin-bottom: 20px;
@@ -48,10 +68,175 @@
     color: #00bdad;
     font-size: 2em;
 }
-.details-box .blog-article p{
+.details-box .blog-article .blog {
     font-size: 1.4em;
     padding: 20px 0 0;
+    text-align: justify;
+    line-height: 30px;
+    margin-bottom: 10px;
+}
+.details-box .blog-article img {
+    margin-top: 20px;
+}
+.details-box .blog-article .remark {
+    color: #00000080;
+    font-style: italic;
+    border-radius: 5px;
+    margin: 10px 0 10px;
+    padding: 3px 0 3px 5px;
+    font-size: 1.3em;
+}
+.details-box .tags-box {
+    width: 100%;
+    margin-top: 20px;
+}
+.details-box .tags-box .tag-title {
+    display: inline;
+}
+.details-box .tags-box .tag-item {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px 10px;
+    height: 30px;
+    text-transform: capitalize;
+}
+.xbox {
+    border-radius: 20px;
+    background: green;
+    transition: all 300ms ease-in-out
+}
+.ps {
+    border-radius: 20px;
+    background: blue;
+    transition: all 300ms ease-in-out
+}
+.nintendo {
+    border-radius: 20px;
+    background: red;
+    transition: all 300ms ease-in-out
+}
+.pc {
+    border-radius: 20px;
+    background: black;
+    transition: all 300ms ease-in-out
+}
+.default {
+    border-radius: 20px;
+    background: #afafaf;
+    transition: all 300ms ease-in-out
+}
+.xbox:hover,
+.ps:hover,
+.nintendo:hover,
+.pc:hover,
+.default:hover {
+    box-shadow: 0 0 20px #0000005b;
+    filter: brightness(5);
+    -webkit-filter: brightness(5);
 }
 .side-bar {
     flex: 0.3;
+    height: fit-content;
+    margin-left: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #0000005b;
+    padding: 10px;
+    transition: all 300ms linear;
+}
+.side-bar .recent-blogs {
+
+}
+.side-bar .recent-blogs .recent-blogs-header {
+    border-bottom: 3px solid black;
+    width: fit-content;
+    border-radius: 3px;
+}
+.side-bar .recent-blogs .recent-blogs-box{
+    position: relative;
+}
+.side-bar .recent-blogs .recent-blogs-box .spinner{
+    width: 30px;
+    height: 30px;
+    border: 3px solid black;
+    border-radius: 50%;
+    border-top: 3px solid transparent;
+    margin: 20px auto;
+    animation: spinner 1s linear infinite
+}
+.side-bar .recent-blogs .recent-blogs-box .recent-blog-item {
+    width: 100%;
+    margin-top: 10px;
+    display: grid;
+    grid-template-areas: 
+    "img title title title"
+    "img date date date"
+    "img snip snip snip"
+    ;
+}
+.side-bar .recent-blogs .recent-blogs-box .recent-blog-item img {
+    width: 100%;
+    display: block;
+    grid-area: img;
+    border-radius: 5px;
+}
+.side-bar .recent-blogs .recent-blogs-box .recent-blog-item h3 {
+    grid-area: title;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    padding-left: 3px;
+    font-size: 1.1em;
+    margin-bottom: 3px;
+} 
+.side-bar .recent-blogs .recent-blogs-box .recent-blog-item p {
+    grid-area: date;
+    font-size: 0.8em;
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+    padding-left: 3px;
+    color: #00000086;
+    margin-bottom: 2px;
+}
+.side-bar .recent-blogs .recent-blogs-box .recent-blog-item span {
+    display: block;
+    grid-area: snip;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding-left: 3px;
+    font-size: 1em;
+} 
+.recent-btn {
+    display: block;
+    margin: 20px 0 10px;
+    text-align: center;
+    padding: 5px 10px;
+    width: 100%;
+    font-size: 1.1em;
+    background: black;
+    color: white;
+    transition: all 200ms ease-in-out;
+    border: none;
+    border-radius: 5px;
+}
+.recent-btn:hover {
+    background: var(--background-color);
+    color: white;
+    box-shadow: 0 0 10px #0000005b;
+}
+
+/* animmations */
+
+@keyframes spinner {
+    0% {
+        transform: translateX(-50%) rotate(0);
+    }
+    100% {
+        transform: translateX(-50%) rotate(360deg);
+    }
 }
