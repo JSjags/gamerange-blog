@@ -94,9 +94,11 @@
                 data.forEach(data => {
                     const parent = document.createElement("div")
                     const img = document.createElement("img")
-                    const title = document.createElement("h3")
+                    const title = document.createElement("a")
                     const date = document.createElement("p")
                     const snippet = document.createElement("span")
+
+                    title.setAttribute("href", `/blogs/${data._id}`)
 
                     parent.classList.add("recent-blog-item");
 

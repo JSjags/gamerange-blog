@@ -229,7 +229,6 @@ img {
     height: 100%;
     position: absolute;
     border-radius: 20px;
-    z-index: -1;
     overflow: hidden;
 }
 .carousel-slider .img img {
@@ -258,20 +257,9 @@ img {
     position: absolute;
     width: 100%;
     bottom: 0;
-    height: 30%;
-    background: linear-gradient(transparent, #00000033, hsla(0, 0%, 0%, 0.4), hsla(0, 0%, 0%, 0.6), hsla(0, 0%, 0%, 0.8), black);
-    font-family: "Average Sans", sans-serif;
-    background: linear-gradient(315deg, #cc01aa, #01d3c1);
     background-clip: text;
-    -webkit-background-clip: text;
-    -moz-background-clip: text;
-    color: transparent;
-    font-size: 2.4em;
-    padding: 10px;
+    padding: 0 30px 10px;
     text-transform: capitalize;
-    text-shadow: 0 1em 15px #000;
-    /* -webkit-backdrop-filter: blur(7px);
-    backdrop-filter: blur(7px); */
 }
 .carousel-slider .caption::after {
     content: "";
@@ -282,8 +270,31 @@ img {
     bottom: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(transparent, #00000033, hsla(0, 0%, 0%, 0.4), hsla(0, 0%, 0%, 0.6), hsla(0, 0%, 0%, 0.8), black);
+    background: #020202c0;
     z-index: -1;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.carousel-slider .caption a {
+    display: block;
+    color: transparent;
+    background: var(--background-color);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    font-size: 4em;
+    font-weight: bolder;
+    padding-bottom: 20px;
+}
+.carousel-slider .caption a:hover {
+    text-decoration: underline;
+    text-decoration-color: #ffffff99;
+}
+.carousel-slider .caption h2 {
+    color: #858585;
+    font-size: 2.5em;
+    font-weight: lighter;
 }
 .carousel button {
     width: 50px;
