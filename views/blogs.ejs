@@ -4,11 +4,31 @@
 <%- include('./partials/header.ejs') %>
 
 <body>
-<div class="container">
+<div class="blogs-page">
 
     <%- include('./partials/nav.ejs') %>
     
     <%- include('./partials/search.ejs') %>
+
+    <ul class="tabs">
+        <li class="tab active"><span>All Blogs</span></li>
+        <li class="tab">Xbox</li>
+        <li class="tab">PlayStation</li>
+        <li class="tab">Nintendo</li>
+        <li class="tab">PC</li>
+    </ul>
+    <section class="blog-page-cont">
+        <svg>
+            <defs>
+                <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%"   stop-color="#01d3c1"/>
+                  <stop offset="100%" stop-color="#cc01aa"/>
+                </linearGradient>
+            </defs>
+            <circle>
+            </circle>
+        </svg>
+    </section>
 
 </div>
 
@@ -16,5 +36,101 @@
 
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 <script src="functions.js"></script>
+<script>
+    const tabs = document.querySelectorAll(".tab")
+
+    tabs.forEach(tab => {
+        tab.addEventListener("click", function() {
+            for (let i = 0; i < tabs.length; i++) {
+                const element = tabs[i];
+                element.classList.remove("active");
+                element.style.color = "black"
+            }
+            this.classList.add("active");
+            switch (this.innerText) {
+                case "Xbox":
+                    this.style.color = "green"
+                    break;
+                case "PlayStation":
+                    this.style.color = "blue"
+                    break;
+                case "Nintendo":
+                    this.style.color = "red"
+                    break;
+                case "PC":
+                    this.style.color = "black"
+                    break;
+                default:
+                    break;
+            }
+            fetch(`/blogs/category/${(this.innerText).toLowerCase()}`)
+                .then(blob => blob.json())
+                .then(result => console.log(result))
+                .catch(e => alert(e))
+        })
+    })
+
+    const container = document.querySelector(".blog-page-cont")
+    const recentArticleContainer = document.querySelector(".recent-blogs-box")
+
+    window.addEventListener("load", () => {
+        fetch('/blogs/category/all-blogs')
+            .then(blob => blob.json())
+            .then(data => {
+                container.firstElementChild.remove();
+                data.forEach(data => {
+                    const parent = document.createElement("div")
+                    const subParent1 = document.createElement("div")
+                    const subParent2 = document.createElement("div")
+                    const img = document.createElement("img")
+                    const title = document.createElement("a")
+                    const date = document.createElement("p")
+                    const snippet = document.createElement("span")
+
+                    title.setAttribute("href", `/blogs/${data._id}`)
+
+                    parent.classList.add("blog-item");
+                    subParent1.classList.add("sub-parent-1");
+                    subParent2.classList.add("sub-parent-2");
+
+                    img.src = data.hero;
+                    title.innerText = data.title;
+                    date.innerText = `Published: ${data.createdAt}`;
+                    snippet.innerText = data.blogSect1;
+
+                    switch (data.category) {
+                        case 'Xbox':
+                            parent.style.borderRight = "5px solid green";
+                            parent.style.borderRadius = "5px";
+                            break;
+                        case 'Playstation':
+                            parent.style.borderRight = "5px solid blue";
+                            parent.style.borderRadius = "5px";
+                            break;
+                        case 'Nintendo':
+                            parent.style.borderRight = "5px solid red";
+                            parent.style.borderRadius = "5px";
+                            break;
+                        case 'PC':
+                            parent.style.borderRight = "5px solid black";
+                            parent.style.borderRadius = "5px";
+                            break;
+                        default:
+                            break;
+                    }
+
+                    parent.appendChild(subParent1);
+                    parent.appendChild(subParent2);
+                    subParent1.appendChild(img);
+                    subParent2.appendChild(title);
+                    subParent2.appendChild(date);
+                    subParent2.appendChild(snippet);
+
+                    container.appendChild(parent)
+                })
+            })
+            .catch(e => console.log(e));
+        })
+</script>
 </body>
 </html>

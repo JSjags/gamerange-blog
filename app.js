@@ -48,9 +48,30 @@ app.get('/home', (req, res) => {
 app.get('/about', (req, res) => {
   res.render('about', {title: 'About Page'});
 });
-app.get('/blogs', (req, res) => {
-  res.render('blogs', {title: 'Blogs Page'});
+app.get('/blogs', async (req, res) => {
+  // const blogs = await Blog.find().sort({ 'createdAt': -1 })
+  res.render('blogs', { title: 'Blogs Page',});
 });
+app.get('/blogs/category/xbox', async (req, res) => {
+  const xboxBlogs = await Blog.find({category: "Xbox"}).sort({ 'createdAt': -1 }).exec();
+  res.json(xboxBlogs);
+}) 
+app.get('/blogs/category/playstation', async (req, res) => {
+  const psBlogs = await Blog.find({category: "Playstation"}).sort({ 'createdAt': -1 }).exec();
+  res.json(psBlogs);
+}) 
+app.get('/blogs/category/nintendo', async (req, res) => {
+  const nintendoBlogs = await Blog.find({category: "Nintendo"}).sort({ 'createdAt': -1 }).exec();
+  res.json(nintendoBlogs);
+}) 
+app.get('/blogs/category/pc', async (req, res) => {
+  const nintendoBlogs = await Blog.find({category: "PC"}).sort({ 'createdAt': -1 }).exec();
+  res.json(nintendoBlogs);
+}) 
+app.get('/blogs/category/all-blogs', async (req, res) => {
+  const xboxBlogs = await Blog.find().sort({ 'createdAt': -1 }).exec();
+  res.json(xboxBlogs);
+}) 
 app.get('/blogs/recent', (req, res) => {
   Blog.find().sort({ 'createdAt': -1 }).limit(5)
     .then(result => res.json(result))
