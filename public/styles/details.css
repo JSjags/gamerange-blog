@@ -127,7 +127,7 @@
 .default {
     border-radius: 20px;
     background: #afafaf;
-    transition: all 300ms ease-in-out
+    transition: all 300ms ease-in-out;
     position: relative;
 }
 .pc::before,

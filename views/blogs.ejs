@@ -86,6 +86,7 @@
                     const title = document.createElement("a")
                     const date = document.createElement("p")
                     const snippet = document.createElement("span")
+                    const icon = document.createElement("i")
 
                     title.setAttribute("href", `/blogs/${data._id}`)
 
@@ -102,6 +103,7 @@
                         case 'Xbox':
                             parent.style.borderRight = "5px solid green";
                             parent.style.borderRadius = "5px";
+                            icon.classList.add(['fab', 'fa-xbox']);
                             break;
                         case 'Playstation':
                             parent.style.borderRight = "5px solid blue";
@@ -125,6 +127,7 @@
                     subParent2.appendChild(title);
                     subParent2.appendChild(date);
                     subParent2.appendChild(snippet);
+                    subParent2.appendChild(icon);
 
                     container.appendChild(parent)
                 })

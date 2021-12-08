@@ -1564,6 +1564,7 @@ button.submit:hover {
 }
 .blog-page-cont .blog-item .sub-parent-2 {
     margin-left: 10px;
+    position: relative;
 }
 .blog-page-cont .blog-item .sub-parent-2 a {
     font-size: 1.3em;
@@ -1593,84 +1594,21 @@ button.submit:hover {
     background: linear-gradient(to bottom, transparent, white);
     bottom: 0;
 }
-/* .blog-page-cont .blog-item img {
-    width: 100%;
-    grid-area: img;
-    border-radius: 5px;
+.blog-page-cont .blog-item .sub-parent-2 i {
+    position: absolute;
+    font-size: 2em;
+    border-radius: 50%;
+    top: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    background: red;
 }
-.blog-page-cont .blog-item a {
-    grid-area: title;
-    text-overflow: ellipsis;
-    white-space: normal;
-    line-clamp: 2;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    overflow: hidden;
-    padding-left: 3px;
-    font-size: 1.1em;
-    margin-bottom: 3px;
-    color: black;
-    font-weight: bolder;
-    transition: all 300ms ease-in-out;
-} 
-.blog-page-cont .blog-item a:hover {
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
+.fa-xbox {
+    color: green;
 }
-.blog-page-cont .blog-item p {
-    grid-area: date;
-    font-size: 0.8em;
-    overflow: hidden;
-    white-space: normal;
-    text-overflow: ellipsis;
-    padding-left: 3px;
-    color: #00000086;
-    margin-bottom: 2px;
-}
-.blog-page-cont .blog-item span {
-    display: block;
-    grid-area: snip;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    padding-left: 3px;
-    font-size: 1em;
-}  */
 
-
-
-
-/* .blog-page-cont .blog-item {
-    width: 100%;
-    background: orange;
-    display: grid;
-    grid-template-areas: 
-    "i t t t"
-    "i d d d"
-    "i . . ."
-    "i s s s"
-    ;
-}
-.blog-page-cont .blog-item img {
-    grid-area: i;
-    width: 100%;
-}
-.blog-page-cont .blog-item a {
-    grid-area: t;
-    width: 100%;
-}
-.blog-page-cont .blog-item p {
-    grid-area: d;
-    width: 100%;
-}
-.blog-page-cont .blog-item span {
-    display: block;
-    grid-area: s;
-    width: 100%;
-} */
-
-
+/* Blog animations go here */
 @keyframes fill-animation{
     0%{
       stroke-dasharray: 20 105.7;
