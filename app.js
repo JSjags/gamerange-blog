@@ -68,7 +68,7 @@ app.get('/blogs/category/pc', async (req, res) => {
   const nintendoBlogs = await Blog.find({category: "PC"}).sort({ 'createdAt': -1 }).exec();
   res.json(nintendoBlogs);
 }) 
-app.get('/blogs/category/all-blogs', async (req, res) => {
+app.get('/blogs/category/allblogs', async (req, res) => {
   const xboxBlogs = await Blog.find().sort({ 'createdAt': -1 }).exec();
   res.json(xboxBlogs);
 }) 

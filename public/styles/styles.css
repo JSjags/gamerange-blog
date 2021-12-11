@@ -1568,8 +1568,10 @@ button.submit:hover {
 }
 .blog-page-cont .blog-item .sub-parent-2 a {
     font-size: 1.3em;
+    display: inline-block;
     font-weight: bolder;
     color: black;
+    width: calc(100% - 50px);
 }
 .blog-page-cont .blog-item .sub-parent-2 a:hover{
     text-decoration: underline;
@@ -1597,12 +1599,10 @@ button.submit:hover {
 .blog-page-cont .blog-item .sub-parent-2 i {
     position: absolute;
     font-size: 2em;
-    border-radius: 50%;
-    top: 5px;
+    top: 2px;
     right: 5px;
     width: 30px;
     height: 30px;
-    background: red;
 }
 .fa-xbox {
     color: green;

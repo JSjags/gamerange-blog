@@ -37,7 +37,10 @@
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 <script src="functions.js"></script>
 <script>
+
     const tabs = document.querySelectorAll(".tab")
+    const container = document.querySelector(".blog-page-cont")
+    const recentArticleContainer = document.querySelector(".recent-blogs-box")
 
     tabs.forEach(tab => {
         tab.addEventListener("click", function() {
@@ -63,21 +66,88 @@
                 default:
                     break;
             }
-            fetch(`/blogs/category/${(this.innerText).toLowerCase()}`)
-                .then(blob => blob.json())
-                .then(result => console.log(result))
-                .catch(e => alert(e))
-        })
-    })
+            
+            const blogSpinner = container.firstElementChild;
+            container.innerHTML = "";
+            container.appendChild(blogSpinner);
+            container.firstElementChild.style.display = "block";
 
-    const container = document.querySelector(".blog-page-cont")
-    const recentArticleContainer = document.querySelector(".recent-blogs-box")
+            fetch(`/blogs/category/${this.innerText.toLowerCase().split(" ").join("")}`)
+                .then(blob => blob.json())
+                .then(data => {
+                    container.firstElementChild.style.display = "none";
+                    data.forEach(data => {
+                    const parent = document.createElement("div")
+                    const subParent1 = document.createElement("div")
+                    const subParent2 = document.createElement("div")
+                    const img = document.createElement("img")
+                    const title = document.createElement("a")
+                    const date = document.createElement("p")
+                    const snippet = document.createElement("span")
+                    const icon = document.createElement("i")
+
+                    title.setAttribute("href", `/blogs/${data._id}`)
+
+                    parent.classList.add("blog-item");
+                    subParent1.classList.add("sub-parent-1");
+                    subParent2.classList.add("sub-parent-2");
+
+                    img.src = data.hero;
+                    title.innerText = data.title;
+                    date.innerText = `Published: ${data.createdAt}`;
+                    snippet.innerText = data.blogSect1;
+
+                    switch (data.category) {
+                        case 'Xbox':
+                            parent.style.borderRight = "5px solid green";
+                            parent.style.borderRadius = "5px";
+                            icon.classList.add("fab", "fa-xbox");
+                            break;
+                        case 'Playstation':
+                            parent.style.borderRight = "5px solid blue";
+                            parent.style.borderRadius = "5px";
+                            icon.style.color = "blue";
+                            icon.style.right = "10px";
+                            icon.classList.add("fab", "fa-playstation");
+                            break;
+                        case 'Nintendo':
+                            const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
+                            parent.style.borderRight = "5px solid red";
+                            parent.style.borderRadius = "5px";
+                            icon.style.filter = filter;
+                            icon.style.webkitFilter = filter;
+                            icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
+                            break;
+                        case 'PC':
+                            parent.style.borderRight = "5px solid black";
+                            parent.style.borderRadius = "5px";
+                            icon.style.filter = "invert(100%)";
+                            icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
+                            break;
+                        default:
+                            break;
+                    }
+
+                    parent.appendChild(subParent1);
+                    parent.appendChild(subParent2);
+                    subParent1.appendChild(img);
+                    subParent2.appendChild(title);
+                    subParent2.appendChild(date);
+                    subParent2.appendChild(snippet);
+                    subParent2.appendChild(icon);
+
+                    container.appendChild(parent)
+                })
+                })
+                .catch(e => console.log(e))
+            })
+        });
 
     window.addEventListener("load", () => {
-        fetch('/blogs/category/all-blogs')
+        fetch('/blogs/category/allblogs')
             .then(blob => blob.json())
             .then(data => {
-                container.firstElementChild.remove();
+                container.firstElementChild.style.display = "none";
                 data.forEach(data => {
                     const parent = document.createElement("div")
                     const subParent1 = document.createElement("div")
@@ -103,19 +173,28 @@
                         case 'Xbox':
                             parent.style.borderRight = "5px solid green";
                             parent.style.borderRadius = "5px";
-                            icon.classList.add(['fab', 'fa-xbox']);
+                            icon.classList.add("fab", "fa-xbox");
                             break;
                         case 'Playstation':
                             parent.style.borderRight = "5px solid blue";
                             parent.style.borderRadius = "5px";
+                            icon.style.color = "blue";
+                            icon.style.right = "10px";
+                            icon.classList.add("fab", "fa-playstation");
                             break;
                         case 'Nintendo':
+                            const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
                             parent.style.borderRight = "5px solid red";
                             parent.style.borderRadius = "5px";
+                            icon.style.filter = filter;
+                            icon.style.webkitFilter = filter;
+                            icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
                             break;
                         case 'PC':
                             parent.style.borderRight = "5px solid black";
                             parent.style.borderRadius = "5px";
+                            icon.style.filter = "invert(100%)";
+                            icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
                             break;
                         default:
                             break;
