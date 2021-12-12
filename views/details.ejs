@@ -158,6 +158,7 @@
             })
     })
 
+    const categoryBtn = document.querySelector(".category-logo");
     const categoryIcon = document.querySelector(".category-logo img");
     const tagItems = document.querySelectorAll(".tag-item");
     const remark = document.querySelector(".remark");
@@ -189,6 +190,10 @@
             remark.style.borderLeft = "5px solid green";
     }
 
+    categoryBtn.addEventListener("click", function () {
+        sessionStorage.setItem('category', `${this.innerText}`);
+        location.assign("/blogs");
+    })
 
 </script>
 </body>

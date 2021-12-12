@@ -173,9 +173,6 @@
     padding: 10px;
     transition: all 300ms linear;
 }
-.side-bar .recent-blogs {
-
-}
 .side-bar .recent-blogs .recent-blogs-header {
     width: fit-content;
     position: relative;

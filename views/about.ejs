@@ -7,7 +7,13 @@
 <div class="container">
 
     <%- include('./partials/nav.ejs') %>
-    
+
+    <div class="about-cont">
+        <section class="about-hero">
+        <h1>GameRange.Inc</h1>
+        <p>...for everything gaming</p>
+        </section>
+    </div>
     
 </div>
 
@@ -15,5 +21,37 @@
 
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 <script src="functions.js"></script>
+<script>
+    const aboutHero = document.querySelector(".about-cont");
+    const aboutLogo = document.querySelector(".about-hero");
+    
+    //items
+    const logoName = document.querySelector(".about-hero h1");
+    const logoSlogan = document.querySelector(".about-hero p");
+    
+    aboutHero.addEventListener("mousemove", (e) => {
+        let xAxis = ((window.innerWidth / 2) - e.pageX) / 15;
+        let yAxis = ((window.innerHeight / 2) - e.pageY) / 5;
+
+        aboutLogo.style.transform = `rotateX(${yAxis}deg) rotateY(${xAxis}deg)`;
+    })
+
+    aboutHero.addEventListener("mouseenter", (e) => {
+        aboutLogo.style.transition = "none";
+        aboutLogo.style.transition = "all 500ms ease-out";
+        logoName.style.transform = "translateZ(20px)";
+        logoSlogan.style.transform = " translateY(20px) translateZ(10px)";
+    })
+
+    aboutHero.addEventListener("mouseleave", (e) => {
+        aboutLogo.style.transform = `rotateX(0deg) rotateY(0deg)`;
+        aboutLogo.style.transition = "all 500ms ease-out";
+        logoName.style.transform = "translateZ(0)";
+        logoSlogan.style.transform = " translateY(0) translateZ(0)";
+    })
+    aboutLogo.addEventListener("transitionend", () => {
+        aboutLogo.style.transition = "none";
+    })
+</script>
 </body>
 </html>

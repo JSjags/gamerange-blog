@@ -42,6 +42,8 @@
     const container = document.querySelector(".blog-page-cont")
     const recentArticleContainer = document.querySelector(".recent-blogs-box")
 
+    let storedCategory = sessionStorage.getItem('category').toLowerCase() || "allblogs";
+
     tabs.forEach(tab => {
         tab.addEventListener("click", function() {
             for (let i = 0; i < tabs.length; i++) {
@@ -144,7 +146,31 @@
         });
 
     window.addEventListener("load", () => {
-        fetch('/blogs/category/allblogs')
+        for (let i = 0; i < tabs.length; i++) {
+            const element = tabs[i];
+            element.classList.remove("active");
+            element.style.color = "black";
+            if (element.innerText.toLowerCase() === storedCategory) {
+                element.classList.add('active');
+                switch (element.innerText) {
+                case "Xbox":
+                    element.style.color = "green"
+                    break;
+                case "PlayStation":
+                    element.style.color = "blue"
+                    break;
+                case "Nintendo":
+                    element.style.color = "red"
+                    break;
+                case "PC":
+                    element.style.color = "black"
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+        fetch(`/blogs/category/${storedCategory}`)
             .then(blob => blob.json())
             .then(data => {
                 container.firstElementChild.style.display = "none";
@@ -208,11 +234,12 @@
                     subParent2.appendChild(snippet);
                     subParent2.appendChild(icon);
 
-                    container.appendChild(parent)
+                    container.appendChild(parent);
                 })
             })
             .catch(e => console.log(e));
         })
+        
 </script>
 </body>
 </html>
