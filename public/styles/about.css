@@ -1,11 +1,17 @@
+@font-face {
+    font-family: helvetica-neue;
+    src: url(../helvetica-font.ttf);
+}
+
 .about-cont {
-    width: 80%;
-    min-height: 400px;
+    width: 60%;
+    height: 300px;
     margin: 0 auto;
     transform: preserve-3d;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 } 
 .about-cont .about-hero {
     perspective: 100px;
@@ -33,4 +39,59 @@
     -webkit-background-clip: text;
     color: transparent;
     transition: all 400ms ease-in-out;
+}
+.about-body {
+    width: 60%;
+    margin: 20px auto;
+}
+.about-body p {
+    font-size: 1.2em;
+    text-align: left;
+    line-height: 30px;
+}
+.about-body h3 {
+    width: fit-content;
+    position: relative;
+    padding: 10px 0;
+    font-size: 1.3em;
+    margin: auto;
+}
+.about-body h3::after {
+    content: "";
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    display: block;
+    height: 6px;
+    background: var(--background-color);
+    border-radius: 6px 6px 3px 3px;
+}
+.about-body ul {
+    padding: 30px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.about-body ul li {
+    font-size: 1.2em;
+    list-style-type: none;
+    padding: 5px 0;
+    margin: 20px 20px;
+    width: fit-content;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.about-body ul li i, .about-body ul li span {
+    font-size: 4em;
+    display: block;
+}
+.about-body ul li .mongoose {
+    font-family: "helvetica-neue", helvetica;
+    font-style: normal;
+    font-size: 3.5em;
+    font-weight: bolder;
 }
