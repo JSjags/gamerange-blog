@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 const Blog = require('./models/blog');
 
 //port number
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 //connect to mongoDB
 const dbURI = 'mongodb+srv://Jesse:jesjags01@gamerange.q8pni.mongodb.net/GameRange?retryWrites=true&w=majority';
