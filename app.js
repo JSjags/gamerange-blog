@@ -19,7 +19,7 @@ const dbURI = 'mongodb+srv://Jesse:jesjags01@gamerange.q8pni.mongodb.net/GameRan
 mongoose.connect(dbURI)
 .then((result) => {
   console.log("Connected to GameRange Database");
-  app.listen(port, () => console.log(`GameRange listening on port ${port}!`));
+  app.listen(port, () => console.log(`GameRange listening on port ${process.env.PORT}!`));
 }).catch((err) => {
   console.log(err);
 });
