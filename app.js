@@ -18,8 +18,7 @@ let port = process.env.PORT || 3000;
 const dbURI = 'mongodb+srv://Jesse:jesjags01@gamerange.q8pni.mongodb.net/GameRange?retryWrites=true&w=majority';
 mongoose.connect(dbURI)
 .then((result) => {
-  console.log("Connected to GameRange Database");
-  app.listen(port, () => console.log(`GameRange listening on port ${process.env.PORT}!`));
+  console.log("Connected to GameRange Database");;
 }).catch((err) => {
   console.log(err);
 });
@@ -140,3 +139,4 @@ app.get('/blogs/delete-blog', (req, res) => {
 app.use((req, res) => {
   res.status(404).render("404", {title: '404 Page Not Found'});
 });
+app.listen(port, () => console.log(`GameRange listening on port ${process.env.PORT}!`));
