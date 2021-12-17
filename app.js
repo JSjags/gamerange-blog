@@ -11,15 +11,18 @@ const mongoose = require('mongoose');
 //custom blog model
 const Blog = require('./models/blog');
 
+//host number
+const host = '0.0.0.0';
+
 //port number
-let port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
 //connect to mongoDB
 const dbURI = 'mongodb+srv://Jesse:jesjags01@gamerange.q8pni.mongodb.net/GameRange?retryWrites=true&w=majority';
 mongoose.connect(dbURI)
 .then((result) => {
   console.log("Connected to GameRange Database");
-  app.listen(port, () => console.log(`GameRange listening on port ${process.env.PORT}!`));
+  app.listen(port, host, () => console.log(`GameRange listening on port ${port} and host ${host}!`));
 }).catch((err) => {
   console.log(err);
 });
