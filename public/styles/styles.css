@@ -132,7 +132,8 @@ header nav ul a li {
     content: "";
     display: block;
     width: 100%;
-    height: 2px;
+    height: 6px;
+    border-radius: 6px 6px 3px 3px;
     background: transparent;
     position: absolute;
     bottom: 0;
@@ -164,8 +165,9 @@ header nav ul a li {
 #signup::after{
     content: "";
     display: block;
-    width: 100%;
-    height: 2px;
+    width: calc(100% - 5px);
+    height: 6px;
+    border-radius: 6px 6px 3px 3px;
     background: transparent;
     position: absolute;
     bottom: 0;
