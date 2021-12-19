@@ -95,6 +95,12 @@ app.get('/reviews', (req, res) => {
 app.get('/videos', (req, res) => {
 res.render('videos', {title: 'Videos Page'});
 });
+app.get('/login', (req, res) => {
+  res.render('login', {title: 'Login Page'})
+})
+app.get('/signup', (req, res) => {
+  res.render('signup', {title: 'Signup Page'})
+})
 app.get('/create-blog', (req, res) => {
   res.render('blog-creator', {title: 'Blog Creator'});
 });

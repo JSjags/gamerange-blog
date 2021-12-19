@@ -50,8 +50,6 @@ header {
     padding: 10px;
     background: black;
     color: white;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
 }
 header #logo {
     font-family: 'Lato', sans-serif;
@@ -122,7 +120,6 @@ header nav ul a li {
     align-items: center;
     justify-content: flex-end;
     margin: 0 10px 5px 0;
-    text-transform: capitalize;
     position: inherit;
     left: 0;
     white-space: nowrap;
@@ -131,46 +128,65 @@ header nav ul a li {
 #login::before{
     content: "";
     display: block;
-    width: 100%;
+    width: 70%;
     height: 6px;
     border-radius: 6px 6px 3px 3px;
     background: transparent;
+    left: 50%;
+    transform: translateX(-50%);
     position: absolute;
     bottom: 0;
 }
 #login::after{
     content: "";
-    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: block;
     width: 0.5px;
-    height: 1em;
-    margin: 0 0 0 8px;
+    height: 1.5em;
     background: var(--background-color);
     color: white;
     transition: 300ms ease-in-out;
 }
 #login, #signup {
     position: relative;
-    padding: 0 0 3px 0;
+    padding: 0 8px 9px;
+}
+#login.active, #signup.active {
+    background: var(--background-color);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+#login.active::before, #signup.active::after {
+    width: 6px;
+    border-radius: 50%;
+    background: var(--background-color);
+    transition: 300ms;
 }
 #signup::before{
     content: "";
-    display: inline-block;
+    display: block;
     width: 0.5px;
-    height: 1em;
-    margin: 0 8px 0 0;
+    height: 1.5em;
     background: var(--background-color);
     color: white;
-    position: relative;
+    left: 0;
+    top: 0;
+    position: absolute;
 }
 #signup::after{
     content: "";
     display: block;
-    width: calc(100% - 5px);
+    width: 50%;
     height: 6px;
     border-radius: 6px 6px 3px 3px;
     background: transparent;
     position: absolute;
     bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     transition: 300ms ease-in-out;
 }
 #login:hover::before, #signup:hover::after {
@@ -180,12 +196,14 @@ header nav ul a li {
     display: grid;
     align-items: center;
     justify-content: right;
+    height: 0;
 }
 #search-div div {
     width: 2em;
     height: 2em;
-    box-shadow: 0 3px 10px #afafaf;
+    box-shadow: 0 3px 10px #0000003b;
     border-radius: 1em;
+    border: 0.5px solid rgba(255, 255, 255, 0.3);
     background: transparent;
     overflow: hidden;
     position: relative;
@@ -210,7 +228,6 @@ ion-icon[name="search"] {
 ion-icon[name="search"]:hover {
     background: linear-gradient(315deg, #cc01aa, #01d3c1);
     color: white;
-    box-shadow: 0 0 10px white;
 }
 input[type="search"] {
     width: 12.1em;
@@ -233,7 +250,7 @@ input[type="search"] {
     height: 45vw;
     box-shadow: 0 10px 20px #4e4e4e;
     border-radius: 20px;
-    margin: 40px auto;
+    margin: 70px auto;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -444,9 +461,6 @@ img {
 footer {
     background: black;
     padding: 20px 20px 5px;
-    margin: 20px 0 0 ;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
 }
 footer .icons {
     display: flex;
@@ -1474,7 +1488,7 @@ button.submit:hover {
 }
 .tabs {
     display: flex;
-    margin: 0 0 0 20px;
+    margin: 50px 0 0 20px;
     transform-style: preserve-3d;
 }
 .tab {
@@ -1522,6 +1536,7 @@ button.submit:hover {
     background: white;
     border-radius: 0 10px 10px 10px;
     margin-left: 20px;
+    margin-bottom: 50px;
     padding: 20px;
     transform: translateZ(10px);
     transition: all 300ms ease-in-out;

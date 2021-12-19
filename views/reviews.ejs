@@ -10,11 +10,117 @@
     
     <%- include('./partials/search.ejs') %>
 
+    <div class="reviews-cont">
+        <label class="h-r" for="highest-rated"></label>
+        <section class="highest-rated" id="highest-rated">
+            
+        </section>
+        <section class="cta-btns">
+            <button data-location="" class="cta-btn" id="prev-revs">Previous</button>
+            <button data-location="" class="cta-btn" id="next-revs">Next</button>
+        </section>
+    </div>
 </div>
 
 <%- include('./partials/footer.ejs') %>
 
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 <script src="functions.js"></script>
+<script>
+    const reviewsCont = document.querySelector(".reviews-cont")
+    const highestRated = document.querySelector(".highest-rated")
+    const highestRatedTitle = document.querySelector(".h-r")
+    const date = new Date();
+    const [month, day, year] = [date.getMonth(), date.getDate(), date.getFullYear()];
+    const ctaBtns = document.querySelectorAll(".cta-btn")
+    const nextReviewsBtn = document.querySelector("#next-revs")
+    const prevReviewsBtn = document.querySelector("#prev-revs")
+
+    highestRatedTitle.innerText = `Highest Rated ${year} Games`
+
+    window.addEventListener("load", () => {
+        fetch(`https://api.rawg.io/api/games?page_size=10&dates=2021-01-01,${year+"-"+month+"-"+day}&metacritic=80,100&key=e47e87b2eaeb403fb5524f90c2be4ec2`)
+        .then(blob => blob.json())
+        .then(data => {
+            console.log(data);
+            const results = data.results;
+
+            //cta buttons logic
+            nextReviewsBtn.dataset.location = data.next;
+            prevReviewsBtn.dataset.location = data.previous;
+            // nextReviewsBtn.dataset.location === null ? nextReviewsBtn.disable = "true" : nextReviewsBtn.disable = "false";
+            // prevReviewsBtn.dataset.location === null ? alert`true` : prevReviewsBtn.disable = "false";
+            
+
+            results.forEach(element => {
+                const parent = document.createElement('div');
+                const poster = document.createElement('img');
+                const infoBox = document.createElement('div');
+                const metacriticBox = document.createElement('div');
+                const metacriticScore = document.createElement('p');
+                const gameName = document.createElement('h3');
+                const platforms = document.createElement('div');
+                const ratings = document.createElement('div');
+                const released = document.createElement('div');
+
+                let platsArray = [];
+                element.parent_platforms.forEach(p => platsArray.push(p.platform.name))
+
+                parent.className = "review-card";
+                metacriticBox.className = "mc-box";
+                metacriticScore.className = "mc-score";
+                platforms.className = "platforms";
+                ratings.className = "rating";
+                released.className = " released";
+
+                function populatePlats(arr, cont) {
+                    let code = "fab"
+                    let newArr = arr.map((item, i) => {
+                        switch (item.toLowerCase()) {
+                            case "pc":
+                                item = "desktop"
+                                code = "fas"
+                                break;
+                            case "nintendo":
+                                item = ""
+                                code = "nintendo-icon"
+                                break;
+                            default:
+                                item = item;
+                                code = "fab"
+                                break;
+                        }
+                        return `<i class="${code} fa-${item.toLowerCase()} platform-icons"></>`
+                    }).join("");
+                    console.log(newArr)
+                    return cont.innerHTML = newArr
+                }
+
+                poster.src = element.background_image;
+                gameName.innerText = element.name;
+                metacriticScore.innerText = element.metacritic;
+                platforms.innerHTML = `<span>Platforms:</span> ${populatePlats(platsArray, platforms)}`;
+                ratings.innerHTML = `<span>Rating:</span> ${element.rating}/${element.rating_top}`;
+                released.innerHTML = `<span>Released:</span> ${element.released}`;
+
+                parent.appendChild(poster)
+                parent.appendChild(infoBox)
+                parent.appendChild(metacriticBox)
+                metacriticBox.appendChild(metacriticScore)
+                infoBox.appendChild(gameName)
+                infoBox.appendChild(platforms)
+                infoBox.appendChild(ratings)
+                infoBox.appendChild(released)
+
+                highestRated.appendChild(parent)
+            });
+        })
+    })
+    ctaBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            console.log(btn.dataset.location)
+        })
+    })
+</script>
 </body>
 </html>

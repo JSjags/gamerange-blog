@@ -42,7 +42,7 @@
     const container = document.querySelector(".blog-page-cont")
     const recentArticleContainer = document.querySelector(".recent-blogs-box")
 
-    let storedCategory = sessionStorage.getItem('category').toLowerCase() || "allblogs";
+    let storedCategory = sessionStorage.getItem('category') ? sessionStorage.getItem('category').toLowerCase() : "allblogs";
 
     tabs.forEach(tab => {
         tab.addEventListener("click", function() {
@@ -150,7 +150,7 @@
             const element = tabs[i];
             element.classList.remove("active");
             element.style.color = "black";
-            if (element.innerText.toLowerCase() === storedCategory) {
+            if ((element.innerText.toLowerCase() === storedCategory) || (element.innerText.toLowerCase().split(" ").join("") === storedCategory)) {
                 element.classList.add('active');
                 switch (element.innerText) {
                 case "Xbox":

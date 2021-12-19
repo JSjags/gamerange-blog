@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./partials/header.ejs') %>
+
+<body>
+<div class="container">
+
+    <%- include('./partials/nav.ejs') %>
+    
+    <%- include('./partials/search.ejs') %>
+
+    <div class="signup-cont">
+        <div class="form-control">
+            <h1>Log in</h1>
+            <p>Please fill below with valid details.</p>
+            <hr>
+            <form action="POST">
+                <div class="username">
+                    <label for="username">Username:</label>
+                    <input type="username" name="username" id="username">
+                    <span></span>
+                </div>
+                <div class="email">
+                    <label for="email">E-mail:</label>
+                    <input type="email" name="email" id="email">
+                    <span></span>
+                </div>
+                <div class="password">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password1">
+                    <span></span>
+                </div>
+                <div class="password">
+                    <label for="password">Confirm Password:</label>
+                    <input type="password" name="password" id="password2">
+                    <span></span>
+                </div>
+                <button type="submit">Sign up</button>
+            </form>
+            <a href="/login">Already have an account? Log in now.</a>
+        </div>
+    </div>
+
+</div>
+
+<%- include('./partials/footer.ejs') %>
+
+<script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+<script src="functions.js"></script>
+<script>
+    const signupCont = document.querySelector(".signup-cont")
+
+    window.addEventListener("load", () => {
+        fetch("https://api.rawg.io/api/games?search=last-of-us&search_exact=true&key=e47e87b2eaeb403fb5524f90c2be4ec2")
+        .then(blob => blob.json())
+        .then(data => {
+            console.log(data);
+            const backgroundPic = data.results[10].background_image;
+            signupCont.style.background = `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${backgroundPic})`;
+            signupCont.style.backgroundSize = `cover`;
+            signupCont.style.backgroundPosition = `center top`;
+        })
+    })
+</script>
+</body>
+</html>

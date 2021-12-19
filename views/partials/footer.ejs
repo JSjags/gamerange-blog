@@ -4,6 +4,8 @@
     const videos = document.querySelector('nav ul a:nth-child(3)');
     const reviews = document.querySelector('nav ul a:nth-child(4)');
     const about = document.querySelector('nav ul a:nth-child(5)');
+    const login = document.querySelector('#login');
+    const signup = document.querySelector('#signup');
 
     const title = "<%= title %>";
 
@@ -28,8 +30,14 @@
             about.classList.add("active");
             return;
         }
-
-        blogs.classList.add("active");
+        if (title === 'Login Page') {
+            login.classList.add("active");
+            return;
+        }
+        if (title === 'Signup Page') {
+            signup.classList.add("active");
+            return;
+        }
     }
 
 stylePageLink()

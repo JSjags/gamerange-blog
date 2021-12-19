@@ -1,0 +1,125 @@
+.reviews-cont {
+    width: 100%;
+    padding: 10px 20px 20px;
+    min-height: 100vh;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.h-r {
+    display: block;
+    font-size: 2em;
+    font-weight: bolder;
+    margin-bottom: 20px;
+}
+.highest-rated {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.review-card {
+    min-width: 260px;
+    max-width: 320px;
+    height: 420px;
+    overflow: hidden;
+    border-radius: 10px;
+    margin: 10px;
+    box-shadow: 0 6px 20px #0000004d;
+    position: relative;
+}
+.review-card .mc-box {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 0;
+    right: 0;
+    background: url(../metacritic-logo.png), linear-gradient(#ffffff40, #ffffff40);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-bottom-left-radius: 10px;
+    background-size: 80px, 100px;
+    background-repeat: no-repeat;
+    background-position: 10px 10px, 0 0;
+    box-shadow: -3px 3px 10px rgba(0, 0, 0, 0.3);
+}
+.review-card .mc-score {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--background-color);
+    border-radius: 10px;
+    color: white;
+    font-size: 1.4em;
+    font-weight: bolder;
+    padding: 5px;
+    box-shadow: -3px 3px 10px rgba(0, 0, 0, 0.3);
+}
+.review-card img {
+    width: 100%;
+    height: 60%;
+    object-fit: cover;
+}
+.review-card h3 {
+    font-size: 1.2em;
+    text-overflow: ellipsis;
+    padding: 5px 0 5px 5px;
+    width: fit-content;
+}
+.review-card h3::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 6px;
+    background: var(--background-color);
+    margin-top: 4px;
+    border-radius: 6px 6px 3px 3px;
+}
+.rating span,
+.released span,
+.platforms span {
+    display: inline-block;
+    font-weight: bolder;
+    margin: 5px 0 5px 5px;
+}
+.platform-icons {
+    color: black;
+    display: inline-block;
+    margin: 0 8px;
+    font-size: 20px;
+}
+.nintendo-icon {
+    background: url(https://img.icons8.com/ios-filled/30/ffffff/nintendo.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: invert(1);
+    -webkit-filter: invert(1);
+    width: 20px;
+    height: 20px;
+    vertical-align: bottom;
+}
+.cta-btns {
+    width: 30vw;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 20px;
+    margin: 0 auto;
+}
+#prev-revs, 
+#next-revs {
+    width: fit-content;
+    padding: 5px 20px;
+    background: black;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+#prev-revs:hover, 
+#next-revs:hover {
+    background: var(--background-color);
+}
