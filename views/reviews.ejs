@@ -12,12 +12,29 @@
 
     <div class="reviews-cont">
         <label class="h-r" for="highest-rated"></label>
+        <div class="legend">
+            <h2 class="legend-title">Legend</h2>
+            <ul class="legend-icons-box">
+
+            </ul>
+        </div>
+        <div class="nb">
+            <span>N.B:</span>
+            <span>ratings begin at 80 and are based on critically acclaimed metacritic scores.</span>
+        </div>
         <section class="highest-rated" id="highest-rated">
-            
+            <svg>
+                <defs>
+                    <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%"   stop-color="#01d3c1"/>
+                      <stop offset="100%" stop-color="#cc01aa"/>
+                    </linearGradient>
+                </defs>
+                <circle>
+                </circle>
+            </svg>
         </section>
         <section class="cta-btns">
-            <button data-location="" class="cta-btn" id="prev-revs">Previous</button>
-            <button data-location="" class="cta-btn" id="next-revs">Next</button>
         </section>
     </div>
 </div>
@@ -29,28 +46,119 @@
 <script>
     const reviewsCont = document.querySelector(".reviews-cont")
     const highestRated = document.querySelector(".highest-rated")
+    const ctaBtnsCont = document.querySelector(".cta-btns")
+    const reviewSpinner = document.querySelector(".highest-rated svg");
+    const legend = document.querySelector(".legend-icons-box")
     const highestRatedTitle = document.querySelector(".h-r")
     const date = new Date();
     const [month, day, year] = [date.getMonth(), date.getDate(), date.getFullYear()];
-    const ctaBtns = document.querySelectorAll(".cta-btn")
-    const nextReviewsBtn = document.querySelector("#next-revs")
-    const prevReviewsBtn = document.querySelector("#prev-revs")
 
     highestRatedTitle.innerText = `Highest Rated ${year} Games`
 
     window.addEventListener("load", () => {
-        fetch(`https://api.rawg.io/api/games?page_size=10&dates=2021-01-01,${year+"-"+month+"-"+day}&metacritic=80,100&key=e47e87b2eaeb403fb5524f90c2be4ec2`)
+        //legend icons logic 
+        fetch(`https://api.rawg.io/api/platforms/lists/parents?key=e47e87b2eaeb403fb5524f90c2be4ec2`)
+        .then(blob => blob.json())
+        .then(data => {
+            console.log(data);
+            const results = data.results;
+            const newResults = results.map(result => {
+
+                let code = "fab"
+                let item = result.slug
+                    switch (result.name.toLowerCase()) {
+                        case "pc":
+                            item = "pc"
+                            code = "fab"
+                            break;
+                        case "nintendo":
+                            item = "nintendo"
+                            code = "fab"
+                            break;
+                        case "sega":
+                            item = "sega"
+                            code = "fab"
+                            break;
+                        case "atari":
+                            item = "atari"
+                            code = "fab"
+                            break;
+                        case "commodore / amiga":
+                            item = "commodore-amiga"
+                            code = "fab"
+                            break;
+                        case "neo geo":
+                            item = "neo-geo"
+                            code = "fab"
+                            break;
+                        case "web":
+                            item = "globe"
+                            code = "fas"
+                            break;
+                        case "ios":
+                            item = "apple"
+                            code = "fab"
+                            break;
+                        case "apple macintosh":
+                            item = "apple-macintosh"
+                            code = "fas"
+                            break;
+                        default:
+                            item = item;
+                            code = "fab"
+                            break;
+                    }
+                return `<li><i class="${code} fa-${item}"></i> <span>${result.name}</span></li>`
+            }).join("");
+            
+            console.log(newResults)
+            legend.innerHTML = newResults;
+            
+        })
+
+        //review cards logic, conditional rendering and some dynamic styling 
+        fetch(`https://api.rawg.io/api/games?page_size=12&dates=2021-01-01,${year+"-"+month+"-"+day}&metacritic=80,100&key=e47e87b2eaeb403fb5524f90c2be4ec2`)
         .then(blob => blob.json())
         .then(data => {
             console.log(data);
             const results = data.results;
 
+            //clear spinner svg
+            reviewSpinner.style.display = "none";
+
             //cta buttons logic
-            nextReviewsBtn.dataset.location = data.next;
-            prevReviewsBtn.dataset.location = data.previous;
-            // nextReviewsBtn.dataset.location === null ? nextReviewsBtn.disable = "true" : nextReviewsBtn.disable = "false";
-            // prevReviewsBtn.dataset.location === null ? alert`true` : prevReviewsBtn.disable = "false";
+            const prevRevBtn = document.createElement('button')
+            const nextRevBtn = document.createElement('button')
             
+            prevRevBtn.setAttribute("data-location", `${data.previous}`)
+            nextRevBtn.setAttribute("data-location", `${data.next}`)
+
+            prevRevBtn.className = "cta-btn";
+            nextRevBtn.className = "cta-btn";
+
+            prevRevBtn.id = "prev-revs";
+            nextRevBtn.id = "next-revs";
+
+            prevRevBtn.innerText = "Previous"
+            nextRevBtn.innerText = "Next"
+
+            const ctaBtns = document.querySelector(".cta-btns");
+            ctaBtns.appendChild(prevRevBtn);
+            ctaBtns.appendChild(nextRevBtn);
+
+            if (prevRevBtn.dataset.location === "null") {
+                prevRevBtn.disabled = true;
+                prevRevBtn.classList.add("disabled");
+            } else if (nextRevBtn.dataset.location === "null") {
+                nextRevBtn.disabled = true;
+                nextRevBtn.classList.add("disabled");
+            } else {
+                prevRevBtn.disabled = false;
+                prevRevBtn.classList.remove("disabled");
+
+                nextRevBtn.disabled = false;
+                nextRevBtn.classList.remove("disabled");
+            }
 
             results.forEach(element => {
                 const parent = document.createElement('div');
@@ -78,8 +186,8 @@
                     let newArr = arr.map((item, i) => {
                         switch (item.toLowerCase()) {
                             case "pc":
-                                item = "desktop"
-                                code = "fas"
+                                item = ""
+                                code = "desktop-pc"
                                 break;
                             case "nintendo":
                                 item = ""
@@ -90,9 +198,8 @@
                                 code = "fab"
                                 break;
                         }
-                        return `<i class="${code} fa-${item.toLowerCase()} platform-icons"></>`
+                        return `<i class="${code} fa-${item.toLowerCase()} platform-icons"></i>`
                     }).join("");
-                    console.log(newArr)
                     return cont.innerHTML = newArr
                 }
 
@@ -116,10 +223,123 @@
             });
         })
     })
-    ctaBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            console.log(btn.dataset.location)
+    
+    ctaBtnsCont.addEventListener("click", (e) => {
+        if (e.target.className === "cta-btn") {
+            highestRated.firstElementChild.style.display = "block";
+            const spinner = highestRated.firstElementChild;
+            highestRated.innerHTML = "";
+            highestRated.appendChild(spinner);
+            ctaBtnsCont.innerHTML = "";
+
+            //fetch logic
+            fetch(e.target.dataset.location)
+            .then(blob => blob.json())
+            .then(data => {
+                console.log(data);
+                const results = data.results;
+
+                //clear spinner svg
+                reviewSpinner.style.display = "none";
+
+                //cta buttons logic
+                const prevRevBtn = document.createElement('button')
+                const nextRevBtn = document.createElement('button')
+                
+                prevRevBtn.setAttribute("data-location", `${data.previous}`)
+                nextRevBtn.setAttribute("data-location", `${data.next}`)
+
+                prevRevBtn.className = "cta-btn";
+                nextRevBtn.className = "cta-btn";
+
+                prevRevBtn.id = "prev-revs";
+                nextRevBtn.id = "next-revs";
+
+                prevRevBtn.innerText = "Previous"
+                nextRevBtn.innerText = "Next"
+
+                const ctaBtns = document.querySelector(".cta-btns");
+                ctaBtns.appendChild(prevRevBtn);
+                ctaBtns.appendChild(nextRevBtn);
+
+                if (prevRevBtn.dataset.location === "null") {
+                    prevRevBtn.disabled = true;
+                    prevRevBtn.classList.add("disabled");
+                } else if (nextRevBtn.dataset.location === "null") {
+                    nextRevBtn.disabled = true;
+                    nextRevBtn.classList.add("disabled");
+                } else {
+                    prevRevBtn.disabled = false;
+                    prevRevBtn.classList.remove("disabled");
+
+                    nextRevBtn.disabled = false;
+                    nextRevBtn.classList.remove("disabled");
+                }
+
+                results.forEach(element => {
+                    const parent = document.createElement('div');
+                    const poster = document.createElement('img');
+                    const infoBox = document.createElement('div');
+                    const metacriticBox = document.createElement('div');
+                    const metacriticScore = document.createElement('p');
+                    const gameName = document.createElement('h3');
+                    const platforms = document.createElement('div');
+                    const ratings = document.createElement('div');
+                    const released = document.createElement('div');
+
+                    let platsArray = [];
+                    element.parent_platforms.forEach(p => platsArray.push(p.platform.name))
+
+                    parent.className = "review-card";
+                    metacriticBox.className = "mc-box";
+                    metacriticScore.className = "mc-score";
+                    platforms.className = "platforms";
+                    ratings.className = "rating";
+                    released.className = " released";
+
+                    function populatePlats(arr, cont) {
+                        let code = "fab"
+                        let newArr = arr.map((item, i) => {
+                            switch (item.toLowerCase()) {
+                                case "pc":
+                                    item = ""
+                                    code = "desktop-pc"
+                                    break;
+                                case "nintendo":
+                                    item = ""
+                                    code = "nintendo-icon"
+                                    break;
+                                default:
+                                    item = item;
+                                    code = "fab"
+                                    break;
+                            }
+                            return `<i class="${code} fa-${item.toLowerCase()} platform-icons"></i>`
+                        }).join("");
+                        console.log(newArr)
+                        return cont.innerHTML = newArr
+                    }
+
+                    poster.src = element.background_image;
+                    gameName.innerText = element.name;
+                    metacriticScore.innerText = element.metacritic;
+                    platforms.innerHTML = `<span>Platforms:</span> ${populatePlats(platsArray, platforms)}`;
+                    ratings.innerHTML = `<span>Rating:</span> ${element.rating}/${element.rating_top}`;
+                    released.innerHTML = `<span>Released:</span> ${element.released}`;
+
+                    parent.appendChild(poster)
+                    parent.appendChild(infoBox)
+                    parent.appendChild(metacriticBox)
+                    metacriticBox.appendChild(metacriticScore)
+                    infoBox.appendChild(gameName)
+                    infoBox.appendChild(platforms)
+                    infoBox.appendChild(ratings)
+                    infoBox.appendChild(released)
+
+                    highestRated.appendChild(parent)
+                });
         })
+        }
     })
 </script>
 </body>

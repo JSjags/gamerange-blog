@@ -10,22 +10,210 @@
     font-size: 2em;
     font-weight: bolder;
     margin-bottom: 20px;
+    width: fit-content;
+}
+.h-r::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 6px;
+    background: var(--background-color);
+    margin-top: 4px;
+    border-radius: 6px 6px 3px 3px;
 }
 .highest-rated {
     width: 100%;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    padding: 30px 0 ;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px #0000004d;
+}
+.highest-rated svg {
+    width: 100%;
+    height: 100px;
+}
+.highest-rated svg circle {
+    margin-left: 50px;
+    cx: 50%;
+    cy: 40px;
+    r: 20px;
+    stroke: url(#linear);
+    stroke-width: 4;
+    fill: transparent;
+    stroke-dasharray: 62.85;
+    stroke-dashoffset: 1px 0;
+    stroke-linecap: round;
+    animation: fill-animation 1s cubic-bezier(1,1,1,1) 0s infinite;
+}
+.legend {
+    margin-bottom: 10px;
+}
+.legend-title {
+    width: fit-content;
+}
+.legend-title::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 6px;
+    background: var(--background-color);
+    margin-top: 4px;
+    border-radius: 6px 6px 3px 3px;
+}
+.legend-icons-box {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.legend-icons-box li {
+    list-style-type: none;
+    padding: 10px 30px 10px 0;
+    color: #00000080;
+    font-size: 1.2em;
+}
+.legend-icons-box li i {
+    color: #00000080;
+}
+.fa-pc {
+    background: url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/000000/external-pc-tower-devices-flatart-icons-outline-flatarticons.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: opacity(0.6);
+    -webkit-filter: opacity(0.6);
+    width: 30px;
+    height: 30px;
+    vertical-align: -8px;
+}
+.desktop-pc {
+    background: url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/64/000000/external-pc-tower-devices-flatart-icons-outline-flatarticons.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 30px;
+    height: 30px;
+    vertical-align: -8px;
+    filter: brightness(0) contrast(1);
+}
+.fa-nintendo {
+    background: url(https://img.icons8.com/ios-filled/30/ffffff/nintendo.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: invert(0.502);
+    -webkit-filter: invert(0.502);
+    width: 20px;
+    height: 20px;
+    vertical-align: -3px;
+}
+.fa-apple-macintosh {
+    background: url(https://img.icons8.com/nolan/64/mac-logo.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: invert(0.502);
+    -webkit-filter: invert(0.502);
+    width: 30px;
+    height: 30px;
+    vertical-align: -8px;
+}
+.fa-sega {
+    background: url(https://img.icons8.com/external-tal-revivo-shadow-tal-revivo/50/000000/external-sega-a-japanese-multinational-video-game-developer-and-publisher-company-logo-shadow-tal-revivo.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: invert(0.502);
+    -webkit-filter: invert(0.502);
+    width: 20px;
+    height: 20px;
+    vertical-align: -3px;
+}
+.fa-atari {
+    background: url(https://img.icons8.com/color/48/000000/atari-2600.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: grayscale(1) opacity(0.7);
+    -webkit-filter: grayscale(1) opacity(0.7);
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+.fa-commodore-amiga {
+    background: url(https://img.icons8.com/color/48/000000/commodore-amiga.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: grayscale(1) opacity(0.8);
+    -webkit-filter: grayscale(1) opacity(0.8);
+    width: 20px;
+    height: 20px;
+    vertical-align: -3px;
+}
+.fa-neo-geo {
+    background: url(https://upload.wikimedia.org/wikipedia/en/thumb/f/f3/Neo_Geo_logo.svg/220px-Neo_Geo_logo.svg.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: grayscale(1) opacity(0.5);
+    -webkit-filter: grayscale(1) opacity(0.5);
+    width: 20px;
+    height: 20px;
+    vertical-align: -4px;
+}
+.nb {
+    width: fit-content;
+    margin-bottom: 10px;
+    margin-right: 5px;
+}
+.nb::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 6px;
+    background: var(--background-color);
+    margin-top: 4px;
+    border-radius: 6px 6px 3px 3px;
+}
+.nb span:nth-child(1) {
+    background: var(--background-color);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 1.2em;
+    font-weight: bolder;
+}
+.nb span:nth-child(2) {
+    font-size: 1.2em;
+    font-weight: bolder;
+    text-transform: capitalize;
 }
 .review-card {
     min-width: 260px;
     max-width: 320px;
+    position: relative;
     height: 420px;
-    overflow: hidden;
     border-radius: 10px;
-    margin: 10px;
+    margin: 20px 10px;
+    overflow: hidden;
     box-shadow: 0 6px 20px #0000004d;
     position: relative;
+    transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    cursor: pointer;
+}
+.review-card:hover {
+    transform: translateY(-15px); 
+    box-shadow: 0 10px 28px #00000069;
+}
+.review-card:hover::before {
+    content: "";
+    width: 120%;
+    height: 120%;
+    border-radius: 10px;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -10px;
+    z-index: -1;
+    background: var(--background-color);
+    filter: blur(10px);
+    -webkit-filter: blur(10px);
 }
 .review-card .mc-box {
     position: absolute;
@@ -37,6 +225,7 @@
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
     background-size: 80px, 100px;
     background-repeat: no-repeat;
     background-position: 10px 10px, 0 0;
@@ -59,12 +248,15 @@
     width: 100%;
     height: 60%;
     object-fit: cover;
+    border-radius: 10px 10px 0 0;
 }
 .review-card h3 {
     font-size: 1.2em;
+    overflow: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
-    padding: 5px 0 5px 5px;
-    width: fit-content;
+    padding: 5px 5px 5px 5px;
+    width: auto;
 }
 .review-card h3::after {
     content: "";
@@ -83,30 +275,43 @@
     margin: 5px 0 5px 5px;
 }
 .platform-icons {
-    color: black;
+    color: #000000cc;
     display: inline-block;
-    margin: 0 8px;
+    margin: 0 5px;
     font-size: 20px;
 }
 .nintendo-icon {
     background: url(https://img.icons8.com/ios-filled/30/ffffff/nintendo.png);
     background-size: cover;
     background-repeat: no-repeat;
-    filter: invert(1);
-    -webkit-filter: invert(1);
+    filter: invert(1) opacity(0.8);
+    -webkit-filter: invert(1) opacity(0.8);
     width: 20px;
     height: 20px;
-    vertical-align: bottom;
+    vertical-align: -4px;
 }
 .cta-btns {
-    width: 30vw;
     height: fit-content;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 10px;
+    justify-content: center;
     padding: 20px;
-    margin: 0 auto;
+}
+.cta-btn.disabled::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 5px;
+    background-color: #fdfdfd7e;
+    cursor: not-allowed;
+}
+#prev-revs.cta-btn.disabled:hover,
+#next-revs.cta-btn.disabled:hover {
+    background: black;
 }
 #prev-revs, 
 #next-revs {
@@ -115,9 +320,11 @@
     background: black;
     color: white;
     border-radius: 5px;
+    margin: 10px 30px 0;
     border: none;
     font-size: 1.2em;
     cursor: pointer;
+    position: relative;
 }
 #prev-revs:hover, 
 #next-revs:hover {

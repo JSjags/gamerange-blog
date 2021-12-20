@@ -4,7 +4,7 @@
 }
 
 .about-cont {
-    width: 60%;
+    width: 80%;
     height: 300px;
     margin: 0 auto;
     transform: preserve-3d;
@@ -70,14 +70,14 @@
     padding: 30px 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
 }
 .about-body ul li {
     font-size: 1.2em;
     list-style-type: none;
     padding: 5px 0;
-    margin: 20px 20px;
+    margin: 20px 40px;
     width: fit-content;
     height: 120px;
     display: flex;
@@ -94,4 +94,25 @@
     font-style: normal;
     font-size: 3.5em;
     font-weight: bolder;
+}
+.about-body .resources {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+.undraw {
+    font-family: 'Mulish', sans-serif;
+    font-weight: 900;
+    font-size: 3.5em;
+}
+.rawg {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 3.5em;
+}
+.about-body .thanks {
+    width: 100%;
+    text-align: center;
 }
