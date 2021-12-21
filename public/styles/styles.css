@@ -1382,12 +1382,13 @@ button.submit:hover {
 }
 .blog-card-sect {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
 }
 .blog-card {
-    width: 345px;
+    min-width: 260px;
+    max-width: 320px;
     height: 440px;
     /* height: fit-content; */
     background: #dadada;

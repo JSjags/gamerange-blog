@@ -4,6 +4,12 @@
 <%- include('./partials/header.ejs') %>
 
 <body>
+<div class="modal">
+    <i class="far fa-window-close"></i>
+    <div class="review-card-details">
+        <img src="" alt="Game-Image">
+    </div>
+</div>
 <div class="container">
 
     <%- include('./partials/nav.ejs') %>
@@ -22,6 +28,18 @@
             <span>N.B:</span>
             <span>ratings begin at 80 and are based on critically acclaimed metacritic scores.</span>
         </div>
+        <section id="pages">
+            <div class="pages">
+                <span class="review-count"></span>
+                <span>Titles Found</span>
+            </div>
+            <div class="pages">
+                <span>Page</span>
+                <span class="current-page">~</span>
+                <span>of</span>
+                <span class="num-of-pages">~</span>
+            </div>
+        </section>
         <section class="highest-rated" id="highest-rated">
             <svg>
                 <defs>
@@ -44,23 +62,36 @@
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 <script src="functions.js"></script>
 <script>
+    //modal variables
+    const modal = document.querySelector(".modal")
+    const modalReviewImage = document.querySelector(".modal .review-card-details img")
+
+    const modalCloseBtn = document.querySelector(".modal .fa-window-close")
     const reviewsCont = document.querySelector(".reviews-cont")
     const highestRated = document.querySelector(".highest-rated")
     const ctaBtnsCont = document.querySelector(".cta-btns")
     const reviewSpinner = document.querySelector(".highest-rated svg");
     const legend = document.querySelector(".legend-icons-box")
+    const reviewCount = document.querySelector(".review-count")
+    const currentPage = document.querySelector(".current-page")
+    const numOfPages = document.querySelector(".num-of-pages")
     const highestRatedTitle = document.querySelector(".h-r")
     const date = new Date();
     const [month, day, year] = [date.getMonth(), date.getDate(), date.getFullYear()];
 
+    //highest rated dynamic title
     highestRatedTitle.innerText = `Highest Rated ${year} Games`
+
+    //modal close btn event listener
+    modalCloseBtn.addEventListener("click", () => {
+        modalCloseBtn.parentElement.style.display = "none";
+    })
 
     window.addEventListener("load", () => {
         //legend icons logic 
         fetch(`https://api.rawg.io/api/platforms/lists/parents?key=<%=RAWG_API_KEY%>`)
         .then(blob => blob.json())
         .then(data => {
-            console.log(data);
             const results = data.results;
             const newResults = results.map(result => {
 
@@ -110,18 +141,28 @@
                     }
                 return `<li><i class="${code} fa-${item}"></i> <span>${result.name}</span></li>`
             }).join("");
-            
-            console.log(newResults)
+
             legend.innerHTML = newResults;
-            
         })
 
         //review cards logic, conditional rendering and some dynamic styling 
-        fetch(`https://api.rawg.io/api/games?page_size=12&dates=2021-01-01,${year+"-"+month+"-"+day}&metacritic=80,100&key=<%=RAWG_API_KEY%>`)
+        fetch(`https://api.rawg.io/api/games?page=1&page_size=12&dates=2021-01-01,${year+"-"+month+"-"+day}&metacritic=80,100&key=<%=RAWG_API_KEY%>`)
         .then(blob => blob.json())
         .then(data => {
-            console.log(data);
             const results = data.results;
+            console.log(results)
+            reviewCount.innerText = data.count
+            const link = data.next;
+
+            const urlSearchParams = new URLSearchParams(link);
+            const params = Object.fromEntries(urlSearchParams.entries());
+
+            let currentPageVal = Number(params.page);
+            currentPageVal = currentPageVal - 1;
+            currentPage.innerText = currentPageVal;
+
+            let numOfPagesVal = Math.ceil(data.count / Number(params.page_size));
+            numOfPages.innerText = numOfPagesVal
 
             //clear spinner svg
             reviewSpinner.style.display = "none";
@@ -207,8 +248,21 @@
                 gameName.innerText = element.name;
                 metacriticScore.innerText = element.metacritic;
                 platforms.innerHTML = `<span>Platforms:</span> ${populatePlats(platsArray, platforms)}`;
-                ratings.innerHTML = `<span>Rating:</span> ${element.rating}/${element.rating_top}`;
+                ratings.innerHTML = `<span>Rating:</span> 
+                                     <span class="outer-stars">
+                                        <span class="inner-stars" style="width: ${Number(element.rating) * 20}%";>
+                                        </span>
+                                     </span>
+                                     <span class="rating-details">
+                                        ${element.rating}/${element.rating_top}
+                                     </span>`;
                 released.innerHTML = `<span>Released:</span> ${element.released}`;
+
+                //adding event listener to review card
+                parent.addEventListener("click", () => {
+                    modal.style.display = "flex";
+                    modalReviewImage.src = element.background_image;
+                })
 
                 parent.appendChild(poster)
                 parent.appendChild(infoBox)
@@ -218,10 +272,11 @@
                 infoBox.appendChild(platforms)
                 infoBox.appendChild(ratings)
                 infoBox.appendChild(released)
-
                 highestRated.appendChild(parent)
+                
             });
         })
+        .catch(e => console.log("Error Fetching Data"));
     })
     
     ctaBtnsCont.addEventListener("click", (e) => {
@@ -236,8 +291,17 @@
             fetch(e.target.dataset.location)
             .then(blob => blob.json())
             .then(data => {
-                console.log(data);
                 const results = data.results;
+                switch (e.target.id) {
+                    case 'prev-revs':
+                        currentPage.innerText = Number(currentPage.innerText) - 1;
+                        break;
+                    case 'next-revs':
+                        currentPage.innerText = Number(currentPage.innerText) + 1;
+                        break;
+                    default:
+                        break;
+                }
 
                 //clear spinner svg
                 reviewSpinner.style.display = "none";
@@ -316,7 +380,6 @@
                             }
                             return `<i class="${code} fa-${item.toLowerCase()} platform-icons"></i>`
                         }).join("");
-                        console.log(newArr)
                         return cont.innerHTML = newArr
                     }
 
@@ -324,7 +387,14 @@
                     gameName.innerText = element.name;
                     metacriticScore.innerText = element.metacritic;
                     platforms.innerHTML = `<span>Platforms:</span> ${populatePlats(platsArray, platforms)}`;
-                    ratings.innerHTML = `<span>Rating:</span> ${element.rating}/${element.rating_top}`;
+                    ratings.innerHTML = `<span>Rating:</span> 
+                                         <span class="outer-stars">
+                                            <span class="inner-stars" style="width: ${Number(element.rating) * 20}%";>
+                                            </span>
+                                         </span>
+                                         <span class="rating-details">
+                                            ${element.rating}/${element.rating_top}
+                                         </span>`;
                     released.innerHTML = `<span>Released:</span> ${element.released}`;
 
                     parent.appendChild(poster)

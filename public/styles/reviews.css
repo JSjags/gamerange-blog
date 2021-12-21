@@ -1,3 +1,43 @@
+/* reviews modal stylings start here */
+.modal {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    position: fixed;
+    display: none;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    background: #000000cc;
+    z-index: 10;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+.modal .fa-window-close {
+    position: fixed;
+    color: white;
+    font-size: 3em;
+    top: 10px;
+    right: 10px;
+}
+.modal .review-card-details {
+    width: 800px;
+    min-width: 300px;
+    max-width: 800px;
+    flex-basis: 800px;
+    flex-shrink: 1;
+    min-height: 100vh;
+    margin: 100px 10px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.modal .review-card-details img {
+    width: 100%;
+    border-radius: 10px;
+}
+/* reviews modal styling ends here */
+
 .reviews-cont {
     width: 100%;
     padding: 10px 20px 20px;
@@ -184,6 +224,38 @@
     font-weight: bolder;
     text-transform: capitalize;
 }
+
+#pages {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    font-size: 1.4em;
+    height: 40px;
+}
+.pages {
+    font-weight: bolder;
+    padding: 5px 10px;
+    box-shadow: 0 6px 20px #0000004d;
+    border-radius: 10px;
+}
+.review-count {
+    background: var(--background-color);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 1.6em;
+}
+.current-page,
+.num-of-pages {
+    background: var(--background-color);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 1.6em;
+}
+
 .review-card {
     min-width: 260px;
     max-width: 320px;
@@ -273,6 +345,58 @@
     display: inline-block;
     font-weight: bolder;
     margin: 5px 0 5px 5px;
+}
+.rating span.rating-details {
+    display: inline-block;
+    font-weight: lighter;
+    margin: 5px 0 5px 0px;
+}
+.rating span.outer-stars {
+    width: 100px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    top: 5px;
+    margin: 0;
+}
+ .rating span.outer-stars::before {
+    content: "\2606 \2606 \2606 \2606 \2606";
+    color: hsl(43, 74%, 50%);
+    font-weight: 100;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.rating span.outer-stars span.inner-stars {
+    height: 100%;
+    display: inline-block;
+    margin: 0;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+}
+.rating span.inner-stars::before {
+    content: "\2605 \2605 \2605 \2605 \2605";
+    color: hsl(43, 74%, 50%);
+    font-weight: 100;
+    height: 100%;
+    width: 100px;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    flex-wrap: nowrap;
+    left: 0;
+    bottom: 0;
+    right: 0;
 }
 .platform-icons {
     color: #000000cc;
