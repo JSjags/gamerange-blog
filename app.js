@@ -11,6 +11,9 @@ const mongoose = require('mongoose');
 //custom blog model
 const Blog = require('./models/blog');
 
+//environment variables
+require('dotenv').config();
+
 //host number
 const host = '0.0.0.0';
 
@@ -18,7 +21,9 @@ const host = '0.0.0.0';
 const port = process.env.PORT || 3000;
 
 //connect to mongoDB
-const dbURI = 'mongodb+srv://Jesse:jesjags01@gamerange.q8pni.mongodb.net/GameRange?retryWrites=true&w=majority';
+const dbURI = process.env.MONGO_DB_URI;
+const RAWG_API_KEY = process.env.RAWG_API_KEY;
+
 mongoose.connect(dbURI)
 .then((result) => {
   console.log("Connected to GameRange Database");
@@ -52,7 +57,6 @@ app.get('/about', (req, res) => {
   res.render('about', {title: 'About Page'});
 });
 app.get('/blogs', async (req, res) => {
-  // const blogs = await Blog.find().sort({ 'createdAt': -1 })
   res.render('blogs', { title: 'Blogs Page',});
 });
 app.get('/blogs/category/xbox', async (req, res) => {
@@ -90,7 +94,7 @@ app.get('/blogs/:id', (req, res) => {
     .catch(e => res.send(e))
 });
 app.get('/reviews', (req, res) => {
-  res.render('reviews', {title: 'Reviews Page'});
+  res.render('reviews', {title: 'Reviews Page', RAWG_API_KEY});
 });
 app.get('/videos', (req, res) => {
 res.render('videos', {title: 'Videos Page'});

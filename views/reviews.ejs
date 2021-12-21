@@ -57,7 +57,7 @@
 
     window.addEventListener("load", () => {
         //legend icons logic 
-        fetch(`https://api.rawg.io/api/platforms/lists/parents?key=e47e87b2eaeb403fb5524f90c2be4ec2`)
+        fetch(`https://api.rawg.io/api/platforms/lists/parents?key=<%=RAWG_API_KEY%>`)
         .then(blob => blob.json())
         .then(data => {
             console.log(data);
@@ -117,7 +117,7 @@
         })
 
         //review cards logic, conditional rendering and some dynamic styling 
-        fetch(`https://api.rawg.io/api/games?page_size=12&dates=2021-01-01,${year+"-"+month+"-"+day}&metacritic=80,100&key=e47e87b2eaeb403fb5524f90c2be4ec2`)
+        fetch(`https://api.rawg.io/api/games?page_size=12&dates=2021-01-01,${year+"-"+month+"-"+day}&metacritic=80,100&key=<%=RAWG_API_KEY%>`)
         .then(blob => blob.json())
         .then(data => {
             console.log(data);
