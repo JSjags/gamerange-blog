@@ -7,7 +7,18 @@
 <div class="modal">
     <i class="far fa-window-close"></i>
     <div class="review-card-details">
-        <img src="" alt="Game-Image">
+        
+        <img src="" alt="Game-Image" class="poster-img">
+        <div id="details-cont">
+            <h1 class="title"></h1>
+            <div class="rating-box">
+                <div class="score"></div>
+                <div class="bars">
+                    <div></div>
+                    <p></p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="container">
@@ -62,11 +73,16 @@
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 <script src="functions.js"></script>
 <script>
+    const body = document.querySelector("body");
+
     //modal variables
     const modal = document.querySelector(".modal")
     const modalReviewImage = document.querySelector(".modal .review-card-details img")
-
+    const modalReviewTitle = document.querySelector(".modal .review-card-details .title")
+    const modalReviewScore = document.querySelector(".modal .review-card-details .rating-box .score")
+    const modalReviewBars = document.querySelector(".modal .review-card-details .rating-box .bars")
     const modalCloseBtn = document.querySelector(".modal .fa-window-close")
+
     const reviewsCont = document.querySelector(".reviews-cont")
     const highestRated = document.querySelector(".highest-rated")
     const ctaBtnsCont = document.querySelector(".cta-btns")
@@ -84,6 +100,7 @@
 
     //modal close btn event listener
     modalCloseBtn.addEventListener("click", () => {
+        body.style.overflow = "visible";
         modalCloseBtn.parentElement.style.display = "none";
     })
 
@@ -260,8 +277,36 @@
 
                 //adding event listener to review card
                 parent.addEventListener("click", () => {
+                    body.style.overflow = "hidden"
                     modal.style.display = "flex";
-                    modalReviewImage.src = element.background_image;
+
+                    fetch(`https://api.rawg.io/api/games/${element.id}?key=<%=RAWG_API_KEY%>`)
+                    .then((blob) => blob.json())
+                    .then((file) => {
+                        const gameInfo = file;
+                        console.log(gameInfo)
+                        modal.firstElementChild.style.display = "none";
+                        modalReviewImage.src = gameInfo.background_image;
+                        modalReviewTitle.innerText = gameInfo.name;
+                        modalReviewScore.innerHTML = `<h3>Rating $ Reviews</h3>
+                                                    <p>${gameInfo.rating}</p>
+                                                    <span class="outer-stars">
+                                                        <span class="inner-stars" style="width: ${Number(gameInfo.rating) * 20}%";>
+                                                        </span>
+                                                    </span>`;
+                        // rating bars logic
+                        const ratingArr = gameInfo.ratings;
+                        function barsInnerHtml(arr) {
+                            let returnString = "";
+                            arr.forEach(i => {
+                                const value = `<div class="bar"><div class="inner-bar" style="width: ${i.percent}%"></div><p>${i.title}</p></div>`
+                                returnString = returnString.concat(value)
+                            })
+                            return returnString
+                        }
+                        modalReviewBars.innerHTML = `${barsInnerHtml(ratingArr)}<gameInfo="rating-count">Total Ratings Count: <span>${gameInfo.ratings_count}</span></=>`;
+
+                    })
                 })
 
                 parent.appendChild(poster)
