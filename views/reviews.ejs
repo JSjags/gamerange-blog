@@ -7,18 +7,35 @@
 <div class="modal">
     <i class="far fa-window-close"></i>
     <div class="review-card-details">
-        
-        <img src="" alt="Game-Image" class="poster-img">
-        <div id="details-cont">
-            <h1 class="title"></h1>
-            <div class="rating-box">
-                <div class="score"></div>
-                <div class="bars">
-                    <div></div>
-                    <p></p>
+        <svg>
+            <defs>
+                <linearGradient id="linear-2" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%"   stop-color="#01d3c1"/>
+                  <stop offset="100%" stop-color="#cc01aa"/>
+                </linearGradient>
+            </defs>
+            <circle class="spinner-2">
+            </circle>
+        </svg>
+        <section id="game-info">
+            <img src="" alt="Game-Image" class="poster-img">
+            <div id="details-cont">
+                <h1 class="title"></h1>
+                <div class="rating-box">
+                    <div class="score"></div>
+                    <div class="bars">
+                    </div>
+                </div>
+                <div class="game-description">
+                </div>
+                <div class="game-screenshots">
+                    <h3>Screenshots</h3>
+                    <div class="screenshots">
+
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 </div>
 <div class="container">
@@ -59,7 +76,7 @@
                       <stop offset="100%" stop-color="#cc01aa"/>
                     </linearGradient>
                 </defs>
-                <circle>
+                <circle class="spinner-1">
                 </circle>
             </svg>
         </section>
@@ -77,10 +94,14 @@
 
     //modal variables
     const modal = document.querySelector(".modal")
+    const modalReview = document.querySelector(".modal .review-card-details")
+    const modalGameInfo = document.querySelector(".modal .review-card-details #game-info")
     const modalReviewImage = document.querySelector(".modal .review-card-details img")
     const modalReviewTitle = document.querySelector(".modal .review-card-details .title")
     const modalReviewScore = document.querySelector(".modal .review-card-details .rating-box .score")
     const modalReviewBars = document.querySelector(".modal .review-card-details .rating-box .bars")
+    const modalGameDescription = document.querySelector(".modal .review-card-details #game-info  #details-cont .game-description")
+    const modalGameScreenshots = document.querySelector(".modal .review-card-details #game-info  #details-cont .game-screenshots .screenshots")
     const modalCloseBtn = document.querySelector(".modal .fa-window-close")
 
     const reviewsCont = document.querySelector(".reviews-cont")
@@ -101,6 +122,9 @@
     //modal close btn event listener
     modalCloseBtn.addEventListener("click", () => {
         body.style.overflow = "visible";
+        modalReview.firstElementChild.style.display = "block";
+        modalGameInfo.style.height = "0";
+        modalGameInfo.style.overflow = "hidden";
         modalCloseBtn.parentElement.style.display = "none";
     })
 
@@ -163,7 +187,7 @@
         })
 
         //review cards logic, conditional rendering and some dynamic styling 
-        fetch(`https://api.rawg.io/api/games?page=1&page_size=12&dates=2021-01-01,${year+"-"+month+"-"+day}&metacritic=80,100&key=<%=RAWG_API_KEY%>`)
+        fetch(`https://api.rawg.io/api/games?page=1&page_size=12&dates=2021-01-01,${year+"-"+month+"-"+day}&metacritic=80,99&key=<%=RAWG_API_KEY%>`)
         .then(blob => blob.json())
         .then(data => {
             const results = data.results;
@@ -285,7 +309,9 @@
                     .then((file) => {
                         const gameInfo = file;
                         console.log(gameInfo)
-                        modal.firstElementChild.style.display = "none";
+                        modalGameInfo.style.height = "fit-content";
+                        modalGameInfo.style.overflow = "visible";
+                        modalReview.firstElementChild.style.display = "none";
                         modalReviewImage.src = gameInfo.background_image;
                         modalReviewTitle.innerText = gameInfo.name;
                         modalReviewScore.innerHTML = `<h3>Rating $ Reviews</h3>
@@ -304,8 +330,28 @@
                             })
                             return returnString
                         }
-                        modalReviewBars.innerHTML = `${barsInnerHtml(ratingArr)}<gameInfo="rating-count">Total Ratings Count: <span>${gameInfo.ratings_count}</span></=>`;
-
+                        modalReviewBars.innerHTML = `${barsInnerHtml(ratingArr)}<p class="rating-count">Total Ratings Count: <span>${gameInfo.ratings_count}</span></p>`;
+                        modalGameDescription.innerHTML = `
+                                                            <h3>Game Description</h3>
+                                                            <img src="${gameInfo.background_image_additional}">
+                                                            <p>${gameInfo.description_raw}</p>
+                                                        `;
+                        //screenshots logic
+                        function screenShots (arr) {
+                            let initialStr = "";
+                            arr.forEach(item => {
+                                initialStr = initialStr + `<img src=${item.image}>`;
+                            })
+                            return initialStr;
+                        }
+                        fetch(`https://api.rawg.io/api/games/${gameInfo.id}/screenshots?key=<%=RAWG_API_KEY%>`)
+                        .then(box => box.json())
+                        .then(shots => {
+                            let shotsArr = shots.results;
+                            console.log(shotsArr)
+                            let finalShotsStr = screenShots(shotsArr)
+                            modalGameScreenshots.innerHTML = finalShotsStr;
+                        })
                     })
                 })
 
