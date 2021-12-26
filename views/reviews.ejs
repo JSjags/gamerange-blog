@@ -704,7 +704,8 @@
 
 <!-- reviews search logic -->
 <script>
-    const nb = document.querySelector('.nb span:nth-child(2)')
+    const nb = document.querySelector('.nb span:nth-child(2)');
+    const pages = document.querySelector('.pages');
     const searchForm = document.querySelector("#search-form");
     const reviewsSearch = document.querySelector("#search-form #reviews-search");
     searchForm.addEventListener('submit', (e) => {
@@ -727,6 +728,24 @@
             const results = response.results;
             reviewCount.innerText = response.count
             const link = response.next;
+
+            if (results.length === 0) {
+                ctaBtnsCont.innerHTML = "";
+                currentPage.innerText = 0;
+                numOfPages.innerText = 0;
+                spinLoadSvg.style.display = "none";
+                const message = `No results for '${searchVal}' found.Try searching again!`;
+
+                const pAlert = document.createElement("p");
+                const pImage = document.createElement("img");
+                pAlert.classList.add("p-alert");
+                pImage.classList.add("p-image");
+                pImage.src = "/not-found.svg";
+                pAlert.innerText = message;
+                highestRated.appendChild(pAlert);
+                highestRated.appendChild(pImage);
+                return;
+            }
 
             const urlSearchParams = new URLSearchParams(link);
             const params = Object.fromEntries(urlSearchParams.entries());

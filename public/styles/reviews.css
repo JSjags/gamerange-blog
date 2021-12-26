@@ -364,7 +364,9 @@
     border-radius: 6px 6px 3px 3px;
 }
 .highest-rated {
+    position: relative;
     width: 100%;
+    min-height: 500px;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -756,4 +758,18 @@
 #prev-revs:hover, 
 #next-revs:hover {
     background: var(--background-color);
+}
+.p-alert {
+    font-size: 2em;
+    font-weight: bolder;
+    margin-top: 50px;
+    padding: 10px 10px;
+    text-align: center;
+}
+.p-image {
+    width: 300px;
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    transform: translateX(-50%);
 }

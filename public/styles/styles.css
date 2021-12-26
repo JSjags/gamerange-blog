@@ -231,7 +231,7 @@ ion-icon[name="search"]:hover {
 }
 input[type="search"] {
     width: 12.1em;
-    height: inherit;
+    height: 100%;
     border: none; 
     border-radius: 1em;
     caret-color: #cc01aa;
@@ -244,6 +244,13 @@ input[type="search"] {
     right: 2.1em;
     display: flex;
     font-family: "Average Sans", sans-serif;
+}
+input[type="search"]::-webkit-search-cancel-button {
+    appearance: none;
+    background: url("https://img.icons8.com/external-becris-lineal-becris/64/000000/external-cancel-mintab-for-ios-becris-lineal-becris.png");
+    background-size: cover;
+    width: 10px;
+    height: 10px;
 }
 .carousel {
     width: 80vw;
