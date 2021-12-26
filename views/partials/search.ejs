@@ -1,14 +1,14 @@
 <div id="search-div">
     <div>
-        <form action="">
+        <form action="" id="search-form">
         <% if(title === 'Reviews Page') {%>
-        <input type="search" name="search" id="search" placeholder="Search reviews here...">
+        <input id= "reviews-search" type="search" name="search" id="search" placeholder="Search reviews here...">
         <% } else if(title === 'Videos Page') {%>
-        <input type="search" name="search" id="search" placeholder="Search videos here...">
+        <input id= "videos-search" type="search" name="search" id="search" placeholder="Search videos here...">
         <% } else if(title === 'Blogs Page') {%>
-        <input type="search" name="search" id="search" placeholder="Search blogs here...">
+        <input id= "blogs-search" type="search" name="search" id="search" placeholder="Search blogs here...">
         <% } else { %>
-        <input type="search" name="search" id="search" placeholder="Search here...">
+        <input id= "home-search" type="search" name="search" id="search" placeholder="Search here...">
         <% } %>
         <ion-icon name="search"></ion-icon>
         </form>

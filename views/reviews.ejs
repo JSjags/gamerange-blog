@@ -64,7 +64,7 @@
         <section id="pages">
             <div class="pages">
                 <span class="review-count"></span>
-                <span>Titles Found</span>
+                <span>Results Found</span>
             </div>
             <div class="pages">
                 <span>Page</span>
@@ -94,7 +94,6 @@
 
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 <script src="functions.js"></script>
-
 <!-- reviews script and logic -->
 <script>
 
@@ -202,7 +201,6 @@
         .then(blob => blob.json())
         .then(data => {
             const results = data.results;
-            console.log(results)
             reviewCount.innerText = data.count
             const link = data.next;
 
@@ -706,7 +704,261 @@
 
 <!-- reviews search logic -->
 <script>
-    
+    const nb = document.querySelector('.nb span:nth-child(2)')
+    const searchForm = document.querySelector("#search-form");
+    const reviewsSearch = document.querySelector("#search-form #reviews-search");
+    searchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const searchVal = reviewsSearch.value;
+        reviewsSearch.value = "";
+        const spinLoadSvg = highestRated.firstElementChild;
+        highestRated.innerHTML = "";
+        spinLoadSvg.style.display = "block";
+        highestRated.appendChild(spinLoadSvg);
+        ctaBtnsCont.innerHTML = "";
+
+        //search rawg database for matching results with search value
+        fetch(`https://api.rawg.io/api/games?search=${searchVal}&page=1&page_size=12&key=<%=RAWG_API_KEY%>`)
+        .then(blob => blob.json())
+        .then(response => {
+            highestRatedTitle.innerText = `Search results for '${searchVal}'`;
+            nb.innerText = "search results are based on search input value"
+            console.log(response);
+            const results = response.results;
+            reviewCount.innerText = response.count
+            const link = response.next;
+
+            const urlSearchParams = new URLSearchParams(link);
+            const params = Object.fromEntries(urlSearchParams.entries());
+
+            let currentPageVal = Number(params.page);
+            currentPageVal = currentPageVal - 1;
+            currentPage.innerText = currentPageVal;
+
+            let numOfPagesVal = Math.ceil(response.count / Number(params.page_size));
+            numOfPages.innerText = numOfPagesVal
+
+            //clear spinner svg
+            reviewSpinner.style.display = "none";
+
+            //cta buttons logic
+            const prevRevBtn = document.createElement('button')
+            const nextRevBtn = document.createElement('button')
+            
+            prevRevBtn.setAttribute("data-location", `${response.previous}`)
+            nextRevBtn.setAttribute("data-location", `${response.next}`)
+
+            prevRevBtn.className = "cta-btn";
+            nextRevBtn.className = "cta-btn";
+
+            prevRevBtn.id = "prev-revs";
+            nextRevBtn.id = "next-revs";
+
+            prevRevBtn.innerText = "Previous"
+            nextRevBtn.innerText = "Next"
+
+            const ctaBtns = document.querySelector(".cta-btns");
+            ctaBtns.appendChild(prevRevBtn);
+            ctaBtns.appendChild(nextRevBtn);
+
+            if (prevRevBtn.dataset.location === "null") {
+                prevRevBtn.disabled = true;
+                prevRevBtn.classList.add("disabled");
+            } else if (nextRevBtn.dataset.location === "null") {
+                nextRevBtn.disabled = true;
+                nextRevBtn.classList.add("disabled");
+            } else {
+                prevRevBtn.disabled = false;
+                prevRevBtn.classList.remove("disabled");
+
+                nextRevBtn.disabled = false;
+                nextRevBtn.classList.remove("disabled");
+            }
+
+            results.forEach(element => {
+                const parent = document.createElement('div');
+                const poster = document.createElement('img');
+                const infoBox = document.createElement('div');
+                const metacriticBox = document.createElement('div');
+                const metacriticScore = document.createElement('p');
+                const gameName = document.createElement('h3');
+                const platforms = document.createElement('div');
+                const ratings = document.createElement('div');
+                const released = document.createElement('div');
+
+                let platsArray = [];
+                element.parent_platforms.forEach(p => platsArray.push(p.platform.name))
+
+                parent.className = "review-card";
+                metacriticBox.className = "mc-box";
+                metacriticScore.className = "mc-score";
+                platforms.className = "platforms";
+                ratings.className = "rating";
+                released.className = " released";
+
+                function populatePlats(arr, cont) {
+                    let code = "fab"
+                    let newArr = arr.map((item, i) => {
+                        switch (item.toLowerCase()) {
+                            case "pc":
+                                item = ""
+                                code = "desktop-pc"
+                                break;
+                            case "nintendo":
+                                item = ""
+                                code = "nintendo-icon"
+                                break;
+                            default:
+                                item = item;
+                                code = "fab"
+                                break;
+                        }
+                        return `<i class="${code} fa-${item.toLowerCase()} platform-icons"></i>`
+                    }).join("");
+                    return cont.innerHTML = newArr
+                }
+
+                poster.src = element.background_image;
+                gameName.innerText = element.name;
+                metacriticScore.innerText = element.metacritic === null ? "N/A" : element.metacritic;
+                platforms.innerHTML = `<span>Platforms:</span> ${populatePlats(platsArray, platforms)}`;
+                ratings.innerHTML = `<span>Rating:</span> 
+                                     <span class="outer-stars">
+                                        <span class="inner-stars" style="width: ${Number(element.rating) * 20}%";>
+                                        </span>
+                                     </span>
+                                     <span class="rating-details">
+                                        ${element.rating}
+                                     </span>`;
+                released.innerHTML = `<span>Released:</span> ${element.released}`;
+
+                //adding event listener to review card
+                parent.addEventListener("click", () => {
+                    body.style.overflow = "hidden"
+                    modal.style.display = "flex";
+
+                    fetch(`https://api.rawg.io/api/games/${element.id}?key=<%=RAWG_API_KEY%>`)
+                    .then((blob) => blob.json())
+                    .then((file) => {
+                        const gameInfo = file;
+                        console.log(gameInfo)
+                        modalGameInfo.style.height = "fit-content";
+                        modalGameInfo.style.overflow = "visible";
+                        modalReview.firstElementChild.style.display = "none";
+                        modalReviewImage.src = gameInfo.background_image;
+                        modalReviewTitle.innerText = gameInfo.name;
+                        modalReviewScore.innerHTML = `<h3>Rating $ Reviews</h3>
+                                                    <p>${gameInfo.rating}</p>
+                                                    <span class="outer-stars">
+                                                        <span class="inner-stars" style="width: ${Number(gameInfo.rating) * 20}%";>
+                                                        </span>
+                                                    </span>`;
+                        // rating bars logic
+                        const ratingArr = gameInfo.ratings;
+                        function barsInnerHtml(arr) {
+                            let returnString = "";
+                            arr.forEach(i => {
+                                const value = `<div class="bar"><div class="inner-bar" style="width: ${i.percent}%"></div><p>${i.title}</p></div>`
+                                returnString = returnString.concat(value)
+                            })
+                            return returnString
+                        }
+                        modalReviewBars.innerHTML = `${barsInnerHtml(ratingArr)}<p class="rating-count">Total Ratings Count: <span>${gameInfo.ratings_count}</span></p>`;
+                        modalGameDescription.innerHTML = `
+                                                            <h3>Game Description</h3>
+                                                            <img src="${gameInfo.background_image_additional}">
+                                                            <p>${gameInfo.description_raw}</p>
+                                                        `;
+                        //screenshots logic
+                        function screenShots (arr) {
+                            let initialStr = "";
+                            arr.forEach(item => {
+                                initialStr = initialStr + `<img src=${item.image}>`;
+                            })
+                            return initialStr;
+                        }
+                        fetch(`https://api.rawg.io/api/games/${gameInfo.id}/screenshots?key=<%=RAWG_API_KEY%>`)
+                        .then(box => box.json())
+                        .then(shots => {
+                            let shotsArr = shots.results;
+                            console.log(shotsArr)
+                            let finalShotsStr = screenShots(shotsArr)
+                            modalGameScreenshots.innerHTML = finalShotsStr;
+                        })
+                        //screenshots logic ends here
+
+                        //publisher string
+                        let publisherStr = "";
+                        for (let i = 0; i < gameInfo.publishers.length; i++) {
+                            const element = gameInfo.publishers[i];
+                            if (i === ((gameInfo.publishers.length) - 1)) {
+                                publisherStr = publisherStr + element.name;
+                            } else {
+                                publisherStr = publisherStr + element.name + ", "
+                            }
+                        };
+
+                        //developer string
+                        let devStr = "";
+                        for (let i = 0; i < gameInfo.developers.length; i++) {
+                            const element = gameInfo.developers[i];
+                            if (i === ((gameInfo.developers.length) - 1)) {
+                                devStr = devStr + element.name;
+                            } else {
+                                devStr = devStr + element.name + ", "
+                            }
+                        };
+                        
+                        //genre string
+                        let genreStr = "";
+                        for (let i = 0; i < gameInfo.genres.length; i++) {
+                            const element = gameInfo.genres[i];
+                            if (i === ((gameInfo.genres.length) - 1)) {
+                                genreStr = genreStr + element.name;
+                            } else {
+                                genreStr = genreStr + element.name + " | "
+                            }
+                        };
+                        //platforms string
+                        let platformStr = "";
+                        for (let i = 0; i < gameInfo.platforms.length; i++) {
+                            const element = gameInfo.platforms[i];
+                            if (i === ((gameInfo.platforms.length) - 1)) {
+                                platformStr = platformStr + element.platform.name;
+                            } else {
+                                platformStr = platformStr + element.platform.name + " | "
+                            }
+                        };
+
+                        modalMoreDetails.innerHTML = `
+                                                    <p>Released: <span>${gameInfo.released ? gameInfo.released : "N/A"}</></p>
+                                                    <p>Publishers: <span>${gameInfo.publishers ? publisherStr : "N/A"}</></p>
+                                                    <p>Developer: <span>${gameInfo.developers ? devStr : "N/A"}</></p>
+                                                    <p>Genres: <span>${gameInfo.genres ? genreStr : "N/A"}</></p>
+                                                    <p>ESRB Rating: <span>${gameInfo.esrb_rating === null ? "N/A" : gameInfo.esrb_rating.name}</></p>
+                                                    <p>Metacritic Score: <span>${gameInfo.metacritic ? gameInfo.metacritic + ` <a href=${gameInfo.metacritic_url} target="_blank" rel="noopener noreferrer">Click here to redirect to metacritic</a>` : "N/A"}</></p>
+                                                    <p>Reviews Count: <span>${gameInfo.reviews_count ? gameInfo.reviews_count : "N/A"}</></p>
+                                                    <p>Platforms: <span>${gameInfo.platforms ? platformStr : "N/A"}</></p>
+                                                    <p>Game Website: <a href=${gameInfo.website} target="_blank" rel="noopener noreferrer">${gameInfo.platforms ? "Click here to visit game website" : "N/A"}</a></p>
+                                                    `
+                    })
+                })
+
+                parent.appendChild(poster)
+                parent.appendChild(infoBox)
+                parent.appendChild(metacriticBox)
+                metacriticBox.appendChild(metacriticScore)
+                infoBox.appendChild(gameName)
+                infoBox.appendChild(platforms)
+                infoBox.appendChild(ratings)
+                infoBox.appendChild(released)
+                highestRated.appendChild(parent)
+                
+            });
+        })
+        .catch(e => console.log(e));
+    })
 </script>
+
 </body>
 </html>
