@@ -29,13 +29,18 @@
                 <div class="game-description">
                 </div>
                 <div class="game-screenshots">
-                    <h3>Screenshots</h3>
+                    <h3>Game Screenshots</h3>
                     <div class="screenshots">
-
+                    </div>
+                </div>
+                <div class="more-details">
+                    <h3>More Details</h3>
+                    <div class="details">
                     </div>
                 </div>
             </div>
         </section>
+        <div class="wedge"></div>
     </div>
 </div>
 <div class="container">
@@ -89,7 +94,10 @@
 
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 <script src="functions.js"></script>
+
+<!-- reviews script and logic -->
 <script>
+
     const body = document.querySelector("body");
 
     //modal variables
@@ -102,6 +110,7 @@
     const modalReviewBars = document.querySelector(".modal .review-card-details .rating-box .bars")
     const modalGameDescription = document.querySelector(".modal .review-card-details #game-info  #details-cont .game-description")
     const modalGameScreenshots = document.querySelector(".modal .review-card-details #game-info  #details-cont .game-screenshots .screenshots")
+    const modalMoreDetails = document.querySelector(".modal .review-card-details #game-info  #details-cont .more-details .details")
     const modalCloseBtn = document.querySelector(".modal .fa-window-close")
 
     const reviewsCont = document.querySelector(".reviews-cont")
@@ -115,6 +124,8 @@
     const highestRatedTitle = document.querySelector(".h-r")
     const date = new Date();
     const [month, day, year] = [date.getMonth(), date.getDate(), date.getFullYear()];
+
+    const parentNode = modal.parentNode;
 
     //highest rated dynamic title
     highestRatedTitle.innerText = `Highest Rated ${year} Games`
@@ -352,6 +363,62 @@
                             let finalShotsStr = screenShots(shotsArr)
                             modalGameScreenshots.innerHTML = finalShotsStr;
                         })
+                        //screenshots logic ends here
+
+                        //publisher string
+                        let publisherStr = "";
+                        for (let i = 0; i < gameInfo.publishers.length; i++) {
+                            const element = gameInfo.publishers[i];
+                            if (i === ((gameInfo.publishers.length) - 1)) {
+                                publisherStr = publisherStr + element.name;
+                            } else {
+                                publisherStr = publisherStr + element.name + ", "
+                            }
+                        };
+
+                        //developer string
+                        let devStr = "";
+                        for (let i = 0; i < gameInfo.developers.length; i++) {
+                            const element = gameInfo.developers[i];
+                            if (i === ((gameInfo.developers.length) - 1)) {
+                                devStr = devStr + element.name;
+                            } else {
+                                devStr = devStr + element.name + ", "
+                            }
+                        };
+                        
+                        //genre string
+                        let genreStr = "";
+                        for (let i = 0; i < gameInfo.genres.length; i++) {
+                            const element = gameInfo.genres[i];
+                            if (i === ((gameInfo.genres.length) - 1)) {
+                                genreStr = genreStr + element.name;
+                            } else {
+                                genreStr = genreStr + element.name + " | "
+                            }
+                        };
+                        //platforms string
+                        let platformStr = "";
+                        for (let i = 0; i < gameInfo.platforms.length; i++) {
+                            const element = gameInfo.platforms[i];
+                            if (i === ((gameInfo.platforms.length) - 1)) {
+                                platformStr = platformStr + element.platform.name;
+                            } else {
+                                platformStr = platformStr + element.platform.name + " | "
+                            }
+                        };
+
+                        modalMoreDetails.innerHTML = `
+                                                    <p>Released: <span>${gameInfo.released ? gameInfo.released : "N/A"}</></p>
+                                                    <p>Publishers: <span>${gameInfo.publishers ? publisherStr : "N/A"}</></p>
+                                                    <p>Developer: <span>${gameInfo.developers ? devStr : "N/A"}</></p>
+                                                    <p>Genres: <span>${gameInfo.genres ? genreStr : "N/A"}</></p>
+                                                    <p>ESRB Rating: <span>${gameInfo.esrb_rating === null ? "N/A" : gameInfo.esrb_rating.name}</></p>
+                                                    <p>Metacritic Score: <span>${gameInfo.metacritic ? gameInfo.metacritic + ` <a href=${gameInfo.metacritic_url} target="_blank" rel="noopener noreferrer">Click here to redirect to metacritic</a>` : "N/A"}</></p>
+                                                    <p>Reviews Count: <span>${gameInfo.reviews_count ? gameInfo.reviews_count : "N/A"}</></p>
+                                                    <p>Platforms: <span>${gameInfo.platforms ? platformStr : "N/A"}</></p>
+                                                    <p>Game Website: <a href=${gameInfo.website} target="_blank" rel="noopener noreferrer">${gameInfo.platforms ? "Click here to visit game website" : "N/A"}</a></p>
+                                                    `
                     })
                 })
 
@@ -488,6 +555,117 @@
                                          </span>`;
                     released.innerHTML = `<span>Released:</span> ${element.released}`;
 
+                    parent.addEventListener("click", () => {
+                    body.style.overflow = "hidden"
+                    modal.style.display = "flex";
+
+                    fetch(`https://api.rawg.io/api/games/${element.id}?key=<%=RAWG_API_KEY%>`)
+                    .then((blob) => blob.json())
+                    .then((file) => {
+                        const gameInfo = file;
+                        console.log(gameInfo)
+                        modalGameInfo.style.height = "fit-content";
+                        modalGameInfo.style.overflow = "visible";
+                        modalReview.firstElementChild.style.display = "none";
+                        modalReviewImage.src = gameInfo.background_image;
+                        modalReviewTitle.innerText = gameInfo.name;
+                        modalReviewScore.innerHTML = `<h3>Rating $ Reviews</h3>
+                                                    <p>${gameInfo.rating}</p>
+                                                    <span class="outer-stars">
+                                                        <span class="inner-stars" style="width: ${Number(gameInfo.rating) * 20}%";>
+                                                        </span>
+                                                    </span>`;
+                        // rating bars logic
+                        const ratingArr = gameInfo.ratings;
+                        function barsInnerHtml(arr) {
+                            let returnString = "";
+                            arr.forEach(i => {
+                                const value = `<div class="bar"><div class="inner-bar" style="width: ${i.percent}%"></div><p>${i.title}</p></div>`
+                                returnString = returnString.concat(value)
+                            })
+                            return returnString
+                        }
+                        modalReviewBars.innerHTML = `${barsInnerHtml(ratingArr)}<p class="rating-count">Total Ratings Count: <span>${gameInfo.ratings_count}</span></p>`;
+                        modalGameDescription.innerHTML = `
+                                                            <h3>Game Description</h3>
+                                                            <img src="${gameInfo.background_image_additional}">
+                                                            <p>${gameInfo.description_raw}</p>
+                                                        `;
+                        //screenshots logic
+                        function screenShots (arr) {
+                            let initialStr = "";
+                            arr.forEach(item => {
+                                initialStr = initialStr + `<img src=${item.image}>`;
+                            })
+                            return initialStr;
+                        }
+                        fetch(`https://api.rawg.io/api/games/${gameInfo.id}/screenshots?key=<%=RAWG_API_KEY%>`)
+                        .then(box => box.json())
+                        .then(shots => {
+                            let shotsArr = shots.results;
+                            console.log(shotsArr)
+                            let finalShotsStr = screenShots(shotsArr)
+                            modalGameScreenshots.innerHTML = finalShotsStr;
+                        })
+                        //screenshots logic ends here
+
+                        //publisher string
+                        let publisherStr = "";
+                        for (let i = 0; i < gameInfo.publishers.length; i++) {
+                            const element = gameInfo.publishers[i];
+                            if (i === ((gameInfo.publishers.length) - 1)) {
+                                publisherStr = publisherStr + element.name;
+                            } else {
+                                publisherStr = publisherStr + element.name + ", "
+                            }
+                        };
+
+                        //developer string
+                        let devStr = "";
+                        for (let i = 0; i < gameInfo.developers.length; i++) {
+                            const element = gameInfo.developers[i];
+                            if (i === ((gameInfo.developers.length) - 1)) {
+                                devStr = devStr + element.name;
+                            } else {
+                                devStr = devStr + element.name + ", "
+                            }
+                        };
+                        
+                        //genre string
+                        let genreStr = "";
+                        for (let i = 0; i < gameInfo.genres.length; i++) {
+                            const element = gameInfo.genres[i];
+                            if (i === ((gameInfo.genres.length) - 1)) {
+                                genreStr = genreStr + element.name;
+                            } else {
+                                genreStr = genreStr + element.name + " | "
+                            }
+                        };
+                        //platforms string
+                        let platformStr = "";
+                        for (let i = 0; i < gameInfo.platforms.length; i++) {
+                            const element = gameInfo.platforms[i];
+                            if (i === ((gameInfo.platforms.length) - 1)) {
+                                platformStr = platformStr + element.platform.name;
+                            } else {
+                                platformStr = platformStr + element.platform.name + " | "
+                            }
+                        };
+
+                        modalMoreDetails.innerHTML = `
+                                                    <p>Released: <span>${gameInfo.released ? gameInfo.released : "N/A"}</></p>
+                                                    <p>Publishers: <span>${gameInfo.publishers ? publisherStr : "N/A"}</></p>
+                                                    <p>Developer: <span>${gameInfo.developers ? devStr : "N/A"}</></p>
+                                                    <p>Genres: <span>${gameInfo.genres ? genreStr : "N/A"}</></p>
+                                                    <p>ESRB Rating: <span>${gameInfo.esrb_rating === null ? "N/A" : gameInfo.esrb_rating.name}</></p>
+                                                    <p>Metacritic Score: <span>${gameInfo.metacritic ? gameInfo.metacritic + ` <a href=${gameInfo.metacritic_url} target="_blank" rel="noopener noreferrer">Click here to redirect to metacritic</a>` : "N/A"}</></p>
+                                                    <p>Reviews Count: <span>${gameInfo.reviews_count ? gameInfo.reviews_count : "N/A"}</></p>
+                                                    <p>Platforms: <span>${gameInfo.platforms ? platformStr : "N/A"}</></p>
+                                                    <p>Game Website: <a href=${gameInfo.website} target="_blank" rel="noopener noreferrer">${gameInfo.platforms ? "Click here to visit game website" : "N/A"}</a></p>
+                                                    `
+                    })
+                })
+
                     parent.appendChild(poster)
                     parent.appendChild(infoBox)
                     parent.appendChild(metacriticBox)
@@ -499,9 +677,36 @@
 
                     highestRated.appendChild(parent)
                 });
-        })
+            })
         }
     })
+
+    modalGameScreenshots.addEventListener("click", (e) => {
+        if (e.target.tagName === "IMG") {
+            const displayBox = document.createElement("div");
+            const cancelBtn = document.createElement("i");
+            const img = document.createElement("img");
+
+            parentNode.insertBefore(displayBox, modal);
+            displayBox.appendChild(cancelBtn);
+            displayBox.appendChild(img);
+
+            displayBox.classList.add("img-modal")
+            cancelBtn.classList.add("far", "fa-window-close")
+            img.classList.add("fullscreen")
+
+            img.src = e.target.src;
+
+            cancelBtn.addEventListener("click", () => {
+                displayBox.remove();
+            })
+        }
+    })
+</script>
+
+<!-- reviews search logic -->
+<script>
+    
 </script>
 </body>
 </html>
