@@ -11,6 +11,9 @@ const mongoose = require('mongoose');
 //custom blog model
 const Blog = require('./models/blog');
 
+//custom user model
+const User = require('./models/user');
+
 //environment variables
 require('dotenv').config();
 
@@ -104,6 +107,33 @@ app.get('/login', (req, res) => {
 })
 app.get('/signup', (req, res) => {
   res.render('signup', {title: 'Signup Page'})
+})
+app.post('/login', async (req, res) => {
+})
+app.post('/signup', async (req, res) => {
+  const { username, email, password } = req.body;
+
+    if (req.body.password[0] !== req.body.password[1]) {
+      res.status(401).json({
+        password: "Passwords do not match"
+      })
+      return
+    }
+
+  try {
+    const user = await User.create({
+      username,
+      email,
+      password: password[1]
+    })
+    res.json(user)
+    console.log(user)
+
+  } catch (error) {
+    res.json(error)
+    console.log(error);
+  }
+
 })
 app.get('/create-blog', (req, res) => {
   res.render('blog-creator', {title: 'Blog Creator'});

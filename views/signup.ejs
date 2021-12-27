@@ -10,10 +10,10 @@
 
     <div class="signup-cont">
         <div class="form-control">
-            <h1>Log in</h1>
+            <h1>Sign up</h1>
             <p>Please fill below with valid details.</p>
             <hr>
-            <form action="POST">
+            <form method="POST" id="signup-form">
                 <div class="username">
                     <label for="username">Username:</label>
                     <input type="username" name="username" id="username">
@@ -61,5 +61,15 @@
         })
     })
 </script>
+
+<!-- signup logic -->
+<script>
+const signUpForm = document.querySelector('#signup-form')
+console.log(signUpForm)
+// signUpForm.addEventListener("submit", (e) => {
+//     e.preventDefault()
+// })
+</script>
+
 </body>
 </html>
