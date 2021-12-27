@@ -144,6 +144,7 @@
         .then(blob => blob.json())
         .then(data => {
             const results = data.results;
+            console.log(results)
             const newResults = results.map(result => {
 
                 let code = "fab"
@@ -163,6 +164,10 @@
                             break;
                         case "atari":
                             item = "atari"
+                            code = "fab"
+                            break;
+                        case "3DO":
+                            item = "3do"
                             code = "fab"
                             break;
                         case "commodore / amiga":
@@ -432,7 +437,23 @@
                 
             });
         })
-        .catch(e => console.log("Error Fetching Data"));
+        .catch(e => {
+            ctaBtnsCont.innerHTML = "";
+            currentPage.innerText = 0;
+            numOfPages.innerText = 0;
+            spinLoadSvg.style.display = "none";
+            const message = `Error fetching data, Please check your network and try refreshin the page.`;
+
+            const pAlert = document.createElement("p");
+            const pImage = document.createElement("img");
+            pAlert.classList.add("p-alert");
+            pImage.classList.add("p-image");
+            pImage.src = "/not-found.svg";
+            pAlert.innerText = message;
+            highestRated.appendChild(pAlert);
+            highestRated.appendChild(pImage);
+            return;
+        });
     })
     
     ctaBtnsCont.addEventListener("click", (e) => {
@@ -676,6 +697,23 @@
                     highestRated.appendChild(parent)
                 });
             })
+            .catch(e => {
+                ctaBtnsCont.innerHTML = "";
+                currentPage.innerText = 0;
+                numOfPages.innerText = 0;
+                spinLoadSvg.style.display = "none";
+                const message = `Error fetching data, Please check your network and try refreshin the page.`;
+
+                const pAlert = document.createElement("p");
+                const pImage = document.createElement("img");
+                pAlert.classList.add("p-alert");
+                pImage.classList.add("p-image");
+                pImage.src = "/not-found.svg";
+                pAlert.innerText = message;
+                highestRated.appendChild(pAlert);
+                highestRated.appendChild(pImage);
+                return;
+                })
         }
     })
 
@@ -719,7 +757,7 @@
         ctaBtnsCont.innerHTML = "";
 
         //search rawg database for matching results with search value
-        fetch(`https://api.rawg.io/api/games?search=${searchVal}&page=1&page_size=12&key=<%=RAWG_API_KEY%>`)
+        fetch(`https://api.rawg.io/api/games?search=${searchVal}&metacritic=1,99&page=1&page_size=12&key=<%=RAWG_API_KEY%>`)
         .then(blob => blob.json())
         .then(response => {
             highestRatedTitle.innerText = `Search results for '${searchVal}'`;
@@ -755,7 +793,7 @@
             currentPage.innerText = currentPageVal;
 
             let numOfPagesVal = Math.ceil(response.count / Number(params.page_size));
-            numOfPages.innerText = numOfPagesVal
+            numOfPages.innerText = numOfPagesVal;
 
             //clear spinner svg
             reviewSpinner.style.display = "none";
@@ -792,6 +830,14 @@
 
                 nextRevBtn.disabled = false;
                 nextRevBtn.classList.remove("disabled");
+            }
+
+            
+            // condition for response count less than or equal to 12
+            if (response.count <= 12) {
+                ctaBtnsCont.innerHTML = "";
+                currentPage.innerText = 1;
+                numOfPages.innerText = 1;
             }
 
             results.forEach(element => {
@@ -975,7 +1021,23 @@
                 
             });
         })
-        .catch(e => console.log(e));
+        .catch(e => {
+            ctaBtnsCont.innerHTML = "";
+            currentPage.innerText = 0;
+            numOfPages.innerText = 0;
+            spinLoadSvg.style.display = "none";
+            const message = `Error fetching data, Please check your network and try searching again`;
+
+            const pAlert = document.createElement("p");
+            const pImage = document.createElement("img");
+            pAlert.classList.add("p-alert");
+            pImage.classList.add("p-image");
+            pImage.src = "/not-found.svg";
+            pAlert.innerText = message;
+            highestRated.appendChild(pAlert);
+            highestRated.appendChild(pImage);
+            return;
+        });
     })
 </script>
 
