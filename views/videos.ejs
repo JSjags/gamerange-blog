@@ -16,5 +16,36 @@
 
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 <script src="functions.js"></script>
+<script>
+    async function get_igdb_access_token () {
+        const blob = await fetch('https://id.twitch.tv/oauth2/token?client_id=<%=IGDB_CLIENT_ID%>&client_secret=<%=IGDB_SECRET%>&grant_type=client_credentials', {
+            method: 'POST'
+        })
+        const token = await blob.json();
+        return token;
+    }
+
+    // requesting IGDB access token;
+    get_igdb_access_token()
+    .then(data => {
+        const token = data.access_token;
+        console.log(token); 
+        fetch('https://api.igdb.com/v4/game_videos', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Client-ID': '<%=IGDB_CLIENT_ID%>',
+                'Authorization': 'Bearer token'
+            },
+            body: JSON.stringify("fields checksum,game,name,video_id;limit 12")
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+    })
+    
+    
+
+
+</script>
 </body>
 </html>

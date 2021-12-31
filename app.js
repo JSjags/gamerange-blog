@@ -35,6 +35,8 @@ const port = process.env.PORT || 3000;
 const dbURI = process.env.MONGO_DB_URI;
 const RAWG_API_KEY = process.env.RAWG_API_KEY;
 const JWT_SECRET = process.env.JWT_SECRET;
+const IGDB_CLIENT_ID = process.env.IGDB_CLIENT_ID;
+const IGDB_SECRET = process.env.IGDB_SECRET;
 
 // user schema error handler function
 function errorHandler(err) {
@@ -151,7 +153,7 @@ app.get('/reviews', (req, res) => {
   res.render('reviews', {title: 'Reviews Page', RAWG_API_KEY});
 });
 app.get('/videos', (req, res) => {
-res.render('videos', {title: 'Videos Page'});
+res.render('videos', {title: 'Videos Page', IGDB_CLIENT_ID, IGDB_SECRET});
 });
 app.get('/login', (req, res) => {
   res.render('login', {title: 'Login Page', RAWG_API_KEY})
