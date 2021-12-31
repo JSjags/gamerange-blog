@@ -16,6 +16,7 @@
 
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 <script src="functions.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     async function get_igdb_access_token () {
         const blob = await fetch('https://id.twitch.tv/oauth2/token?client_id=<%=IGDB_CLIENT_ID%>&client_secret=<%=IGDB_SECRET%>&grant_type=client_credentials', {
@@ -34,8 +35,9 @@
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
+                'mode': 'no-cors',
                 'Client-ID': '<%=IGDB_CLIENT_ID%>',
-                'Authorization': 'Bearer token'
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify("fields checksum,game,name,video_id;limit 12")
         })

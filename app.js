@@ -16,6 +16,9 @@ const cookieParser = require('cookie-parser');
 //jwt-json web token
 const jwt = require('jsonwebtoken');
 
+// CORS package
+const cors = require('cors');
+
 //custom blog model
 const Blog = require('./models/blog');
 
@@ -93,6 +96,10 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended : false }));
 app.use(express.json());
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 app.use(cookieParser());
 
 //GET route handlers
@@ -100,7 +107,7 @@ app.get('*', checkUser)
 app.get('/', (req, res) => {
   Blog.find().sort({ 'createdAt': -1 }).limit(6)
     .then((result) => {
-      res.render('index', {title: 'Home Page', blogs: result});
+      res.render('index', {title: 'Home Page', blogs: result, IGDB_CLIENT_ID, IGDB_SECRET});
     })
     .catch((err) => {
       console.log(err);
