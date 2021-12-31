@@ -13,7 +13,7 @@
             <h1>Log in</h1>
             <p>Please fill the fields below appropriately.</p>
             <hr>
-            <form action="POST">
+            <form action="POST" id="login-form">
                 <div class="username">
                     <label for="username">Username:</label>
                     <input type="username" name="username" id="username">
@@ -40,7 +40,7 @@
     const loginCont = document.querySelector(".login-cont")
 
     window.addEventListener("load", () => {
-        fetch("https://api.rawg.io/api/games?search=halo-infinite-campaign&search_exact=true&key=e47e87b2eaeb403fb5524f90c2be4ec2")
+        fetch("https://api.rawg.io/api/games?search=halo-infinite-campaign&search_exact=true&key=<%=RAWG_API_KEY%>")
         .then(blob => blob.json())
         .then(data => {
             console.log(data);
@@ -50,6 +50,54 @@
             loginCont.style.backgroundPosition = `center top`;
         })
     })
+</script>
+
+<script>
+const logInForm = document.querySelector('#login-form');
+
+const usernameError = document.querySelector('.username span');
+const passwordError = document.querySelector('.password span');
+
+logInForm.addEventListener("submit", async (e) => {
+    const username = logInForm.username.value;
+    const password = logInForm.password.value;
+
+    // resetting error messages and stylings
+            usernameError.textContent = '';
+            usernameError.previousElementSibling.style.border = "1px solid #5A5B5C";
+
+            passwordError.textContent = '';
+            passwordError.previousElementSibling.style.border = "1px solid #5A5B5C";
+
+    e.preventDefault();
+    try {
+        const res = await fetch('/login', {
+            method: 'POST',
+            body: JSON.stringify({ username, password }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        const data =  await res.json();
+        console.log(data);
+
+        if (data.errors) {
+            if (data.errors.username) {
+            usernameError.textContent = data.errors.username;
+            usernameError.previousElementSibling.style.border = "1px solid red";
+        }
+
+            if (data.errors.password) {
+                passwordError.textContent = data.errors.password;
+                passwordError.previousElementSibling.style.border = "1px solid red";
+            }
+        }
+
+        if (data.user) {
+            location.assign('/');
+        }
+    } catch (error) {
+        console.log(error);
+    }
+})
 </script>
 </body>
 </html>

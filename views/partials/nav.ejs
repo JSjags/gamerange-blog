@@ -23,8 +23,25 @@
         </ul>
     </nav>
     <div id="login-div">
+        <% if (user) { %>
+        <div id="user-box">
+            <i class="fas fa-user-circle"></i>
+            <span class="username"><%= user.username %></span>
+            <i class="fas fa-caret-down"></i>
+        </div>
+        <ul id="user-box-list">
+            <li class="profile">
+                <a id="profile" href="/user/profile"><i class=" far fa-address-card"></i> <span>Profile</span></a>
+            </li>
+            <hr>
+            <li class="logout">
+                <a id="logout" href="/logout"><i class=" fas fa-sign-out-alt"></i> <span>Log out</span></a>
+            </li>
+        </ul>
+        <% } else { %>
         <h3><a id="login" href="/login">Log in</a></h3>
         <h3><a id="signup" href="/signup">Sign up</a></h3>
+        <% } %>
     </div>
 </header>
 

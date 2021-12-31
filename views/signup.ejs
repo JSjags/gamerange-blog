@@ -29,7 +29,7 @@
                     <input type="password" name="password" id="password1">
                     <span></span>
                 </div>
-                <div class="password">
+                <div class="confirm-password">
                     <label for="password">Confirm Password:</label>
                     <input type="password" name="password" id="password2">
                     <span></span>
@@ -50,7 +50,7 @@
     const signupCont = document.querySelector(".signup-cont")
 
     window.addEventListener("load", () => {
-        fetch("https://api.rawg.io/api/games?search=last-of-us&search_exact=true&key=e47e87b2eaeb403fb5524f90c2be4ec2")
+        fetch("https://api.rawg.io/api/games?search=last-of-us&search_exact=true&key=<%=RAWG_API_KEY%>")
         .then(blob => blob.json())
         .then(data => {
             console.log(data);
@@ -64,11 +64,70 @@
 
 <!-- signup logic -->
 <script>
-const signUpForm = document.querySelector('#signup-form')
-console.log(signUpForm)
-// signUpForm.addEventListener("submit", (e) => {
-//     e.preventDefault()
-// })
+const signUpForm = document.querySelector('#signup-form');
+
+const usernameError = document.querySelector('.username span');
+const emailError = document.querySelector('.email span');
+const passwordError = document.querySelector('.password span');
+const confirmPasswordError = document.querySelector('.confirm-password span');
+
+signUpForm.addEventListener("submit", async (e) => {
+    const username = signUpForm.username.value;
+    const email = signUpForm.email.value;
+    const password = signUpForm.password[0].value;
+    const confirmPassword = signUpForm.password[1].value;
+
+    // resetting error messages and stylings
+            confirmPasswordError.textContent = '';
+            confirmPasswordError.previousElementSibling.style.border = "1px solid #5A5B5C";
+
+            usernameError.textContent = '';
+            usernameError.previousElementSibling.style.border = "1px solid #5A5B5C";
+
+            emailError.textContent = '';
+            emailError.previousElementSibling.style.border = "1px solid #5A5B5C";
+
+            passwordError.textContent = '';
+            passwordError.previousElementSibling.style.border = "1px solid #5A5B5C";
+
+    e.preventDefault();
+    try {
+        const res = await fetch('/signup', {
+            method: 'POST',
+            body: JSON.stringify({ username, email, password: [password, confirmPassword] }),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        const data =  await res.json();
+        console.log(data);
+        if (data.password) {
+            confirmPasswordError.textContent = data.password;
+            confirmPasswordError.style.color = "red";
+            confirmPasswordError.previousElementSibling.style.border = "1px solid red";
+        }
+        if (data.errors) {
+            if (data.errors.username !== "") {
+                usernameError.textContent = data.errors.username;
+                usernameError.style.color = "red";
+                usernameError.previousElementSibling.style.border = "1px solid red";
+            }
+            if (data.errors.email !== "") {
+                emailError.textContent = data.errors.email;
+                emailError.style.color = "red";
+                emailError.previousElementSibling.style.border = "1px solid red";
+            }
+            if (data.errors.password !== "") {
+                passwordError.textContent = data.errors.password;
+                passwordError.style.color = "red";
+                passwordError.previousElementSibling.style.border = "1px solid red";
+            }
+        }
+        if (data.user) {
+            location.assign('/');
+        }
+    } catch (error) {
+        console.log(error);
+    }
+})
 </script>
 
 </body>

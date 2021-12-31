@@ -12,7 +12,8 @@
     border-radius: 10px;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    margin: 50px 0;
+    width: calc(360px -20px);
+    margin: 50px 10px;
     box-shadow: 0 10px 30px #0000006e;
 }
 .form-control hr {
@@ -35,17 +36,17 @@
     padding: 5px;
     background: transparent;
     border-radius: 5px;
-    box-shadow: 0 0 0 1px #5A5B5C;
-    border: 1px solid transparent;
+    border: 1px solid #5A5B5C;
     outline: none;
 }
 .form-control form div input:focus {
     border: 1px solid #000000d3;
 }
 .form-control form div span {
-    display: inline-block;
+    display: block;
     height: 30px;
     padding: 5px 0;
+    color: red;
 }
 .form-control form .username {
     padding: 5px 0 10px 0;

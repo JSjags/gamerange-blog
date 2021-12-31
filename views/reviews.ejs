@@ -123,6 +123,7 @@
     const highestRatedTitle = document.querySelector(".h-r")
     const date = new Date();
     const [month, day, year] = [date.getMonth(), date.getDate(), date.getFullYear()];
+    console.log(`${year+"-"+(month + 1)+"-"+day}`)
 
     const parentNode = modal.parentNode;
 
@@ -202,9 +203,10 @@
         })
 
         //review cards logic, conditional rendering and some dynamic styling 
-        fetch(`https://api.rawg.io/api/games?page=1&page_size=12&dates=2021-01-01,${year+"-"+month+"-"+day}&metacritic=80,99&key=<%=RAWG_API_KEY%>`)
+        fetch(`https://api.rawg.io/api/games?page=1&page_size=12&dates=2021-01-01,${year+"-"+(month + 1)+"-"+day}&metacritic=80,99&key=<%=RAWG_API_KEY%>`)
         .then(blob => blob.json())
         .then(data => {
+            console.log(data)
             const results = data.results;
             reviewCount.innerText = data.count
             const link = data.next;
@@ -438,6 +440,7 @@
             });
         })
         .catch(e => {
+            console.log(e)
             ctaBtnsCont.innerHTML = "";
             currentPage.innerText = 0;
             numOfPages.innerText = 0;
