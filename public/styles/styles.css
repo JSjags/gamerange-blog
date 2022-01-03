@@ -126,7 +126,7 @@ header nav ul a li {
     white-space: nowrap;
     overflow: visible;
     position: relative;
-    z-index: 10;
+    z-index: 9;
 }
 #login-div #user-box {
     padding: 10px 5px;
@@ -168,7 +168,7 @@ header nav ul a li {
     border-radius: 5px;
     border-radius: 5px;
     transition: top 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55), visibility 200ms cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    z-index: 100;
+    z-index: 9;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;

@@ -116,3 +116,8 @@
     width: 100%;
     text-align: center;
 }
+#giant-bomb {
+    width: 130px;
+    filter: grayscale(1) brightness(0.5);
+    margin-bottom: 10px;
+}

@@ -10,44 +10,165 @@
     
     <%- include('./partials/search.ejs') %>
 
+    <div class="videos-cont">
+        <h1>Recent Videos and Shows</h1>
+        <div class="recent-videos">
+            <svg>
+                <defs>
+                    <linearGradient id="linear-3" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%"   stop-color="#01d3c1"/>
+                      <stop offset="100%" stop-color="#cc01aa"/>
+                    </linearGradient>
+                </defs>
+                <circle class="spinner-3">
+                </circle>
+            </svg>
+        </div>
+        <h1>Game Trailers</h1>
+        <div class="game-trailers">
+            <svg>
+                <defs>
+                    <linearGradient id="linear-4" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%"   stop-color="#01d3c1"/>
+                      <stop offset="100%" stop-color="#cc01aa"/>
+                    </linearGradient>
+                </defs>
+                <circle class="spinner-4">
+                </circle>
+            </svg>
+        </div>
+    </div>
+
 </div>
 
 <%- include('./partials/footer.ejs') %>
 
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 <script src="functions.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<!--  videos logic -->
 <script>
-    async function get_igdb_access_token () {
-        const blob = await fetch('https://id.twitch.tv/oauth2/token?client_id=<%=IGDB_CLIENT_ID%>&client_secret=<%=IGDB_SECRET%>&grant_type=client_credentials', {
-            method: 'POST'
-        })
-        const token = await blob.json();
-        return token;
+    const recentVideosBox = document.querySelector('.recent-videos');
+    const gameTrailersBox = document.querySelector('.game-trailers');
+
+    function timeStampLogic(val) {
+        if ( Math.floor( val / 60 ) > 59 ) {
+            return `${ Math.floor( val / 60 / 60 ) }:${ Math.floor( val / 60 % 60 ) < 10 ? "0" + Math.floor( val / 60 % 60 ) : Math.floor( val / 60 % 60 ) }:${ Math.floor( val % 60 ) < 10 ? "0" + Math.floor( val % 60 ) : Math.floor( val % 60 )}`;
+        } else {
+            return `${ Math.floor( val / 60) }:${ Math.floor( val % 60) < 10 ? "0" + Math.floor( val % 60 ) : Math.floor( val % 60 ) }`;
+        }
     }
 
-    // requesting IGDB access token;
-    get_igdb_access_token()
-    .then(data => {
-        const token = data.access_token;
-        console.log(token); 
-        fetch('https://api.igdb.com/v4/game_videos', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'mode': 'no-cors',
-                'Client-ID': '<%=IGDB_CLIENT_ID%>',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify("fields checksum,game,name,video_id;limit 12")
-        })
-        .then(response => response.json())
-        .then(data => console.log(data))
-    })
-    
-    
+    window.addEventListener("load", () => {
+        fetch("https://pointblank-proxy-server.herokuapp.com/https://www.giantbomb.com/api/videos/?format=json&api_key=<%=GIANT_BOMB_KEY%>&sort=publish_date:desc&limit=20")
+        .then(blob => blob.json())
+        .then(data => {
+            recentVideosBox.firstElementChild.style.display = "none";
+            const results = data.results;
+            console.log(data);
+            results.forEach(video => {
+                const videoCard = document.createElement("div")
+                const videoImg = document.createElement("div")
+                const videoPoster = document.createElement("img")
+                const timeStamp = document.createElement("span")
+                const videoDets = document.createElement("div")
+                const videoIcon = document.createElement("span")
+                const videoName = document.createElement("p")
+                const showTitle = document.createElement("p")
+                const publishDate = document.createElement("p")
+                
+                // assigning classames
+                videoCard.classList.add("video-card")
+                videoImg.classList.add("vid-img")
+                videoPoster.classList.add("vid-poster")
+                timeStamp.classList.add("timestamp")
+                videoDets.classList.add("vid-dets")
+                videoIcon.classList.add("vid-icon")
+                videoName.classList.add("vid-name")
+                showTitle.classList.add("show-title")
+                publishDate.classList.add("publish-date")
 
+                // assigning values to variables
+                videoPoster.src = video.image.screen_url;
+                timeStamp.textContent = timeStampLogic(video.length_seconds);
+                videoIcon.style.background = `url(${video.video_show.image.icon_url})`;
+                videoIcon.style.backgroundSize = `40px`;
+                videoName.textContent = video.name;
+                showTitle.textContent = video.video_show.title;
+                publishDate.textContent = video.publish_date;
+                
+
+                // appending children elements
+                recentVideosBox.appendChild(videoCard);
+                videoCard.appendChild(videoImg);
+                videoImg.appendChild(videoPoster);
+                videoImg.appendChild(timeStamp);
+                videoCard.appendChild(videoDets);
+                videoDets.appendChild(videoIcon);
+                videoDets.appendChild(videoName);
+                videoCard.appendChild(showTitle);
+                videoCard.appendChild(publishDate);
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        })
+        fetch("https://pointblank-proxy-server.herokuapp.com/https://www.giantbomb.com/api/videos/?api_key=9e432dca5c5d0c83e207887415befd689bec382b&format=json&filter=video_categories:7&sort=publish_date:desc&limit=20")
+        .then(blob => blob.json())
+        .then(data => {
+            gameTrailersBox.firstElementChild.style.display = "none";
+            console.log(data)
+            const results = data.results;
+            results.forEach(video => {
+                const videoCard = document.createElement("div")
+                const videoImg = document.createElement("div")
+                const videoPoster = document.createElement("img")
+                const timeStamp = document.createElement("span")
+                const videoDets = document.createElement("div")
+                const videoIcon = document.createElement("span")
+                const videoName = document.createElement("p")
+                const showTitle = document.createElement("p")
+                const publishDate = document.createElement("p")
+                
+                // assigning classames
+                videoCard.classList.add("video-card")
+                videoImg.classList.add("vid-img")
+                videoPoster.classList.add("vid-poster")
+                timeStamp.classList.add("timestamp")
+                videoDets.classList.add("vid-dets")
+                videoIcon.classList.add("vid-icon")
+                videoName.classList.add("vid-name")
+                showTitle.classList.add("show-title")
+                publishDate.classList.add("publish-date")
+
+                // assigning values to variables
+                videoPoster.src = video.image.screen_url;
+                timeStamp.textContent = timeStampLogic(video.length_seconds);
+                videoIcon.style.background = `url(https://logos-download.com/wp-content/uploads/2021/02/Giant_Bomb_Logo.png)`;
+                videoIcon.style.backgroundSize = `40px`;
+                videoName.textContent = video.name;
+                showTitle.textContent = video.associations[0].name;
+                publishDate.textContent = video.publish_date;
+                
+
+                // appending children elements
+                gameTrailersBox.appendChild(videoCard);
+                videoCard.appendChild(videoImg);
+                videoImg.appendChild(videoPoster);
+                videoImg.appendChild(timeStamp);
+                videoCard.appendChild(videoDets);
+                videoDets.appendChild(videoIcon);
+                videoDets.appendChild(videoName);
+                videoCard.appendChild(showTitle);
+                videoCard.appendChild(publishDate);
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    })
 
 </script>
+
 </body>
 </html>

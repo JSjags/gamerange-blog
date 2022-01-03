@@ -58,8 +58,8 @@
             </ul>
         </div>
         <div class="nb">
-            <span>N.B:</span>
-            <span>ratings begin at 80 and are based on critically acclaimed metacritic scores.</span>
+            <span>N.B :</span>
+            <span>Ratings begin at 80 and are based on critically acclaimed Metacritic scores. Results are automatically sorted based on ratings from the last 12 months</span>
         </div>
         <section id="pages">
             <div class="pages">
@@ -121,14 +121,23 @@
     const currentPage = document.querySelector(".current-page")
     const numOfPages = document.querySelector(".num-of-pages")
     const highestRatedTitle = document.querySelector(".h-r")
+
+    // dynamically and automatically generating the last twelve months for rawg api
+    const diff = (Date.now() - (31610476980))
+    const date3 = new Date(diff);
+    const startDate = `${date3.getFullYear()}-${date3.getMonth() < 9 ? "0"+(date3.getMonth() + 1) : (date3.getMonth() + 1)}-${date3.getDate() < 10 ? "0" + date3.getDate() : date3.getDate()}`;
+    
+    // dynamically and automatically generating the current date for rawg api
     const date = new Date();
-    const [month, day, year] = [date.getMonth(), date.getDate(), date.getFullYear()];
-    console.log(`${year+"-"+(month + 1)+"-"+day}`)
+    let [month, day, year] = [date.getMonth(), date.getDate(), date.getFullYear()];
+    month = month < 9 ? "0" + (month + 1) : month + 1;
+    day = day < 9 ? "0" + day : day;
+    const endDate = `${year}-${month}-${day}`;
 
     const parentNode = modal.parentNode;
 
     //highest rated dynamic title
-    highestRatedTitle.innerText = `Highest Rated ${year} Games`
+    highestRatedTitle.innerText = `Highest Rated Recent Games`
 
     //modal close btn event listener
     modalCloseBtn.addEventListener("click", () => {
@@ -145,7 +154,6 @@
         .then(blob => blob.json())
         .then(data => {
             const results = data.results;
-            console.log(results)
             const newResults = results.map(result => {
 
                 let code = "fab"
@@ -203,10 +211,9 @@
         })
 
         //review cards logic, conditional rendering and some dynamic styling 
-        fetch(`https://api.rawg.io/api/games?page=1&page_size=12&dates=2021-01-01,${year+"-"+(month + 1)+"-"+day}&metacritic=80,99&key=<%=RAWG_API_KEY%>`)
+        fetch(`https://api.rawg.io/api/games?page=1&page_size=12&dates=${startDate},${endDate}&metacritic=80,99&key=<%=RAWG_API_KEY%>`)
         .then(blob => blob.json())
         .then(data => {
-            console.log(data)
             const results = data.results;
             reviewCount.innerText = data.count
             const link = data.next;
@@ -220,6 +227,23 @@
 
             let numOfPagesVal = Math.ceil(data.count / Number(params.page_size));
             numOfPages.innerText = numOfPagesVal
+
+            if (results.length === 0) {
+                ctaBtnsCont.innerHTML = "";
+                currentPage.innerText = 0;
+                numOfPages.innerText = 0;
+                reviewSpinner.style.display = "none";
+                const message = `No results found.Try refreshing this page!`;
+                const pAlert = document.createElement("p");
+                const pImage = document.createElement("img");
+                pAlert.classList.add("p-alert");
+                pImage.classList.add("p-image");
+                pImage.src = "/not-found.svg";
+                pAlert.innerText = message;
+                highestRated.appendChild(pAlert);
+                highestRated.appendChild(pImage);
+                return;
+            }
 
             //clear spinner svg
             reviewSpinner.style.display = "none";
@@ -324,11 +348,11 @@
                     .then((blob) => blob.json())
                     .then((file) => {
                         const gameInfo = file;
-                        console.log(gameInfo)
                         modalGameInfo.style.height = "fit-content";
                         modalGameInfo.style.overflow = "visible";
                         modalReview.firstElementChild.style.display = "none";
                         modalReviewImage.src = gameInfo.background_image;
+                        modalReviewImage.alt = gameInfo.slug;
                         modalReviewTitle.innerText = gameInfo.name;
                         modalReviewScore.innerHTML = `<h3>Rating $ Reviews</h3>
                                                     <p>${gameInfo.rating}</p>
@@ -364,7 +388,6 @@
                         .then(box => box.json())
                         .then(shots => {
                             let shotsArr = shots.results;
-                            console.log(shotsArr)
                             let finalShotsStr = screenShots(shotsArr)
                             modalGameScreenshots.innerHTML = finalShotsStr;
                         })
@@ -444,8 +467,8 @@
             ctaBtnsCont.innerHTML = "";
             currentPage.innerText = 0;
             numOfPages.innerText = 0;
-            spinLoadSvg.style.display = "none";
-            const message = `Error fetching data, Please check your network and try refreshin the page.`;
+            reviewSpinner.style.display = "none";
+            const message = `Error fetching data, Please check your network and try refreshing the page.`;
 
             const pAlert = document.createElement("p");
             const pImage = document.createElement("img");
@@ -760,7 +783,7 @@
         ctaBtnsCont.innerHTML = "";
 
         //search rawg database for matching results with search value
-        fetch(`https://api.rawg.io/api/games?search=${searchVal}&metacritic=1,99&page=1&page_size=12&key=<%=RAWG_API_KEY%>`)
+        fetch(`https://api.rawg.io/api/games?search=${searchVal}&metacritic=1,99&page=1&page_size=12&search_precise=true&key=<%=RAWG_API_KEY%>`)
         .then(blob => blob.json())
         .then(response => {
             highestRatedTitle.innerText = `Search results for '${searchVal}'`;
