@@ -1,3 +1,41 @@
+.modal {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    position: fixed;
+    display: none;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    background: #000000cc;
+    z-index: 10;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+.modal::-webkit-scrollbar {
+    appearance: none;
+    background: black;
+    width: 6px;
+}
+.modal::-webkit-scrollbar-thumb {
+    appearance: none;
+    border-radius: 10px;
+    background: linear-gradient(315deg, #cc01aa, #01d3c1);
+    width: 10px;
+    height: 10px;
+}
+.modal::-webkit-scrollbar-corner {
+    appearance: none;
+    background: #000;
+}
+.modal .fa-window-close {
+    position: fixed;
+    color: white;
+    font-size: 2em;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
 .videos-cont {
     margin: 50px 0;
     padding: 0 0 0 20px;
@@ -21,14 +59,23 @@
     margin-bottom: 10px;
     border-radius: 6px 6px 3px 3px;
 }
+.back-board {
+    width: calc(100% - 20px);
+    /* transform: translateY(); */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    height: 320px;
+    overflow: visible;
+    margin-right: 100%;
+}
 .videos-cont .recent-videos {
-    width: calc(100% + 20px);
+    width: calc(100% + 40px);
     height: 340px;
     margin-left: -20px;
     overflow: scroll;
     display: flex;
     align-items: center;
-    padding-left: 20px;
+    padding-left: 40px;
     position: relative;
 }
 .videos-cont .recent-videos svg {
@@ -67,7 +114,7 @@
 .videos-cont .video-card {
     width: 250px;
     height: 250px;
-    margin: 0 20px 0 0;
+    margin: 20px;
     border-radius: 5px;
     background: #afafaf;
     overflow: hidden;
@@ -188,13 +235,13 @@
     transition: all 300ms ease;
 }
 .videos-cont .game-trailers {
-    width: calc(100% + 20px);
+    width: calc(100% + 40px);
     height: 340px;
     margin-left: -20px;
     overflow: scroll;
     display: flex;
     align-items: center;
-    padding-left: 20px;
+    padding-left: 40px;
     position: relative;
 }
 .videos-cont .game-trailers::-webkit-scrollbar {
@@ -215,7 +262,7 @@
 .videos-cont .video-card {
     width: 250px;
     height: 250px;
-    margin: 0 20px 0 0;
+    margin: 20px 20px 20px 0;
     border-radius: 5px;
     background: #afafaf;
     overflow: hidden;
@@ -340,4 +387,181 @@
     stroke-dashoffset: 1px 0;
     stroke-linecap: round;
     animation: fill-animation 1s cubic-bezier(1,1,1,1) 0s infinite;
+}
+
+/* error message and button for recent videos and shows */
+.err-box {
+    width: 100%;
+    height: fit-content;
+    padding-left: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.err-msg {
+    width: 100%;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bolder;
+}
+.err-btn {
+    display: block;
+    margin-top: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: black;
+    position: relative;
+    border: none;
+    cursor: pointer;
+}
+.err-btn:hover {
+    background: var(--background-color);
+}
+.err-btn::after {
+    content: url('https://api.iconify.design/ep/refresh-right.svg?color=white&width=50');
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+/* error message and button for game trailers */
+.err-box-2 {
+    width: 100%;
+    height: fit-content;
+    padding-left: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.err-msg-2 {
+    width: 100%;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bolder;
+}
+.err-btn-2 {
+    display: block;
+    margin-top: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: black;
+    position: relative;
+    border: none;
+    cursor: pointer;
+}
+.err-btn-2:hover {
+    background: var(--background-color);
+}
+.err-btn-2::after {
+    content: url('https://api.iconify.design/ep/refresh-right.svg?color=white&width=50');
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+/* no video result found in search */
+.err-box-3 {
+    width: 100%;
+    height: 200px;
+    padding-left: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#pages {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+    font-size: 1.4em;
+    height: 40px;
+    padding-right: 20px;
+}
+.pages {
+    font-weight: bolder;
+    padding: 5px 10px;
+    box-shadow: 0 6px 20px #0000004d;
+    border-radius: 10px;
+}
+.review-count {
+    background: var(--background-color);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 1.6em;
+}
+.current-page,
+.num-of-pages {
+    background: var(--background-color);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 1.6em;
+}
+.video-results-box {
+    width: calc(100% - 20px);
+    min-height: 200px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 30px 10px;
+}
+
+/* page control and buttons styling */
+.page-controls-cont {
+    width: calc(100% - 40px);
+    margin: 20px auto;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} 
+.page-control-btn {
+    padding: 5px 10px;
+    background: black;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.2em;
+    border: none;
+    margin: 10px 20px;
+    font-weight: bolder;
+    position: relative;
+}
+.page-control-btn:hover {
+    background: var(--background-color);
+}
+.page-control-btn.disabled::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 5px;
+    background-color: #fdfdfd7e;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.page-control-btn.disabled:hover {
+    background: black;
+}
+.page-control-num {
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    font-weight: bolder;
+    font-size: 1.4em;
+    border-radius: 5px;
 }

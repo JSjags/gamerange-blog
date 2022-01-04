@@ -4,6 +4,21 @@
 <%- include('./partials/header.ejs') %>
 
 <body>
+    <div class="modal">
+        <i class="far fa-window-close"></i>
+        <div class="video-box">
+            <svg>
+                <defs>
+                    <linearGradient id="linear-2" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%"   stop-color="#01d3c1"/>
+                      <stop offset="100%" stop-color="#cc01aa"/>
+                    </linearGradient>
+                </defs>
+                <circle class="spinner-2">
+                </circle>
+            </svg>
+        </div>
+    </div>
 <div class="container">
 
     <%- include('./partials/nav.ejs') %>
@@ -12,30 +27,35 @@
 
     <div class="videos-cont">
         <h1>Recent Videos and Shows</h1>
-        <div class="recent-videos">
-            <svg>
-                <defs>
-                    <linearGradient id="linear-3" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%"   stop-color="#01d3c1"/>
-                      <stop offset="100%" stop-color="#cc01aa"/>
-                    </linearGradient>
-                </defs>
-                <circle class="spinner-3">
-                </circle>
-            </svg>
+        <div class="back-board">
+            <div class="recent-videos">
+                <svg>
+                    <defs>
+                        <linearGradient id="linear-3" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%"   stop-color="#01d3c1"/>
+                          <stop offset="100%" stop-color="#cc01aa"/>
+                        </linearGradient>
+                    </defs>
+                    <circle class="spinner-3">
+                    </circle>
+                </svg>
+            </div>
         </div>
+        <br>
         <h1>Game Trailers</h1>
-        <div class="game-trailers">
-            <svg>
-                <defs>
-                    <linearGradient id="linear-4" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%"   stop-color="#01d3c1"/>
-                      <stop offset="100%" stop-color="#cc01aa"/>
-                    </linearGradient>
-                </defs>
-                <circle class="spinner-4">
-                </circle>
-            </svg>
+        <div class="back-board">
+            <div class="game-trailers">
+                <svg>
+                    <defs>
+                        <linearGradient id="linear-4" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%"   stop-color="#01d3c1"/>
+                          <stop offset="100%" stop-color="#cc01aa"/>
+                        </linearGradient>
+                    </defs>
+                    <circle class="spinner-4">
+                    </circle>
+                </svg>
+            </div>
         </div>
     </div>
 
@@ -48,6 +68,8 @@
 
 <!--  videos logic -->
 <script>
+    const modal = document.querySelector(".modal");
+    const modalCloseBtn = document.querySelector(".modal .fa-window-close");
     const recentVideosBox = document.querySelector('.recent-videos');
     const gameTrailersBox = document.querySelector('.game-trailers');
 
@@ -59,7 +81,7 @@
         }
     }
 
-    window.addEventListener("load", () => {
+    function populateRecentVideosAndShows () {
         fetch("https://pointblank-proxy-server.herokuapp.com/https://www.giantbomb.com/api/videos/?format=json&api_key=<%=GIANT_BOMB_KEY%>&sort=publish_date:desc&limit=20")
         .then(blob => blob.json())
         .then(data => {
@@ -111,8 +133,23 @@
             })
         })
         .catch(err => {
-            console.log(err);
+            const loadingSvg = recentVideosBox.firstElementChild;
+            recentVideosBox.innerHTML = `
+                                            <div class="err-box">
+                                                <p class="err-msg">Couldn't fetch recent videos and shows, Click button below to try again</p>
+                                                <button class="err-btn"></button>
+                                            </div>
+                                        `
+            const errBtn = document.querySelector(".err-btn");
+            errBtn.addEventListener("click", () => {
+                recentVideosBox.innerHTML = "";
+                recentVideosBox.firstElementChild = loadingSvg;
+                populateRecentVideosAndShows();
+            })                            
         })
+    }
+
+    function populateGameTrailers () {
         fetch("https://pointblank-proxy-server.herokuapp.com/https://www.giantbomb.com/api/videos/?api_key=9e432dca5c5d0c83e207887415befd689bec382b&format=json&filter=video_categories:7&sort=publish_date:desc&limit=20")
         .then(blob => blob.json())
         .then(data => {
@@ -164,10 +201,480 @@
             })
         })
         .catch(err => {
-            console.log(err);
+            const loadingSvg = gameTrailersBox.firstElementChild;
+            gameTrailersBox.innerHTML = `
+                                            <div class="err-box-2">
+                                                <p class="err-msg-2">Couldn't fetch recent videos and shows, Click button below to try again</p>
+                                                <button class="err-btn-2"></button>
+                                            </div>
+                                        `;
+            const errBtn = document.querySelector(".err-btn-2");
+            errBtn.addEventListener("click", () => {
+                gameTrailersBox.innerHTML = "";
+                loadingSvg.style.display = "block";
+                gameTrailersBox.appendChild(loadingSvg);
+                loadingSvg.style.display = "block"
+                populateGameTrailers();
+            })
+        })
+    }
+
+
+    modalCloseBtn.addEventListener("click", () => {
+        modalCloseBtn.parentElement.style.display = "none";
+    })
+
+    window.addEventListener("load", () => {
+        // recent videos and shows script
+        fetch("https://pointblank-proxy-server.herokuapp.com/https://www.giantbomb.com/api/videos/?format=json&api_key=<%=GIANT_BOMB_KEY%>&sort=publish_date:desc&limit=20")
+        .then(blob => blob.json())
+        .then(data => {
+            recentVideosBox.firstElementChild.style.display = "none";
+            const results = data.results;
+            console.log(data);
+            results.forEach(video => {
+                const videoCard = document.createElement("div")
+                const videoImg = document.createElement("div")
+                const videoPoster = document.createElement("img")
+                const timeStamp = document.createElement("span")
+                const videoDets = document.createElement("div")
+                const videoIcon = document.createElement("span")
+                const videoName = document.createElement("p")
+                const showTitle = document.createElement("p")
+                const publishDate = document.createElement("p")
+                
+                // assigning classnames
+                videoCard.classList.add("video-card")
+                videoImg.classList.add("vid-img")
+                videoPoster.classList.add("vid-poster")
+                timeStamp.classList.add("timestamp")
+                videoDets.classList.add("vid-dets")
+                videoIcon.classList.add("vid-icon")
+                videoName.classList.add("vid-name")
+                showTitle.classList.add("show-title")
+                publishDate.classList.add("publish-date")
+
+                // assigning values to variables
+                videoPoster.src = video.image.screen_url;
+                timeStamp.textContent = timeStampLogic(video.length_seconds);
+                videoIcon.style.background = `url(${video.video_show.image.icon_url})`;
+                videoIcon.style.backgroundSize = `40px`;
+                videoName.textContent = video.name;
+                showTitle.textContent = video.video_show.title;
+                publishDate.textContent = video.publish_date;
+                
+
+                // appending children elements
+                recentVideosBox.appendChild(videoCard);
+                videoCard.appendChild(videoImg);
+                videoImg.appendChild(videoPoster);
+                videoImg.appendChild(timeStamp);
+                videoCard.appendChild(videoDets);
+                videoDets.appendChild(videoIcon);
+                videoDets.appendChild(videoName);
+                videoCard.appendChild(showTitle);
+                videoCard.appendChild(publishDate);
+
+                //video card functionality
+                videoCard.addEventListener("click", () => {
+                    modal.style.display = "block";
+                })
+            })
+        })
+        .catch(err => {
+            const loadingSvg = recentVideosBox.firstElementChild;
+            recentVideosBox.innerHTML = `
+                                            <div class="err-box">
+                                                <p class="err-msg">Couldn't fetch recent videos and shows, Click button below to try again</p>
+                                                <button class="err-btn"></button>
+                                            </div>
+                                        `
+            const errBtn = document.querySelector(".err-btn");
+            errBtn.addEventListener("click", () => {
+                recentVideosBox.innerHTML = "";
+                loadingSvg.style.display = "block";
+                recentVideosBox.appendChild(loadingSvg);
+                loadingSvg.style.display = "block"
+                populateRecentVideosAndShows();
+            })                            
+        })
+
+        // trailers fetch script
+        fetch("https://pointblank-proxy-server.herokuapp.com/https://www.giantbomb.com/api/videos/?api_key=9e432dca5c5d0c83e207887415befd689bec382b&format=json&filter=video_categories:7&sort=publish_date:desc&limit=20")
+        .then(blob => blob.json())
+        .then(data => {
+            gameTrailersBox.firstElementChild.style.display = "none";
+            console.log(data)
+            const results = data.results;
+            results.forEach(video => {
+                const videoCard = document.createElement("div")
+                const videoImg = document.createElement("div")
+                const videoPoster = document.createElement("img")
+                const timeStamp = document.createElement("span")
+                const videoDets = document.createElement("div")
+                const videoIcon = document.createElement("span")
+                const videoName = document.createElement("p")
+                const showTitle = document.createElement("p")
+                const publishDate = document.createElement("p")
+                
+                // assigning classames
+                videoCard.classList.add("video-card")
+                videoImg.classList.add("vid-img")
+                videoPoster.classList.add("vid-poster")
+                timeStamp.classList.add("timestamp")
+                videoDets.classList.add("vid-dets")
+                videoIcon.classList.add("vid-icon")
+                videoName.classList.add("vid-name")
+                showTitle.classList.add("show-title")
+                publishDate.classList.add("publish-date")
+
+                // assigning values to variables
+                videoPoster.src = video.image.screen_url;
+                timeStamp.textContent = timeStampLogic(video.length_seconds);
+                videoIcon.style.background = `url(https://logos-download.com/wp-content/uploads/2021/02/Giant_Bomb_Logo.png)`;
+                videoIcon.style.backgroundSize = `40px`;
+                videoName.textContent = video.name;
+                showTitle.textContent = video.associations[0].name;
+                publishDate.textContent = video.publish_date;
+                
+
+                // appending children elements
+                gameTrailersBox.appendChild(videoCard);
+                videoCard.appendChild(videoImg);
+                videoImg.appendChild(videoPoster);
+                videoImg.appendChild(timeStamp);
+                videoCard.appendChild(videoDets);
+                videoDets.appendChild(videoIcon);
+                videoDets.appendChild(videoName);
+                videoCard.appendChild(showTitle);
+                videoCard.appendChild(publishDate);
+
+                //video card functionality
+                videoCard.addEventListener("click", () => {
+                    modal.style.display = "block";
+                })
+            })
+        })
+        .catch(err => {
+            const loadingSvg = gameTrailersBox.firstElementChild;
+            gameTrailersBox.innerHTML = `
+                                            <div class="err-box-2">
+                                                <p class="err-msg-2">Couldn't fetch recent videos and shows, Click button below to try again</p>
+                                                <button class="err-btn-2"></button>
+                                            </div>
+                                        `;
+            const errBtn = document.querySelector(".err-btn-2");
+            errBtn.addEventListener("click", () => {
+                gameTrailersBox.innerHTML = "";
+                loadingSvg.style.display = "block";
+                gameTrailersBox.appendChild(loadingSvg);
+                loadingSvg.style.display = "block"
+                populateGameTrailers();
+            })
         })
     })
 
+</script>
+
+<!-- videos search logic -->
+<script>
+    const videosCont = document.querySelector(".videos-cont");
+    const videoSearchForm = document.querySelector("#search-form");
+    const videoSearchInput = document.querySelector("#videos-search");
+    let searchSpinner = recentVideosBox.firstElementChild;
+
+    videoSearchForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const videoSearchVal = videoSearchInput.value;
+        const searchHeader = document.createElement('h1'); 
+        const resultBox = document.createElement('div'); 
+        const resultsFound = document.createElement('div'); 
+        const resultsPages = document.createElement('div'); 
+        const videoResultsBox = document.createElement('div'); 
+        
+        resultsFound.innerHTML = `
+                                        <span class="review-count"></span>
+                                        <span>Results Found</span>
+                                 `;
+        resultsPages.innerHTML = `
+                                        <span>Page</span>
+                                        <span class="current-page">~</span>
+                                        <span>of</span>
+                                        <span class="num-of-pages">~</span>
+                                `;
+
+        resultBox.id = "pages";
+        resultsFound.classList.add("pages");
+        resultsPages.classList.add("pages");
+        videoResultsBox.classList.add("video-results-box");
+        resultBox.appendChild(resultsFound)
+        resultBox.appendChild(resultsPages)
+
+        searchHeader.innerText = `Searching for results...`;
+        searchSpinner.style.display = "block";
+        searchSpinner.style.margin = "30px auto";
+
+        videosCont.innerHTML = "";
+        videosCont.appendChild(searchHeader);
+        videosCont.appendChild(resultBox);
+        videosCont.appendChild(videoResultsBox);
+        videoResultsBox.appendChild(searchSpinner);
+
+        
+        videoSearchInput.value = "";
+
+        fetch(`https://pointblank-proxy-server.herokuapp.com/https://www.giantbomb.com/api/search/?format=json&api_key=<%=GIANT_BOMB_KEY%>&query=${videoSearchVal}&resources=video`)
+        .then(blob => blob.json())
+        .then(data => {
+            const pageLimit = data.limit;
+            const pageOffset = data.offset;
+            let currentPage = 1;
+            const maxPage = Math.ceil(data.number_of_total_results / data.limit);
+
+            const pageControlsCont = document.createElement('div');
+            pageControlsCont.classList.add("page-controls-cont");
+            data.number_of_total_results < 11 ? pageControlsCont.innerHTML = "" : pageControlsCont.innerHTML = `
+                                                                                                                <button class="page-control-btn" id="double-prev" name="double-prev" data-offset="-2"> << </button>
+                                                                                                                <button class="page-control-btn" id="single-prev" name="single-prev" data-offset="-1"> < </button>
+                                                                                                                <span class="page-control-num" id="page-control-num" name="page-control-num" data-offset=""> Page 1 </span>
+                                                                                                                <button class="page-control-btn" id="single-next" name="single-next" data-offset="1"> > </button>
+                                                                                                                <button class="page-control-btn" id="double-next" name="double-next" data-offset="2"> >> </button>
+                                                                                                                `
+
+            if (data.number_of_total_results > 11) {
+                const doublePrev = pageControlsCont.firstElementChild;
+                const singlePrev = doublePrev.nextElementSibling;
+                const pageControlNum = singlePrev.nextElementSibling;
+                const singleNext = pageControlNum.nextElementSibling;
+                const doubleNext = singleNext.nextElementSibling;
+
+                pageControlNum.innerText = `Page ${currentPage}`;
+
+                if (currentPage < 3) {
+                    doublePrev.classList.add("disabled");
+                    doublePrev.disabled = true;
+                }
+                if (currentPage < 2) {
+                    singlePrev.classList.add("disabled");
+                    singlePrev.disabled = true;
+                }
+                if ((currentPage + 1) > maxPage) {
+                    singleNext.classList.add("disabled");
+                    singleNext.disabled = true;
+                }
+                if ((currentPage + 1) > maxPage) {
+                    doubleNext.classList.add("disabled");
+                    doubleNext.disabled = true;
+                }
+                let pageBtns = [...pageControlsCont.children];
+                pageBtns.splice(2, 1);
+                
+                pageBtns.forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        searchSpinner = videoResultsBox.firstElementChild;
+                        videoResultsBox.innerHTML = "";
+                        videoResultsBox.appendChild(searchSpinner);
+                        searchSpinner.style.display = "block";
+                        currentPage += Number(btn.dataset.offset);
+                        console.log(currentPage);
+
+                        // updating variables
+                        pageControlNum.innerText = `Page ${currentPage}`;
+
+                        if (currentPage < 3) {
+                            doublePrev.classList.add("disabled");
+                            doublePrev.disabled = true;
+                        } else {
+                            doublePrev.classList.remove("disabled");
+                            doublePrev.disabled = false;
+                        }
+
+                        if (currentPage < 2) {
+                            singlePrev.classList.add("disabled");
+                            singlePrev.disabled = true;
+                        } else {
+                            singlePrev.classList.remove("disabled");
+                            singlePrev.disabled = false;
+                        }
+
+                        if ((currentPage + 1) > maxPage) {
+                            singleNext.classList.add("disabled");
+                            singleNext.disabled = true;
+                        }  else {
+                            singleNext.classList.remove("disabled");
+                            singleNext.disabled = false;
+                        }
+
+                        if ((currentPage + 1) > maxPage) {
+                            doubleNext.classList.add("disabled");
+                            doubleNext.disabled = true;
+                        } else {
+                            doubleNext.classList.remove("disabled");
+                            doubleNext.disabled = false;
+                        }
+
+                        resultsPages.innerHTML = `
+                                                    <span>Page</span>
+                                                    <span class="current-page">${currentPage}</span>
+                                                    <span>of</span>
+                                                    <span class="num-of-pages">${Math.ceil(data.number_of_total_results / data.limit)}</span>
+                                                `;
+
+
+
+                        fetch(`https://pointblank-proxy-server.herokuapp.com/https://www.giantbomb.com/api/search/?format=json&api_key=<%=GIANT_BOMB_KEY%>&page=${currentPage}&query=${videoSearchVal}&resources=video`)
+                        .then(blob => blob.json())
+                        .then(data => {
+                            searchSpinner.style.display = "none";
+                            const results = data.results;
+                            results.forEach(video => {
+                                const videoCard = document.createElement("div")
+                                const videoImg = document.createElement("div")
+                                const videoPoster = document.createElement("img")
+                                const timeStamp = document.createElement("span")
+                                const videoDets = document.createElement("div")
+                                const videoIcon = document.createElement("span")
+                                const videoName = document.createElement("p")
+                                const showTitle = document.createElement("p")
+                                const publishDate = document.createElement("p")
+                                
+                                // assigning classnames
+                                videoCard.classList.add("video-card")
+                                videoImg.classList.add("vid-img")
+                                videoPoster.classList.add("vid-poster")
+                                timeStamp.classList.add("timestamp")
+                                videoDets.classList.add("vid-dets")
+                                videoIcon.classList.add("vid-icon")
+                                videoName.classList.add("vid-name")
+                                showTitle.classList.add("show-title")
+                                publishDate.classList.add("publish-date")
+
+                                // assigning values to variables
+                                videoPoster.src = video.image.screen_url;
+                                timeStamp.textContent = timeStampLogic(video.length_seconds);
+                                videoIcon.style.background = `url(https://logos-download.com/wp-content/uploads/2021/02/Giant_Bomb_Logo.png)`;
+                                videoIcon.style.backgroundSize = `40px`;
+                                videoName.textContent = video.name;
+                                showTitle.textContent = video.associations[0].name;
+                                publishDate.textContent = video.publish_date;
+                                
+
+                                // appending children elements
+                                videosCont.appendChild(pageControlsCont);
+                                videoResultsBox.appendChild(videoCard);
+                                videoCard.appendChild(videoImg);
+                                videoImg.appendChild(videoPoster);
+                                videoImg.appendChild(timeStamp);
+                                videoCard.appendChild(videoDets);
+                                videoDets.appendChild(videoIcon);
+                                videoDets.appendChild(videoName);
+                                videoCard.appendChild(showTitle);
+                                videoCard.appendChild(publishDate);
+
+                                //video card functionality
+                                videoCard.addEventListener("click", () => {
+                                    modal.style.display = "block";
+                                })
+                            })
+                        })
+                    })
+                })
+            }
+        
+            if (Number(data.number_of_total_results) < 1) {
+                const videoResultsMsg = document.createElement("div");
+
+                searchHeader.innerText = `Search results for '${videoSearchVal}'`
+                resultsFound.innerHTML = `
+                                            <span class="review-count">${data.number_of_total_results}</span>
+                                            <span>Results Found</span>
+                                    `;
+                resultsPages.innerHTML = `
+                                            <span>Page</span>
+                                            <span class="current-page">~</span>
+                                            <span>of</span>
+                                            <span class="num-of-pages">~</span>
+                                        `;
+                searchSpinner.style.display = "none";
+                searchSpinner = videoResultsBox.firstElementChild;
+                
+                videoResultsMsg.classList.add("err-box-3");
+                videoResultsMsg.innerHTML = `<p class="err-msg">No results found for '${videoSearchVal}'.Try searching for something else</p>`
+
+                videoResultsBox.appendChild(videoResultsMsg)
+
+                return;
+            }
+            
+            searchHeader.innerText = `Search results for '${videoSearchVal}'`
+            resultsFound.innerHTML = `
+                                        <span class="review-count">${data.number_of_total_results}</span>
+                                        <span>Results Found</span>
+                                 `;
+            resultsPages.innerHTML = `
+                                        <span>Page</span>
+                                        <span class="current-page">${currentPage}</span>
+                                        <span>of</span>
+                                        <span class="num-of-pages">${Math.ceil(data.number_of_total_results / data.limit)}</span>
+                                    `;
+            searchSpinner.style.display = "none";
+            searchSpinner = videoResultsBox.firstElementChild;
+            console.log(data);
+            const results = data.results;
+            results.forEach(video => {
+                const videoCard = document.createElement("div")
+                const videoImg = document.createElement("div")
+                const videoPoster = document.createElement("img")
+                const timeStamp = document.createElement("span")
+                const videoDets = document.createElement("div")
+                const videoIcon = document.createElement("span")
+                const videoName = document.createElement("p")
+                const showTitle = document.createElement("p")
+                const publishDate = document.createElement("p")
+                
+                // assigning classnames
+                videoCard.classList.add("video-card")
+                videoImg.classList.add("vid-img")
+                videoPoster.classList.add("vid-poster")
+                timeStamp.classList.add("timestamp")
+                videoDets.classList.add("vid-dets")
+                videoIcon.classList.add("vid-icon")
+                videoName.classList.add("vid-name")
+                showTitle.classList.add("show-title")
+                publishDate.classList.add("publish-date")
+
+                // assigning values to variables
+                videoPoster.src = video.image.screen_url;
+                timeStamp.textContent = timeStampLogic(video.length_seconds);
+                videoIcon.style.background = `url(https://logos-download.com/wp-content/uploads/2021/02/Giant_Bomb_Logo.png)`;
+                videoIcon.style.backgroundSize = `40px`;
+                videoName.textContent = video.name;
+                showTitle.textContent = video.associations[0].name;
+                publishDate.textContent = video.publish_date;
+                
+
+                // appending children elements
+                videosCont.appendChild(pageControlsCont);
+                videoResultsBox.appendChild(videoCard);
+                videoCard.appendChild(videoImg);
+                videoImg.appendChild(videoPoster);
+                videoImg.appendChild(timeStamp);
+                videoCard.appendChild(videoDets);
+                videoDets.appendChild(videoIcon);
+                videoDets.appendChild(videoName);
+                videoCard.appendChild(showTitle);
+                videoCard.appendChild(publishDate);
+
+                //video card functionality
+                videoCard.addEventListener("click", () => {
+                    modal.style.display = "block";
+                })
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    })
 </script>
 
 </body>
