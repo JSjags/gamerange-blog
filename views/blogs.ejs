@@ -3,42 +3,49 @@
 
 <%- include('./partials/header.ejs') %>
 
-<body>
+<body id="blogs-root">
 <div class="blogs-page">
 
     <%- include('./partials/nav.ejs') %>
     
     <%- include('./partials/search.ejs') %>
 
-    <ul class="tabs">
-        <li class="tab active"><span>All Blogs</span></li>
-        <li class="tab">Xbox</li>
-        <li class="tab">PlayStation</li>
-        <li class="tab">Nintendo</li>
-        <li class="tab">PC</li>
-    </ul>
-    <section class="blog-page-cont">
-        <svg>
-            <defs>
-                <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%"   stop-color="#01d3c1"/>
-                  <stop offset="100%" stop-color="#cc01aa"/>
-                </linearGradient>
-            </defs>
-            <circle>
-            </circle>
-        </svg>
-    </section>
-
+    <div class="blogs-section">
+        <ul class="tabs">
+            <li class="tab active"><span>All Blogs</span></li>
+            <li class="tab">Xbox</li>
+            <li class="tab">PlayStation</li>
+            <li class="tab">Nintendo</li>
+            <li class="tab">PC</li>
+        </ul>
+        <section class="blog-page-cont">
+            <svg>
+                <defs>
+                    <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%"   stop-color="#01d3c1"/>
+                      <stop offset="100%" stop-color="#cc01aa"/>
+                    </linearGradient>
+                </defs>
+                <circle>
+                </circle>
+            </svg>
+        </section>
+    
+    </div>
+    <div class="page-controls-cont">
+    </div>
 </div>
 
 <%- include('./partials/footer.ejs') %>
 
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 <script src="functions.js"></script>
-<script>
 
-    const tabs = document.querySelectorAll(".tab")
+<!-- blogs page initial setup -->
+<script>
+    let tabsPage = 0;
+    const limit = 10;
+    let tabs = document.querySelectorAll(".tab")
     const container = document.querySelector(".blog-page-cont")
     const recentArticleContainer = document.querySelector(".recent-blogs-box")
 
@@ -68,16 +75,175 @@
                 default:
                     break;
             }
-            
+            pageControlsCont.innerHTML = "";
+
             const blogSpinner = container.firstElementChild;
             container.innerHTML = "";
             container.appendChild(blogSpinner);
             container.firstElementChild.style.display = "block";
 
-            fetch(`/blogs/category/${this.innerText.toLowerCase().split(" ").join("")}`)
+            fetch(`/blogs/category/${this.innerText.toLowerCase().split(" ").join("")}?limit=1&page=0`)
                 .then(blob => blob.json())
-                .then(data => {
+                .then(result => {
+                    const data = result.data
                     container.firstElementChild.style.display = "none";
+                    result.pages <= 1 ? pageControlsCont.innerHTML = "" : pageControlsCont.innerHTML = `
+                                                                                                                <button class="page-control-btn" id="double-prev" name="double-prev" data-offset="-2"> << </button>
+                                                                                                                <button class="page-control-btn" id="single-prev" name="single-prev" data-offset="-1"> < </button>
+                                                                                                                <span class="page-control-num" id="page-control-num" name="page-control-num" data-offset=""> Page 1 </span>
+                                                                                                                <button class="page-control-btn" id="single-next" name="single-next" data-offset="1"> > </button>
+                                                                                                                <button class="page-control-btn" id="double-next" name="double-next" data-offset="2"> >> </button>
+                                                                                                                `
+
+                    if (result.pages > 1) {
+                const doublePrev = pageControlsCont.firstElementChild;
+                const singlePrev = doublePrev.nextElementSibling;
+                const pageControlNum = singlePrev.nextElementSibling;
+                const singleNext = pageControlNum.nextElementSibling;
+                const doubleNext = singleNext.nextElementSibling;
+
+                pageControlNum.innerText = `Page ${result.page}`;
+
+                if (result.page < 3) {
+                    doublePrev.classList.add("disabled");
+                    doublePrev.disabled = true;
+                }
+                if (result.page < 2) {
+                    singlePrev.classList.add("disabled");
+                    singlePrev.disabled = true;
+                }
+                if ((result.page + 1) > result.pages) {
+                    singleNext.classList.add("disabled");
+                    singleNext.disabled = true;
+                }
+                if ((result.page + 2) > result.pages) {
+                    doubleNext.classList.add("disabled");
+                    doubleNext.disabled = true;
+                }
+                let pageBtns = [...pageControlsCont.children];
+                pageBtns.splice(2, 1);
+                
+                pageBtns.forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        searchSpinner = blogsCont.firstElementChild.nextElementSibling.firstElementChild;
+                        container.innerHTML = "";
+                        container.appendChild(searchSpinner);
+                        searchSpinner.style.display = "block";
+                        result.pageIndex += Number(btn.dataset.offset);
+                        result.page += Number(btn.dataset.offset);
+
+                        // updating variables
+                        pageControlNum.innerText = `Page ${result.page}`;
+
+                        if (result.page < 3) {
+                            doublePrev.classList.add("disabled");
+                            doublePrev.disabled = true;
+                        } else {
+                            doublePrev.classList.remove("disabled");
+                            doublePrev.disabled = false;
+                        }
+
+                        if (result.page < 2) {
+                            singlePrev.classList.add("disabled");
+                            singlePrev.disabled = true;
+                        } else {
+                            singlePrev.classList.remove("disabled");
+                            singlePrev.disabled = false;
+                        }
+
+                        if ((result.page + 1) > result.pages) {
+                            singleNext.classList.add("disabled");
+                            singleNext.disabled = true;
+                        }  else {
+                            singleNext.classList.remove("disabled");
+                            singleNext.disabled = false;
+                        }
+
+                        if ((result.page + 2) > result.pages) {
+                            doubleNext.classList.add("disabled");
+                            doubleNext.disabled = true;
+                        } else {
+                            doubleNext.classList.remove("disabled");
+                            doubleNext.disabled = false;
+                        }
+                        
+                        // fetching page number based on button data-offset
+                        fetch(`/blogs/category/${storedCategory}?limit=1&page=${result.pageIndex}`)
+                        .then(blob => blob.json())
+                        .then(data => {
+                            searchSpinner.style.display = "none";
+                            const results = data.data;
+                            results.forEach(data => {
+                                const parent = document.createElement("div")
+                                const subParent1 = document.createElement("div")
+                                const subParent2 = document.createElement("div")
+                                const img = document.createElement("img")
+                                const title = document.createElement("a")
+                                const date = document.createElement("p")
+                                const snippet = document.createElement("span")
+                                const icon = document.createElement("i")
+
+                                title.setAttribute("href", `/blogs/${data._id}`)
+
+                                parent.classList.add("blog-item");
+                                subParent1.classList.add("sub-parent-1");
+                                subParent2.classList.add("sub-parent-2");
+                                snippet.classList.add("blog-snippet");
+
+                                img.src = data.hero;
+                                title.innerHTML = data.title;
+                                date.innerText = `Published: ${data.createdAt}`;
+                                snippet.innerText = data.blogSect1;
+
+                                switch (data.category) {
+                                    case 'Xbox':
+                                        parent.style.borderRight = "5px solid green";
+                                        parent.style.borderRadius = "5px";
+                                        icon.classList.add("fab", "fa-xbox");
+                                        break;
+                                    case 'Playstation':
+                                        parent.style.borderRight = "5px solid blue";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.color = "blue";
+                                        icon.style.right = "10px";
+                                        icon.classList.add("fab", "fa-playstation");
+                                        break;
+                                    case 'Nintendo':
+                                        const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
+                                        parent.style.borderRight = "5px solid red";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.filter = filter;
+                                        icon.style.webkitFilter = filter;
+                                        icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
+                                        break;
+                                    case 'PC':
+                                        parent.style.borderRight = "5px solid black";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.filter = "invert(100%)";
+                                        icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                parent.appendChild(subParent1);
+                                parent.appendChild(subParent2);
+                                subParent1.appendChild(img);
+                                subParent2.appendChild(title);
+                                subParent2.appendChild(date);
+                                subParent2.appendChild(snippet);
+                                subParent2.appendChild(icon);
+
+                                blogsCont.firstElementChild.nextElementSibling.appendChild(parent); 
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                    })
+                })
+            }
+        
                     data.forEach(data => {
                     const parent = document.createElement("div")
                     const subParent1 = document.createElement("div")
@@ -140,6 +306,7 @@
 
                     container.appendChild(parent)
                 })
+                
                 })
                 .catch(e => console.log(e))
             })
@@ -170,10 +337,169 @@
                 }
             }
         }
-        fetch(`/blogs/category/${storedCategory}`)
+        fetch(`/blogs/category/${storedCategory}?limit=1&page=0`)
             .then(blob => blob.json())
-            .then(data => {
+            .then(result => {
+                const data = result.data
                 container.firstElementChild.style.display = "none";
+                result.pages <= 1 ? pageControlsCont.innerHTML = "" : pageControlsCont.innerHTML = `
+                                                                                                                <button class="page-control-btn" id="double-prev" name="double-prev" data-offset="-2"> << </button>
+                                                                                                                <button class="page-control-btn" id="single-prev" name="single-prev" data-offset="-1"> < </button>
+                                                                                                                <span class="page-control-num" id="page-control-num" name="page-control-num" data-offset=""> Page 1 </span>
+                                                                                                                <button class="page-control-btn" id="single-next" name="single-next" data-offset="1"> > </button>
+                                                                                                                <button class="page-control-btn" id="double-next" name="double-next" data-offset="2"> >> </button>
+                                                                                                                `
+
+                if (result.pages > 1) {
+                const doublePrev = pageControlsCont.firstElementChild;
+                const singlePrev = doublePrev.nextElementSibling;
+                const pageControlNum = singlePrev.nextElementSibling;
+                const singleNext = pageControlNum.nextElementSibling;
+                const doubleNext = singleNext.nextElementSibling;
+
+                pageControlNum.innerText = `Page ${result.page}`;
+
+                if (result.page < 3) {
+                    doublePrev.classList.add("disabled");
+                    doublePrev.disabled = true;
+                }
+                if (result.page < 2) {
+                    singlePrev.classList.add("disabled");
+                    singlePrev.disabled = true;
+                }
+                if ((result.page + 1) > result.pages) {
+                    singleNext.classList.add("disabled");
+                    singleNext.disabled = true;
+                }
+                if ((result.page + 2) > result.pages) {
+                    doubleNext.classList.add("disabled");
+                    doubleNext.disabled = true;
+                }
+                let pageBtns = [...pageControlsCont.children];
+                pageBtns.splice(2, 1);
+                
+                pageBtns.forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        searchSpinner = blogsCont.firstElementChild.nextElementSibling.firstElementChild;
+                        container.innerHTML = "";
+                        container.appendChild(searchSpinner);
+                        searchSpinner.style.display = "block";
+                        result.pageIndex += Number(btn.dataset.offset);
+                        result.page += Number(btn.dataset.offset);
+
+                        // updating variables
+                        pageControlNum.innerText = `Page ${result.page}`;
+
+                        if (result.page < 3) {
+                            doublePrev.classList.add("disabled");
+                            doublePrev.disabled = true;
+                        } else {
+                            doublePrev.classList.remove("disabled");
+                            doublePrev.disabled = false;
+                        }
+
+                        if (result.page < 2) {
+                            singlePrev.classList.add("disabled");
+                            singlePrev.disabled = true;
+                        } else {
+                            singlePrev.classList.remove("disabled");
+                            singlePrev.disabled = false;
+                        }
+
+                        if ((result.page + 1) > result.pages) {
+                            singleNext.classList.add("disabled");
+                            singleNext.disabled = true;
+                        }  else {
+                            singleNext.classList.remove("disabled");
+                            singleNext.disabled = false;
+                        }
+
+                        if ((result.page + 2) > result.pages) {
+                            doubleNext.classList.add("disabled");
+                            doubleNext.disabled = true;
+                        } else {
+                            doubleNext.classList.remove("disabled");
+                            doubleNext.disabled = false;
+                        }
+                        
+                        // fetching page number based on button data-offset
+                        fetch(`/blogs/category/${storedCategory}?limit=1&page=${result.pageIndex}`)
+                        .then(blob => blob.json())
+                        .then(data => {
+                            searchSpinner.style.display = "none";
+                            const results = data.data;
+                            results.forEach(data => {
+                                const parent = document.createElement("div")
+                                const subParent1 = document.createElement("div")
+                                const subParent2 = document.createElement("div")
+                                const img = document.createElement("img")
+                                const title = document.createElement("a")
+                                const date = document.createElement("p")
+                                const snippet = document.createElement("span")
+                                const icon = document.createElement("i")
+
+                                title.setAttribute("href", `/blogs/${data._id}`)
+
+                                parent.classList.add("blog-item");
+                                subParent1.classList.add("sub-parent-1");
+                                subParent2.classList.add("sub-parent-2");
+                                snippet.classList.add("blog-snippet");
+
+                                img.src = data.hero;
+                                title.innerHTML = data.title;
+                                date.innerText = `Published: ${data.createdAt}`;
+                                snippet.innerText = data.blogSect1;
+
+                                switch (data.category) {
+                                    case 'Xbox':
+                                        parent.style.borderRight = "5px solid green";
+                                        parent.style.borderRadius = "5px";
+                                        icon.classList.add("fab", "fa-xbox");
+                                        break;
+                                    case 'Playstation':
+                                        parent.style.borderRight = "5px solid blue";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.color = "blue";
+                                        icon.style.right = "10px";
+                                        icon.classList.add("fab", "fa-playstation");
+                                        break;
+                                    case 'Nintendo':
+                                        const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
+                                        parent.style.borderRight = "5px solid red";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.filter = filter;
+                                        icon.style.webkitFilter = filter;
+                                        icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
+                                        break;
+                                    case 'PC':
+                                        parent.style.borderRight = "5px solid black";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.filter = "invert(100%)";
+                                        icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                parent.appendChild(subParent1);
+                                parent.appendChild(subParent2);
+                                subParent1.appendChild(img);
+                                subParent2.appendChild(title);
+                                subParent2.appendChild(date);
+                                subParent2.appendChild(snippet);
+                                subParent2.appendChild(icon);
+
+                                blogsCont.firstElementChild.nextElementSibling.appendChild(parent); 
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                    })
+                })
+            }
+        
+                
                 data.forEach(data => {
                     const parent = document.createElement("div")
                     const subParent1 = document.createElement("div")
@@ -241,5 +567,985 @@
         })
         
 </script>
+
+<!-- search functionality -->
+<script>
+    const blogsCont = document.querySelector(".blogs-section");
+    const blogsSearchForm = document.querySelector("#search-form");
+    const blogsSearchBar = document.querySelector("#blogs-search");
+    const blogsContCopy = blogsCont.innerHTML ;
+    const blogsLoader = container.firstElementChild;
+    const blogsLoaderCopy = blogsLoader;
+    const resultBox = document.createElement('div'); 
+    const pageControlsCont = document.querySelector(".page-controls-cont");
+    const searchHeader = document.createElement("h1");
+    const backBtn = document.createElement("button");
+    
+
+    // fill with search function
+    function fillWithSearch (data, count, pageIndex, page, pages, searchVal, header, resultBox) {
+        const limit = 1;
+        const resultsPages = resultBox.firstElementChild.nextElementSibling;
+
+        // clear loader
+        blogsLoaderCopy.style.display = "none";
+        
+        blogsCont.before(resultBox)
+        resultBox.firstElementChild.innerHTML = `
+                                        <span class="review-count">${count}</span>
+                                        <span>Results Found</span>
+                                 `;
+        resultsPages.innerHTML = `
+                                        <span>Page</span>
+                                        <span class="current-page">${page}</span>
+                                        <span>of</span>
+                                        <span class="num-of-pages">${pages}</span>
+                                    `;
+
+
+        pages <= 1 ? pageControlsCont.innerHTML = "" : pageControlsCont.innerHTML = `
+                                                                                                                <button class="page-control-btn" id="double-prev" name="double-prev" data-offset="-2"> << </button>
+                                                                                                                <button class="page-control-btn" id="single-prev" name="single-prev" data-offset="-1"> < </button>
+                                                                                                                <span class="page-control-num" id="page-control-num" name="page-control-num" data-offset=""> Page 1 </span>
+                                                                                                                <button class="page-control-btn" id="single-next" name="single-next" data-offset="1"> > </button>
+                                                                                                                <button class="page-control-btn" id="double-next" name="double-next" data-offset="2"> >> </button>
+                                                                                                                `
+
+        if (count === 0 ) {
+            const searchMsg = document.createElement("p");
+            searchMsg.classList.add("search-msg");
+            searchMsg.innerText = `No blog title containing "${searchVal}" found, try searching something else.`;""
+            blogsCont.appendChild(searchMsg);
+
+            header.innerText = `No results found`;
+            resultBox.firstElementChild.innerHTML = `
+                                        <span class="review-count">${data.length}</span>
+                                        <span>Results Found</span>
+                                 `;
+            resultBox.firstElementChild.nextElementSibling.innerHTML = `
+                                        <span>Page</span>
+                                        <span class="current-page">0</span>
+                                        <span>of</span>
+                                        <span class="num-of-pages">0</span>
+                                    `;
+            return;
+        }
+        header.innerText = `Search results for "${searchVal}"`;
+
+        if (pages > 1) {
+                const doublePrev = pageControlsCont.firstElementChild;
+                const singlePrev = doublePrev.nextElementSibling;
+                const pageControlNum = singlePrev.nextElementSibling;
+                const singleNext = pageControlNum.nextElementSibling;
+                const doubleNext = singleNext.nextElementSibling;
+
+                pageControlNum.innerText = `Page ${page}`;
+
+                if (page < 3) {
+                    doublePrev.classList.add("disabled");
+                    doublePrev.disabled = true;
+                }
+                if (page < 2) {
+                    singlePrev.classList.add("disabled");
+                    singlePrev.disabled = true;
+                }
+                if ((page + 1) > pages) {
+                    singleNext.classList.add("disabled");
+                    singleNext.disabled = true;
+                }
+                if ((page + 2) > pages) {
+                    doubleNext.classList.add("disabled");
+                    doubleNext.disabled = true;
+                }
+                let pageBtns = [...pageControlsCont.children];
+                pageBtns.splice(2, 1);
+                
+                pageBtns.forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        searchSpinner = blogsCont.firstElementChild;
+                        blogsCont.innerHTML = "";
+                        blogsCont.appendChild(searchSpinner);
+                        searchSpinner.style.display = "block";
+                        pageIndex += Number(btn.dataset.offset);
+                        page += Number(btn.dataset.offset);
+
+                        // updating variables
+                        pageControlNum.innerText = `Page ${page}`;
+
+                        if (page < 3) {
+                            doublePrev.classList.add("disabled");
+                            doublePrev.disabled = true;
+                        } else {
+                            doublePrev.classList.remove("disabled");
+                            doublePrev.disabled = false;
+                        }
+
+                        if (page < 2) {
+                            singlePrev.classList.add("disabled");
+                            singlePrev.disabled = true;
+                        } else {
+                            singlePrev.classList.remove("disabled");
+                            singlePrev.disabled = false;
+                        }
+
+                        if ((page + 1) > pages) {
+                            singleNext.classList.add("disabled");
+                            singleNext.disabled = true;
+                        }  else {
+                            singleNext.classList.remove("disabled");
+                            singleNext.disabled = false;
+                        }
+
+                        if ((page + 2) > pages) {
+                            doubleNext.classList.add("disabled");
+                            doubleNext.disabled = true;
+                        } else {
+                            doubleNext.classList.remove("disabled");
+                            doubleNext.disabled = false;
+                        }
+
+                        resultsPages.innerHTML = `
+                                                    <span>Page</span>
+                                                    <span class="current-page">${page}</span>
+                                                    <span>of</span>
+                                                    <span class="num-of-pages">${pages}</span>
+                                                `;
+                        
+                        // fetching page number based on button data-offset
+                        fetch(`/blogs?limit=${limit}&page=${pageIndex}`, {
+                            method: "post",
+                            headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                            body: JSON.stringify({search: searchVal})
+                        })
+                        .then(blob => blob.json())
+                        .then(data => {
+                            searchSpinner.style.display = "none";
+                            const results = data.result;
+                            results.forEach(data => {
+                                const parent = document.createElement("div")
+                                const subParent1 = document.createElement("div")
+                                const subParent2 = document.createElement("div")
+                                const img = document.createElement("img")
+                                const title = document.createElement("a")
+                                const date = document.createElement("p")
+                                const snippet = document.createElement("span")
+                                const icon = document.createElement("i")
+
+                                const searchRegex = new RegExp(searchVal, 'gi');
+                                searchTitle = data.title;
+                                searchTitle = searchTitle.replace(searchRegex, `<span style="background: var(--background-color); display: inline; border-radius: 5px; color: white; text-transform: capitalize; ">${searchVal}</span>`);
+
+                                title.setAttribute("href", `/blogs/${data._id}`)
+
+                                parent.classList.add("blog-item");
+                                subParent1.classList.add("sub-parent-1");
+                                subParent2.classList.add("sub-parent-2");
+                                snippet.classList.add("blog-snippet");
+
+                                img.src = data.hero;
+                                title.innerHTML = searchTitle;
+                                date.innerText = `Published: ${data.createdAt}`;
+                                snippet.innerText = data.blogSect1;
+
+                                switch (data.category) {
+                                    case 'Xbox':
+                                        parent.style.borderRight = "5px solid green";
+                                        parent.style.borderRadius = "5px";
+                                        icon.classList.add("fab", "fa-xbox");
+                                        break;
+                                    case 'Playstation':
+                                        parent.style.borderRight = "5px solid blue";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.color = "blue";
+                                        icon.style.right = "10px";
+                                        icon.classList.add("fab", "fa-playstation");
+                                        break;
+                                    case 'Nintendo':
+                                        const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
+                                        parent.style.borderRight = "5px solid red";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.filter = filter;
+                                        icon.style.webkitFilter = filter;
+                                        icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
+                                        break;
+                                    case 'PC':
+                                        parent.style.borderRight = "5px solid black";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.filter = "invert(100%)";
+                                        icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                parent.appendChild(subParent1);
+                                parent.appendChild(subParent2);
+                                subParent1.appendChild(img);
+                                subParent2.appendChild(title);
+                                subParent2.appendChild(date);
+                                subParent2.appendChild(snippet);
+                                subParent2.appendChild(icon);
+
+                                blogsCont.appendChild(parent); 
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                    })
+                })
+            }
+           
+        // result logic
+        data.forEach(data => {
+                    const parent = document.createElement("div")
+                    const subParent1 = document.createElement("div")
+                    const subParent2 = document.createElement("div")
+                    const img = document.createElement("img")
+                    const title = document.createElement("a")
+                    const date = document.createElement("p")
+                    const snippet = document.createElement("span")
+                    const icon = document.createElement("i")
+
+                    const searchRegex = new RegExp(searchVal, 'gi');
+                    searchTitle = data.title;
+                    searchTitle = searchTitle.replace(searchRegex, `<span style="background: var(--background-color); display: inline; border-radius: 5px; color: white; text-transform: capitalize; ">${searchVal}</span>`);
+
+                    title.setAttribute("href", `/blogs/${data._id}`)
+
+                    parent.classList.add("blog-item");
+                    subParent1.classList.add("sub-parent-1");
+                    subParent2.classList.add("sub-parent-2");
+                    snippet.classList.add("blog-snippet");
+
+                    img.src = data.hero;
+                    title.innerHTML = searchTitle;
+                    date.innerText = `Published: ${data.createdAt}`;
+                    snippet.innerText = data.blogSect1;
+
+                    switch (data.category) {
+                        case 'Xbox':
+                            parent.style.borderRight = "5px solid green";
+                            parent.style.borderRadius = "5px";
+                            icon.classList.add("fab", "fa-xbox");
+                            break;
+                        case 'Playstation':
+                            parent.style.borderRight = "5px solid blue";
+                            parent.style.borderRadius = "5px";
+                            icon.style.color = "blue";
+                            icon.style.right = "10px";
+                            icon.classList.add("fab", "fa-playstation");
+                            break;
+                        case 'Nintendo':
+                            const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
+                            parent.style.borderRight = "5px solid red";
+                            parent.style.borderRadius = "5px";
+                            icon.style.filter = filter;
+                            icon.style.webkitFilter = filter;
+                            icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
+                            break;
+                        case 'PC':
+                            parent.style.borderRight = "5px solid black";
+                            parent.style.borderRadius = "5px";
+                            icon.style.filter = "invert(100%)";
+                            icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
+                            break;
+                        default:
+                            break;
+                    }
+
+                    parent.appendChild(subParent1);
+                    parent.appendChild(subParent2);
+                    subParent1.appendChild(img);
+                    subParent2.appendChild(title);
+                    subParent2.appendChild(date);
+                    subParent2.appendChild(snippet);
+                    subParent2.appendChild(icon);
+
+                    blogsCont.appendChild(parent);
+                })      
+    }
+
+    blogsSearchForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        // disabling search until fetched data is resolved;
+        blogsSearchBar.disabled = true;
+
+        if (blogsSearchBar.value.trim() === "") return;
+        pageControlsCont.innerHTML = "";
+        const blogsSearchVal = blogsSearchBar.value;
+        blogsCont.classList.add("results");
+        blogsLoaderCopy.firstElementChild.firstElementChild.id = "linear-search";
+        
+        blogsCont.innerHTML = "";
+        searchHeader.classList.add("search-header");
+        searchHeader.textContent = "Searching for results...";
+        resultBox.innerHTML = ""
+
+        backBtn.classList.add("back-btn");
+        backBtn.textContent = "Go back to blogs";
+
+        // results info
+        const resultsFound = document.createElement('div'); 
+        const resultsPages = document.createElement('div'); 
+
+        resultsFound.innerHTML = `
+                                        <span class="review-count"></span>
+                                        <span>Results Found</span>
+                                 `;
+        resultsPages.innerHTML = `
+                                    <span>Page</span>
+                                    <span class="current-page">~</span>
+                                    <span>of</span>
+                                    <span class="num-of-pages">~</span>
+                                `;
+
+        resultBox.id = "blog-pages";
+        resultsFound.classList.add("pages");
+        resultsPages.classList.add("pages");
+        resultBox.appendChild(resultsFound)
+        resultBox.appendChild(resultsPages)
+
+        if (blogsCont.previousElementSibling.previousElementSibling.className.includes("search-header")) {
+            blogsCont.previousElementSibling.previousElementSibling.remove();
+            blogsCont.before(searchHeader);
+        } else {
+            //creating new search heading
+            blogsCont.before(searchHeader);
+            searchHeader.before(backBtn);
+        }
+        // resetting blogsCont
+        if (blogsCont.previousElementSibling.previousElementSibling.id === "blog-pages") {
+            blogsCont.previousElementSibling.previousElementSibling.remove();
+            blogsCont.before(resultBox);
+        } else {
+            //creating new search heading
+            blogsCont.before(resultBox);
+        }
+        
+        blogsSearchBar.value = "";
+    
+        blogsLoaderCopy.style.display = "block";
+
+        blogsCont.appendChild(blogsLoaderCopy);
+        
+        fetch("/blogs?limit=1&page=0", {
+            method: "post",
+            headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+            body: JSON.stringify({search: blogsSearchVal})
+        })
+        .then(blob => blob.json())
+        .then(data => {
+            blogsSearchBar.disabled = false;
+            blogsSearchBar.focus();
+            // populate blogs page with search results
+            fillWithSearch(data.result, data.count, data.pageIndex, data.page, data.pages, blogsSearchVal, searchHeader, resultBox);
+        
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    })
+
+    backBtn.addEventListener("click", () => {
+        searchHeader.remove()
+        backBtn.remove()
+        resultBox.innerHTML = "";
+        pageControlsCont.innerHTML = "";
+        blogsCont.innerHTML = ""
+        blogsCont.classList.remove("results")
+        blogsCont.innerHTML = blogsContCopy;
+
+        tabs = Array.from(blogsCont.firstElementChild.children);
+        tabs.forEach(tab => {
+            tab.addEventListener("click", function() {
+                pageControlsCont.innerHTML = "";
+            for (let i = 0; i < tabs.length; i++) {
+                const element = tabs[i];
+                element.classList.remove("active");
+                element.style.color = "black"
+            }
+            this.classList.add("active");
+            switch (this.innerText) {
+                case "Xbox":
+                    this.style.color = "green"
+                    break;
+                case "PlayStation":
+                    this.style.color = "blue"
+                    break;
+                case "Nintendo":
+                    this.style.color = "red"
+                    break;
+                case "PC":
+                    this.style.color = "black"
+                    break;
+                default:
+                    break;
+            }
+            
+            const blogSpinner = blogsCont.firstElementChild.nextElementSibling.firstElementChild;
+            blogsCont.firstElementChild.nextElementSibling.innerHTML = "";
+            blogsCont.firstElementChild.nextElementSibling.appendChild(blogSpinner);
+            blogsCont.firstElementChild.nextElementSibling.firstElementChild.style.display = "block";
+
+            fetch(`/blogs/category/${this.innerText.toLowerCase().split(" ").join("")}?limit=1&page=0`)
+                .then(blob => blob.json())
+                .then(block => {
+                    console.log(block);
+                    blogsCont.firstElementChild.nextElementSibling.firstElementChild.style.display = "none";
+
+                    block.pages <= 1 ? pageControlsCont.innerHTML = "" : pageControlsCont.innerHTML = `
+                                                                                                                <button class="page-control-btn" id="double-prev" name="double-prev" data-offset="-2"> << </button>
+                                                                                                                <button class="page-control-btn" id="single-prev" name="single-prev" data-offset="-1"> < </button>
+                                                                                                                <span class="page-control-num" id="page-control-num" name="page-control-num" data-offset=""> Page 1 </span>
+                                                                                                                <button class="page-control-btn" id="single-next" name="single-next" data-offset="1"> > </button>
+                                                                                                                <button class="page-control-btn" id="double-next" name="double-next" data-offset="2"> >> </button>
+                                                                                                                `
+
+                    if (block.pages > 1) {
+                        const doublePrev = pageControlsCont.firstElementChild;
+                        const singlePrev = doublePrev.nextElementSibling;
+                        const pageControlNum = singlePrev.nextElementSibling;
+                        const singleNext = pageControlNum.nextElementSibling;
+                        const doubleNext = singleNext.nextElementSibling;
+
+                        pageControlNum.innerText = `Page ${block.page}`;
+
+                        if (block.page < 3) {
+                            doublePrev.classList.add("disabled");
+                            doublePrev.disabled = true;
+                        }
+                        if (block.page < 2) {
+                            singlePrev.classList.add("disabled");
+                            singlePrev.disabled = true;
+                        }
+                        if ((block.page + 1) > block.pages) {
+                            singleNext.classList.add("disabled");
+                            singleNext.disabled = true;
+                        }
+                        if ((block.page + 2) > block.pages) {
+                            doubleNext.classList.add("disabled");
+                            doubleNext.disabled = true;
+                        }
+                        let pageBtns = [...pageControlsCont.children];
+                        pageBtns.splice(2, 1);
+                
+                        pageBtns.forEach(btn => {
+                            btn.addEventListener("click", () => {
+                                searchSpinner = blogsCont.firstElementChild.nextElementSibling.firstElementChild;
+                                blogsCont.firstElementChild.nextElementSibling.innerHTML = "";
+                                blogsCont.firstElementChild.nextElementSibling.appendChild(searchSpinner);
+                                searchSpinner.style.display = "block";
+                                block.pageIndex += Number(btn.dataset.offset);
+                                block.page += Number(btn.dataset.offset);
+
+                                // updating variables
+                                pageControlNum.innerText = `Page ${block.page}`;
+
+                                if (block.page < 3) {
+                                    doublePrev.classList.add("disabled");
+                                    doublePrev.disabled = true;
+                                } else {
+                                    doublePrev.classList.remove("disabled");
+                                    doublePrev.disabled = false;
+                                }
+
+                                if (block.page < 2) {
+                                    singlePrev.classList.add("disabled");
+                                    singlePrev.disabled = true;
+                                } else {
+                                    singlePrev.classList.remove("disabled");
+                                    singlePrev.disabled = false;
+                                }
+
+                                if ((block.page + 1) > block.pages) {
+                                    singleNext.classList.add("disabled");
+                                    singleNext.disabled = true;
+                                }  else {
+                                    singleNext.classList.remove("disabled");
+                                    singleNext.disabled = false;
+                                }
+
+                                if ((block.page + 2) > block.pages) {
+                                    doubleNext.classList.add("disabled");
+                                    doubleNext.disabled = true;
+                                } else {
+                                    doubleNext.classList.remove("disabled");
+                                    doubleNext.disabled = false;
+                                }
+                                
+                        // fetching page number based on button data-offset
+                        fetch(`/blogs/category/${storedCategory}?limit=1&page=${block.pageIndex}`)
+                        .then(blob => blob.json())
+                        .then(data => {
+                            searchSpinner.style.display = "none";
+                            const results = data.data;
+                            results.forEach(data => {
+                                const parent = document.createElement("div")
+                                const subParent1 = document.createElement("div")
+                                const subParent2 = document.createElement("div")
+                                const img = document.createElement("img")
+                                const title = document.createElement("a")
+                                const date = document.createElement("p")
+                                const snippet = document.createElement("span")
+                                const icon = document.createElement("i")
+
+                                title.setAttribute("href", `/blogs/${data._id}`)
+
+                                parent.classList.add("blog-item");
+                                subParent1.classList.add("sub-parent-1");
+                                subParent2.classList.add("sub-parent-2");
+                                snippet.classList.add("blog-snippet");
+
+                                img.src = data.hero;
+                                title.innerHTML = data.title;
+                                date.innerText = `Published: ${data.createdAt}`;
+                                snippet.innerText = data.blogSect1;
+
+                                switch (data.category) {
+                                    case 'Xbox':
+                                        parent.style.borderRight = "5px solid green";
+                                        parent.style.borderRadius = "5px";
+                                        icon.classList.add("fab", "fa-xbox");
+                                        break;
+                                    case 'Playstation':
+                                        parent.style.borderRight = "5px solid blue";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.color = "blue";
+                                        icon.style.right = "10px";
+                                        icon.classList.add("fab", "fa-playstation");
+                                        break;
+                                    case 'Nintendo':
+                                        const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
+                                        parent.style.borderRight = "5px solid red";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.filter = filter;
+                                        icon.style.webkitFilter = filter;
+                                        icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
+                                        break;
+                                    case 'PC':
+                                        parent.style.borderRight = "5px solid black";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.filter = "invert(100%)";
+                                        icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                parent.appendChild(subParent1);
+                                parent.appendChild(subParent2);
+                                subParent1.appendChild(img);
+                                subParent2.appendChild(title);
+                                subParent2.appendChild(date);
+                                subParent2.appendChild(snippet);
+                                subParent2.appendChild(icon);
+
+                                blogsCont.firstElementChild.nextElementSibling.appendChild(parent); 
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                    })
+                })
+                    }
+        
+                    block.data.forEach(data => {
+                    const parent = document.createElement("div")
+                    const subParent1 = document.createElement("div")
+                    const subParent2 = document.createElement("div")
+                    const img = document.createElement("img")
+                    const title = document.createElement("a")
+                    const date = document.createElement("p")
+                    const snippet = document.createElement("span")
+                    const icon = document.createElement("i")
+
+                    title.setAttribute("href", `/blogs/${data._id}`)
+
+                    parent.classList.add("blog-item");
+                    subParent1.classList.add("sub-parent-1");
+                    subParent2.classList.add("sub-parent-2");
+
+                    img.src = data.hero;
+                    title.innerText = data.title;
+                    date.innerText = `Published: ${data.createdAt}`;
+                    snippet.innerText = data.blogSect1;
+
+                    switch (data.category) {
+                        case 'Xbox':
+                            parent.style.borderRight = "5px solid green";
+                            parent.style.borderRadius = "5px";
+                            icon.classList.add("fab", "fa-xbox");
+                            break;
+                        case 'Playstation':
+                            parent.style.borderRight = "5px solid blue";
+                            parent.style.borderRadius = "5px";
+                            icon.style.color = "blue";
+                            icon.style.right = "10px";
+                            icon.classList.add("fab", "fa-playstation");
+                            break;
+                        case 'Nintendo':
+                            const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
+                            parent.style.borderRight = "5px solid red";
+                            parent.style.borderRadius = "5px";
+                            icon.style.filter = filter;
+                            icon.style.webkitFilter = filter;
+                            icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
+                            break;
+                        case 'PC':
+                            parent.style.borderRight = "5px solid black";
+                            parent.style.borderRadius = "5px";
+                            icon.style.filter = "invert(100%)";
+                            icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
+                            break;
+                        default:
+                            break;
+                    }
+
+                    parent.appendChild(subParent1);
+                    parent.appendChild(subParent2);
+                    subParent1.appendChild(img);
+                    subParent2.appendChild(title);
+                    subParent2.appendChild(date);
+                    subParent2.appendChild(snippet);
+                    subParent2.appendChild(icon);
+
+                    container.appendChild(parent)
+                })
+                
+
+                    block.data.forEach(data => {
+                    const parent = document.createElement("div")
+                    const subParent1 = document.createElement("div")
+                    const subParent2 = document.createElement("div")
+                    const img = document.createElement("img")
+                    const title = document.createElement("a")
+                    const date = document.createElement("p")
+                    const snippet = document.createElement("span")
+                    const icon = document.createElement("i")
+
+                    title.setAttribute("href", `/blogs/${data._id}`)
+
+                    parent.classList.add("blog-item");
+                    subParent1.classList.add("sub-parent-1");
+                    subParent2.classList.add("sub-parent-2");
+
+                    img.src = data.hero;
+                    title.innerText = data.title;
+                    date.innerText = `Published: ${data.createdAt}`;
+                    snippet.innerText = data.blogSect1;
+
+                    switch (data.category) {
+                        case 'Xbox':
+                            parent.style.borderRight = "5px solid green";
+                            parent.style.borderRadius = "5px";
+                            icon.classList.add("fab", "fa-xbox");
+                            break;
+                        case 'Playstation':
+                            parent.style.borderRight = "5px solid blue";
+                            parent.style.borderRadius = "5px";
+                            icon.style.color = "blue";
+                            icon.style.right = "10px";
+                            icon.classList.add("fab", "fa-playstation");
+                            break;
+                        case 'Nintendo':
+                            const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
+                            parent.style.borderRight = "5px solid red";
+                            parent.style.borderRadius = "5px";
+                            icon.style.filter = filter;
+                            icon.style.webkitFilter = filter;
+                            icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
+                            break;
+                        case 'PC':
+                            parent.style.borderRight = "5px solid black";
+                            parent.style.borderRadius = "5px";
+                            icon.style.filter = "invert(100%)";
+                            icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
+                            break;
+                        default:
+                            break;
+                    }
+
+                    parent.appendChild(subParent1);
+                    parent.appendChild(subParent2);
+                    subParent1.appendChild(img);
+                    subParent2.appendChild(title);
+                    subParent2.appendChild(date);
+                    subParent2.appendChild(snippet);
+                    subParent2.appendChild(icon);
+
+                    blogsCont.firstElementChild.nextElementSibling.appendChild(parent)
+                    })
+                })
+                .catch(e => console.log(e))
+            })
+        });
+
+    
+        for (let i = 0; i < tabs.length; i++) {
+            const element = tabs[i];
+            element.classList.remove("active");
+            element.style.color = "black";
+            if ((element.innerText.toLowerCase() === storedCategory) || (element.innerText.toLowerCase().split(" ").join("") === storedCategory)) {
+                element.classList.add('active');
+                switch (element.innerText) {
+                case "Xbox":
+                    element.style.color = "green"
+                    break;
+                case "PlayStation":
+                    element.style.color = "blue"
+                    break;
+                case "Nintendo":
+                    element.style.color = "red"
+                    break;
+                case "PC":
+                    element.style.color = "black"
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+        fetch(`/blogs/category/${storedCategory}?limit=1&page=0`)
+            .then(blob => blob.json())
+            .then(data => {
+                blogsCont.firstElementChild.nextElementSibling.firstElementChild.style.display = "none";
+                
+                
+                data.pages <= 1 ? pageControlsCont.innerHTML = "" : pageControlsCont.innerHTML = `
+                                                                                                                <button class="page-control-btn" id="double-prev" name="double-prev" data-offset="-2"> << </button>
+                                                                                                                <button class="page-control-btn" id="single-prev" name="single-prev" data-offset="-1"> < </button>
+                                                                                                                <span class="page-control-num" id="page-control-num" name="page-control-num" data-offset=""> Page 1 </span>
+                                                                                                                <button class="page-control-btn" id="single-next" name="single-next" data-offset="1"> > </button>
+                                                                                                                <button class="page-control-btn" id="double-next" name="double-next" data-offset="2"> >> </button>
+                                                                                                                `
+
+                if (data.pages > 1) {
+                const doublePrev = pageControlsCont.firstElementChild;
+                const singlePrev = doublePrev.nextElementSibling;
+                const pageControlNum = singlePrev.nextElementSibling;
+                const singleNext = pageControlNum.nextElementSibling;
+                const doubleNext = singleNext.nextElementSibling;
+
+                pageControlNum.innerText = `Page ${data.page}`;
+
+                if (data.page < 3) {
+                    doublePrev.classList.add("disabled");
+                    doublePrev.disabled = true;
+                }
+                if (data.page < 2) {
+                    singlePrev.classList.add("disabled");
+                    singlePrev.disabled = true;
+                }
+                if ((data.page + 1) > data.pages) {
+                    singleNext.classList.add("disabled");
+                    singleNext.disabled = true;
+                }
+                if ((data.page + 2) > data.pages) {
+                    doubleNext.classList.add("disabled");
+                    doubleNext.disabled = true;
+                }
+                let pageBtns = [...pageControlsCont.children];
+                pageBtns.splice(2, 1);
+                
+                pageBtns.forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        searchSpinner = blogsCont.firstElementChild.nextElementSibling.firstElementChild;
+                        blogsCont.firstElementChild.nextElementSibling.innerHTML = "";
+                        blogsCont.firstElementChild.nextElementSibling.appendChild(searchSpinner);
+                        searchSpinner.style.display = "block";
+                        data.pageIndex += Number(btn.dataset.offset);
+                        data.page += Number(btn.dataset.offset);
+
+                        // updating variables
+                        pageControlNum.innerText = `Page ${data.page}`;
+
+                        if (data.page < 3) {
+                            doublePrev.classList.add("disabled");
+                            doublePrev.disabled = true;
+                        } else {
+                            doublePrev.classList.remove("disabled");
+                            doublePrev.disabled = false;
+                        }
+
+                        if (data.page < 2) {
+                            singlePrev.classList.add("disabled");
+                            singlePrev.disabled = true;
+                        } else {
+                            singlePrev.classList.remove("disabled");
+                            singlePrev.disabled = false;
+                        }
+
+                        if ((data.page + 1) > data.pages) {
+                            singleNext.classList.add("disabled");
+                            singleNext.disabled = true;
+                        }  else {
+                            singleNext.classList.remove("disabled");
+                            singleNext.disabled = false;
+                        }
+
+                        if ((data.page + 2) > data.pages) {
+                            doubleNext.classList.add("disabled");
+                            doubleNext.disabled = true;
+                        } else {
+                            doubleNext.classList.remove("disabled");
+                            doubleNext.disabled = false;
+                        }
+                        
+                        // fetching page number based on button data-offset
+                        fetch(`/blogs/category/${storedCategory}?limit=1&page=${data.pageIndex}`)
+                        .then(blob => blob.json())
+                        .then(data => {
+                            searchSpinner.style.display = "none";
+                            const results = data.data;
+                            results.forEach(data => {
+                                const parent = document.createElement("div")
+                                const subParent1 = document.createElement("div")
+                                const subParent2 = document.createElement("div")
+                                const img = document.createElement("img")
+                                const title = document.createElement("a")
+                                const date = document.createElement("p")
+                                const snippet = document.createElement("span")
+                                const icon = document.createElement("i")
+
+                                title.setAttribute("href", `/blogs/${data._id}`)
+
+                                parent.classList.add("blog-item");
+                                subParent1.classList.add("sub-parent-1");
+                                subParent2.classList.add("sub-parent-2");
+                                snippet.classList.add("blog-snippet");
+
+                                img.src = data.hero;
+                                title.innerHTML = data.title;
+                                date.innerText = `Published: ${data.createdAt}`;
+                                snippet.innerText = data.blogSect1;
+
+                                switch (data.category) {
+                                    case 'Xbox':
+                                        parent.style.borderRight = "5px solid green";
+                                        parent.style.borderRadius = "5px";
+                                        icon.classList.add("fab", "fa-xbox");
+                                        break;
+                                    case 'Playstation':
+                                        parent.style.borderRight = "5px solid blue";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.color = "blue";
+                                        icon.style.right = "10px";
+                                        icon.classList.add("fab", "fa-playstation");
+                                        break;
+                                    case 'Nintendo':
+                                        const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
+                                        parent.style.borderRight = "5px solid red";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.filter = filter;
+                                        icon.style.webkitFilter = filter;
+                                        icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
+                                        break;
+                                    case 'PC':
+                                        parent.style.borderRight = "5px solid black";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.filter = "invert(100%)";
+                                        icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                parent.appendChild(subParent1);
+                                parent.appendChild(subParent2);
+                                subParent1.appendChild(img);
+                                subParent2.appendChild(title);
+                                subParent2.appendChild(date);
+                                subParent2.appendChild(snippet);
+                                subParent2.appendChild(icon);
+
+                                blogsCont.firstElementChild.nextElementSibling.appendChild(parent); 
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                    })
+                })
+            }
+                
+                
+                data.data.forEach(data => {
+                    const parent = document.createElement("div")
+                    const subParent1 = document.createElement("div")
+                    const subParent2 = document.createElement("div")
+                    const img = document.createElement("img")
+                    const title = document.createElement("a")
+                    const date = document.createElement("p")
+                    const snippet = document.createElement("span")
+                    const icon = document.createElement("i")
+
+                    title.setAttribute("href", `/blogs/${data._id}`)
+
+                    parent.classList.add("blog-item");
+                    subParent1.classList.add("sub-parent-1");
+                    subParent2.classList.add("sub-parent-2");
+
+                    img.src = data.hero;
+                    title.innerText = data.title;
+                    date.innerText = `Published: ${data.createdAt}`;
+                    snippet.innerText = data.blogSect1;
+
+                    switch (data.category) {
+                        case 'Xbox':
+                            parent.style.borderRight = "5px solid green";
+                            parent.style.borderRadius = "5px";
+                            icon.classList.add("fab", "fa-xbox");
+                            break;
+                        case 'Playstation':
+                            parent.style.borderRight = "5px solid blue";
+                            parent.style.borderRadius = "5px";
+                            icon.style.color = "blue";
+                            icon.style.right = "10px";
+                            icon.classList.add("fab", "fa-playstation");
+                            break;
+                        case 'Nintendo':
+                            const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
+                            parent.style.borderRight = "5px solid red";
+                            parent.style.borderRadius = "5px";
+                            icon.style.filter = filter;
+                            icon.style.webkitFilter = filter;
+                            icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
+                            break;
+                        case 'PC':
+                            parent.style.borderRight = "5px solid black";
+                            parent.style.borderRadius = "5px";
+                            icon.style.filter = "invert(100%)";
+                            icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
+                            break;
+                        default:
+                            break;
+                    }
+
+                    parent.appendChild(subParent1);
+                    parent.appendChild(subParent2);
+                    subParent1.appendChild(img);
+                    subParent2.appendChild(title);
+                    subParent2.appendChild(date);
+                    subParent2.appendChild(snippet);
+                    subParent2.appendChild(icon);
+
+                    blogsCont.firstElementChild.nextElementSibling.appendChild(parent);
+                })
+            })
+            .catch(e => console.log(e));
+        
+    })
+
+</script>
+
 </body>
 </html>

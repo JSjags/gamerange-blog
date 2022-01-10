@@ -1,0 +1,66 @@
+/* footer stylings start here */
+footer {
+    background: black;
+    padding: 20px 20px 5px;
+}
+footer .icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    width: fit-content;
+    padding: 10px 0;
+}
+footer .icons p {
+    margin: 20px 40px;
+}
+footer .icons p:nth-child(3n+1) svg {
+    fill: white;
+    transform: scale(1.8);
+    transition: all 300ms ease-in-out;
+    border-radius: 6px;
+}
+footer .icons p:nth-child(3n+1):hover svg {
+    transform: scale(2.4);
+    fill: #2380f8;
+    background: radial-gradient(circle,white 65%, #2380f8 35%);
+    border-radius: 6px;
+    box-shadow: 
+    0 0 2px #2380f8,
+    0 0 6px #2380f8
+    ;
+}
+footer .icons p:nth-child(2) svg {
+    transition: all 300ms ease-in-out;
+    transform: scale(1.8);
+    fill: white;
+    border-radius: 6px;
+}
+footer .icons p:nth-child(2):hover svg {
+    transform: scale(2.4);
+    fill: red;
+    background: radial-gradient(circle, white 60%, red 40%);
+    box-shadow: 
+    0 0 2px red,
+    0 0 6px red
+    ;
+}
+footer .icons p:nth-child(3) svg {
+    border-radius: 6px;
+    transition: all 300ms ease-in-out;
+    fill: white;
+    transform: scale(1.8);
+}
+footer .icons p:nth-child(3):hover svg {
+    transform: scale(2.4);
+    background: radial-gradient(circle, black 60%, white 40%);
+    box-shadow: 
+    0 0 2px white,
+    0 0 6px white
+    ;
+}
+.copyright {
+    color: white;
+    font-family: "Average Sans", sans-serif;
+    text-align: center;
+}

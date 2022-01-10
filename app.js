@@ -106,7 +106,7 @@ app.get('*', checkUser)
 app.get('/', (req, res) => {
   Blog.find().sort({ 'createdAt': -1 }).limit(6)
     .then((result) => {
-      res.render('index', {title: 'Home Page', blogs: result, IGDB_CLIENT_ID, IGDB_SECRET});
+      res.render('index', {title: 'Home Page', blogs: result});
     })
     .catch((err) => {
       console.log(err);
@@ -121,25 +121,61 @@ app.get('/about', (req, res) => {
 app.get('/blogs', async (req, res) => {
   res.render('blogs', { title: 'Blogs Page',});
 });
+app.post('/blogs', async (req, res) => {
+  const { search } = req.body;
+  const { limit, page } =  req.query;
+  console.log(limit, page)
+
+  const result = await Blog.find( { 'title' : { '$regex' : search, '$options' : 'i' } }, {}, {limit: Number(limit), skip: Number(page * limit)} ).sort({ 'createdAt': -1 });
+  const docCount = await Blog.countDocuments( { 'title' : { '$regex' : search, '$options' : 'i' } } );
+  const pages = Math.ceil(docCount / limit);
+
+  res.json({ result, count: docCount, pageIndex: Number(page), page: (Number(page) + 1), pages});
+}); 
 app.get('/blogs/category/xbox', async (req, res) => {
-  const xboxBlogs = await Blog.find({category: "Xbox"}).sort({ 'createdAt': -1 }).exec();
-  res.json(xboxBlogs);
+  const { limit, page } =  req.query;
+  const xboxBlogs = await Blog.find({category: "Xbox"}, {}, {limit: Number(limit), skip: Number(page * limit)}).sort({ 'createdAt': -1 }).exec();
+  
+  const docCount = await Blog.countDocuments({category: "Xbox"}).sort({ 'createdAt': -1 });
+  const pages = Math.ceil(docCount / limit);
+
+  res.json({ data: xboxBlogs, count: docCount, pageIndex: Number(page), page: (Number(page) + 1), pages});
 }) 
 app.get('/blogs/category/playstation', async (req, res) => {
-  const psBlogs = await Blog.find({category: "Playstation"}).sort({ 'createdAt': -1 }).exec();
-  res.json(psBlogs);
+  const { limit, page } =  req.query;
+  const psBlogs = await Blog.find({category: "Playstation"}, {}, {limit: Number(limit), skip: Number(page * limit)}).sort({ 'createdAt': -1 }).exec();
+  
+  const docCount = await Blog.countDocuments({category: "Playstation"}).sort({ 'createdAt': -1 });
+  const pages = Math.ceil(docCount / limit);
+
+  res.json({ data: psBlogs, count: docCount, pageIndex: Number(page), page: (Number(page) + 1), pages});
 }) 
 app.get('/blogs/category/nintendo', async (req, res) => {
-  const nintendoBlogs = await Blog.find({category: "Nintendo"}).sort({ 'createdAt': -1 }).exec();
-  res.json(nintendoBlogs);
+  const { limit, page } =  req.query;
+  const nintendoBlogs = await Blog.find({category: "Nintendo"}, {}, {limit: Number(limit), skip: Number(page * limit)}).sort({ 'createdAt': -1 }).exec();
+  
+  const docCount = await Blog.countDocuments({category: "Nintendo"}).sort({ 'createdAt': -1 });
+  const pages = Math.ceil(docCount / limit);
+
+  res.json({ data: nintendoBlogs, count: docCount, pageIndex: Number(page), page: (Number(page) + 1), pages});
 }) 
 app.get('/blogs/category/pc', async (req, res) => {
-  const nintendoBlogs = await Blog.find({category: "PC"}).sort({ 'createdAt': -1 }).exec();
-  res.json(nintendoBlogs);
+  const { limit, page } =  req.query;
+  const pcBlogs = await Blog.find({category: "PC"}, {}, {limit: Number(limit), skip: Number(page * limit)}).sort({ 'createdAt': -1 }).exec();
+
+  const docCount = await Blog.countDocuments({category: "PC"}).sort({ 'createdAt': -1 });
+  const pages = Math.ceil(docCount / limit);
+
+  res.json({ data: pcBlogs, count: docCount, pageIndex: Number(page), page: (Number(page) + 1), pages});
 }) 
 app.get('/blogs/category/allblogs', async (req, res) => {
-  const xboxBlogs = await Blog.find().sort({ 'createdAt': -1 }).exec();
-  res.json(xboxBlogs);
+  const { limit, page } =  req.query;
+  const allBlogs = await Blog.find({},{}, {limit: Number(limit), skip: Number(page * limit)}).sort({ 'createdAt': -1 }).exec();
+  
+  const docCount = await Blog.countDocuments();
+  const pages = Math.ceil(docCount / limit);
+
+  res.json({ data: allBlogs, count: docCount, pageIndex: Number(page), page: (Number(page) + 1), pages});
 }) 
 app.get('/blogs/recent', (req, res) => {
   Blog.find().sort({ 'createdAt': -1 }).limit(5)

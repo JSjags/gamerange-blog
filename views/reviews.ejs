@@ -131,7 +131,7 @@
     const date = new Date();
     let [month, day, year] = [date.getMonth(), date.getDate(), date.getFullYear()];
     month = month < 9 ? "0" + (month + 1) : month + 1;
-    day = day < 9 ? "0" + day : day;
+    day = day < 10 ? "0" + day : day;
     const endDate = `${year}-${month}-${day}`;
 
     const parentNode = modal.parentNode;
@@ -774,8 +774,11 @@
     const reviewsSearch = document.querySelector("#search-form #reviews-search");
     searchForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        if (reviewsSearch.value.trim() === "") return;
+
         const searchVal = reviewsSearch.value;
         reviewsSearch.value = "";
+        reviewsSearch.disabled = true;
         const spinLoadSvg = highestRated.firstElementChild;
         highestRated.innerHTML = "";
         spinLoadSvg.style.display = "block";
@@ -786,6 +789,9 @@
         fetch(`https://api.rawg.io/api/games?search=${searchVal}&metacritic=1,99&page=1&page_size=12&search_precise=true&key=<%=RAWG_API_KEY%>`)
         .then(blob => blob.json())
         .then(response => {
+            reviewsSearch.disabled = false;
+            reviewsSearch.focus();
+
             highestRatedTitle.innerText = `Search results for '${searchVal}'`;
             nb.innerText = "search results are based on search input value"
             console.log(response);
