@@ -1,6 +1,9 @@
 const { Console } = require('console');
 const express = require('express');
 
+// axios
+const axios = require('axios').default;
+
 // file system
 const fs = require('fs');
 
@@ -103,14 +106,39 @@ app.use(cookieParser());
 
 //GET route handlers
 app.get('*', checkUser)
-app.get('/', (req, res) => {
+app.get('/', async(req, res) => {
+  const recentVideos = await axios({
+      method: 'get',
+      url: `https://www.giantbomb.com/api/videos/?api_key=${GIANT_BOMB_KEY}&format=json&sort=publish_date:desc&limit=10&offset=0&`,
+      responseType: "json"
+    })
+    .then(function (response) {
+      return response.data
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
+  const recentGames = await axios({
+      method: 'get',
+      url: `https://api.rawg.io/api/games?ordering=-released&page=1&page_size=12&metacritic=60,99&key=${RAWG_API_KEY}`,
+      responseType: "json"
+    })
+    .then(function (response) {
+      return response.data
+    })
+    .catch(err => {
+      console.log(err)
+    })
+
   Blog.find().sort({ 'createdAt': -1 }).limit(6)
     .then((result) => {
-      res.render('index', {title: 'Home Page', blogs: result});
+      res.render('index', { title: 'Home Page', blogs: result, videos: recentVideos, games: recentGames });
     })
     .catch((err) => {
       console.log(err);
     })
+
 });
 app.get('/home', (req, res) => {
   res.redirect('/');

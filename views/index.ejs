@@ -8,7 +8,8 @@
 
     <%- include('./partials/nav.ejs') %>
     <%- include('./partials/search.ejs') %>
-
+    
+    <h1 class="latest">Latest Blogs</h1>
     <div class="carousel">
         <div class="carousel-slider">
             <% for(let i = 0; i < (blogs.length - 1); i++) { %>
@@ -29,46 +30,184 @@
 
         </div>
     </div>
-    <div class="top-stories">
-        <h1>top stories</h1>
-        <hr>
+    <div id="blog-card-sect">
+        <div id="backboard">
+        </div>
         <section class="blog-card-sect">
-            <% if(blogs.length > 0) {                                           %>
-                <% blogs.forEach(blog => {                                      %>
-                    <% let mimetype = blog.hero[0]['mimetype']                  %>
-                    <% let base64 = blog.hero[0]['base64']                      %>
-                    <div class="blog-card">
-                        <% if(blog.category === 'Xbox') { %>
-                        <div style="background: green; display: flex; align-items: center; justify-content: center;" class="category">
-                            <img src="https://img.icons8.com/ios-glyphs/30/ffffff/xbox.png"/>
+        <% if(blogs.length > 0) {                                           %>
+            <% blogs.forEach(blog => {                                      %>
+                <% let mimetype = blog.hero[0]['mimetype']                  %>
+                <% let base64 = blog.hero[0]['base64']                      %>
+                <div class="blog-card">
+                    <% if(blog.category === 'Xbox') { %>
+                    <div style="background: green; display: flex; align-items: center; justify-content: center;" class="category">
+                        <img src="https://img.icons8.com/ios-glyphs/30/ffffff/xbox.png"/>
+                    </div>
+                    <% } %>
+                    <% if(blog.category === 'Playstation') { %>
+                    <div style="background: blue; display: flex; align-items: center; justify-content: center;" class="category">
+                        <img src="https://img.icons8.com/ios-glyphs/30/ffffff/play-station.png"/>
+                    </div>
+                    <% } %>
+                    <% if(blog.category === 'Nintendo') { %>
+                    <div style="background: red; display: flex; align-items: center; justify-content: center;" class="category">
+                        <img src="https://img.icons8.com/ios-filled/30/ffffff/nintendo.png"/>
+                    </div>
+                    <% } %>
+                    <% if(blog.category === 'PC') { %>
+                    <div style="background: black; display: flex; align-items: center; justify-content: center;" class="category">
+                        <img src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png"/>
+                    </div>
+                    <% } %>
+                    <div style="background: url()" class="bc-img-div">
+                    <img class="blog-card-img" src=<%= blog.hero %> alt="poster">
+                    </div>
+                    <h3 class="blog-card-title"><%= blog.title %></h3>
+                    <!-- <p class="blog-card-snippet"><%= blog.snippet %></p> -->
+                    <p class="blog-card-body"><%= blog.blogSect1%></p>
+                    <a href="blogs/<%= blog._id%>" class="blog-card-btn">read more</a>
+                </div>
+            <% }) %>
+        <% } %>
+        </section>
+    </div>
+    <p class="button-holder">
+        <a href="/blogs">&#129122; Go to blogs</a>
+    </p>
+
+    <!-- timestamp code to convert video length from seconds to hh:mm:ss format -->
+    <% function timeStampLogic(val) { %>
+        <% if ( Math.floor( val / 60 ) > 59 ) { %>
+            <% return `${ Math.floor( val / 60 / 60 ) }:${ Math.floor( val / 60 % 60 ) < 10 ? "0" + Math.floor( val / 60 % 60 ) : Math.floor( val / 60 % 60 ) }:${ Math.floor( val % 60 ) < 10 ? "0" + Math.floor( val % 60 ) : Math.floor( val % 60 )}`; %>
+        <% } else { %>
+            <%  return `${ Math.floor( val / 60) }:${ Math.floor( val % 60) < 10 ? "0" + Math.floor( val % 60 ) : Math.floor( val % 60 ) }`; %>
+        <% } %>
+    <% } %>
+
+
+    <div class="latest-videos">
+        <h1 class="latest">Latest Shows & Videos</h1>
+    
+        <div id="video-card-sect">
+            <div id="backboard">
+            </div>
+            <section class="video-card-sect">
+            <% if(videos.results.length > 0) {                                           %>
+                <% videos.results.forEach(video => {                                      %>
+                    <a href="<%= video.embed_player %>" target="_blank" rel="noopener">
+                        <div class="video-card">
+                            <div class="vid-img">
+                                <img class="vid-poster" src=<%= video.image.screen_url %> alt="poster">
+                                <span class="timestamp"><%= timeStampLogic(video.length_seconds) %></span>
+                            </div>
+                            <div class="vid-dets">
+                                <span class="vid-icon" style="
+                                    <% if (video.video_show) { %>
+                                        background: url(<%= video.video_show.image.icon_url %>); background-size: 40px;
+                                    <% } else { %>
+                                
+                                    <% } %>
+                                "></span>
+                                <p class="vid-name"><%= video.name %></p>
+                            </div>
+                            <p class="show-title">
+                                <% if (video.video_show) { %>
+                                    <%= video.video_show.title %>
+                                    <% } else { %>
+                                
+                                <% } %>
+                            </p>
+                            <p class="publish-date"><%= video.publish_date %></p>
                         </div>
-                        <% } %>
-                        <% if(blog.category === 'Playstation') { %>
-                        <div style="background: blue; display: flex; align-items: center; justify-content: center;" class="category">
-                            <img src="https://img.icons8.com/ios-glyphs/30/ffffff/play-station.png"/>
+                    </a>
+                <% }) %>
+            <% } %>
+            </section>
+        </div>
+        <p class="button-holder">
+            <a href="/videos">&#129122; Go to videos</a>
+        </p>
+    </div>
+
+    
+
+    <% function populatePlats(arr) { %>
+        <% let code = "fab" %>
+        <% let newArr = arr.map((item, i) => { %>
+            <% switch (item.toLowerCase()) {
+                case "pc": %>
+                    <% item = ""
+                    code = "desktop-pc" %>
+                    <% break;
+                case "nintendo": %>
+                    <% item = ""
+                    code = "nintendo-icon" %>
+                    <% break;
+                default: %>
+                    <% item = item;
+                    code = "fab" %>
+                    <% break; %>
+            <% } %>
+            <% return `<i class="${code} fa-${item.toLowerCase()} platform-icons"></i>` %>
+        <% }).join(""); %>
+        <% return newArr %>
+    <% } %>
+
+<!-- calculate inner star width -->
+<% function innerWidth (val, maxVal) { %>
+    <% return `${(val / maxVal) * 100}` %>
+<% } %>
+
+
+
+
+    <div class="latest-games">
+        <h1 class="latest">Newest Game Releases</h1>
+        
+        <div id="review-card-sect">
+            <div id="backboard">
+            </div>
+            <section class="review-card-sect">
+            <% if(games.results.length > 0) { %>
+                <% games.results.forEach(game => { %>
+                    <% let platsArray = []; %>
+                    <% game.parent_platforms.forEach(p => platsArray.push(p.platform.name)) %>
+
+                    <div class="review-card">
+                        <img src="<%=game.background_image%>" alt="game-image">
+                        <div class="info-box">
+                            <h3><%=game.name%></h3>
+                            <div class="platforms"><span>Platforms:</span> <%- populatePlats(platsArray) %></div>
+                            <div class="rating">
+                                <span>Rating:</span> 
+                                <% if (game.rating_top >= 4) { %>
+                                    <span class="outer-stars">
+                                        <span class="inner-stars" style="width: <%= innerWidth(game.rating, game.rating_top) %>%;">
+                                        </span>
+                                     </span>
+                                     <span class="rating-details">
+                                        <%= game.rating %>/<%= game.rating_top %>
+                                     </span></div>
+                                <% } else { %>
+                                    <span class="rating-details">
+                                        N/A
+                                     </span></div>
+                                <% } %>
+                            <div class="released">
+                                <span>Released:</span> <%=game.released %>
+                            </div>
                         </div>
-                        <% } %>
-                        <% if(blog.category === 'Nintendo') { %>
-                        <div style="background: red; display: flex; align-items: center; justify-content: center;" class="category">
-                            <img src="https://img.icons8.com/ios-filled/30/ffffff/nintendo.png"/>
+                        <div class="mc-box">
+                            <div class="mc-score"><%= game.metacritic %></div>
                         </div>
-                        <% } %>
-                        <% if(blog.category === 'PC') { %>
-                        <div style="background: black; display: flex; align-items: center; justify-content: center;" class="category">
-                            <img src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png"/>
-                        </div>
-                        <% } %>
-                        <div style="background: url()" class="bc-img-div">
-                        <img class="blog-card-img" src=<%= blog.hero %> alt="poster">
-                        </div>
-                        <h3 class="blog-card-title"><%= blog.title %></h3>
-                        <!-- <p class="blog-card-snippet"><%= blog.snippet %></p> -->
-                        <p class="blog-card-body"><%= blog.blogSect1%></p>
-                        <a href="blogs/<%= blog._id%>" class="blog-card-btn">read more</a>
                     </div>
                 <% }) %>
             <% } %>
-        </section>
+            </section>
+        </div>
+        <p class="button-holder">
+            <a href="/reviews">&#129122; Go to reviews</a>
+        </p>
     </div>
     
 </div>
@@ -211,5 +350,6 @@ initSlides(carouselSlides, sliderDotsBox.children);
 nextBtn.addEventListener('click', nextSlide);
 prevBtn.addEventListener('click', prevSlide);
 </script>
+
 </body>
 </html>
