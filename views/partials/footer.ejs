@@ -50,10 +50,15 @@ stylePageLink()
     const userBox = document.querySelector('#user-box');
     const userBoxCaret = document.querySelector('#login-div #user-box i.fa-caret-down');
     const userBoxList = document.querySelector('#login-div #user-box-list');
+    const userBoxListOpts = document.querySelector('#login-div #user-box-list li');
 
     if (userBox) {
-        userBox.addEventListener('click', () => {
+        userBox.addEventListener('click', (e) => {
             userBoxCaret.classList.toggle('drop');
+            userBoxList.classList.toggle('reveal');
+        })
+
+        userBoxListOpts.addEventListener('click', (e) => {
             userBoxList.classList.toggle('reveal');
         })
     }

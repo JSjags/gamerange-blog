@@ -96,8 +96,8 @@ app.set('view engine', 'ejs');
 
 //static folder
 app.use(express.static('public'));
-app.use(express.urlencoded({ extended : false }));
-app.use(express.json());
+app.use(express.urlencoded({limit: '50mb', extended: true, parameterLimit: 50000}));
+app.use(express.json({limit: '50mb'}));
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   next();
@@ -133,7 +133,7 @@ app.get('/', async(req, res) => {
 
   Blog.find().sort({ 'createdAt': -1 }).limit(6)
     .then((result) => {
-      res.render('index', { title: 'Home Page', blogs: result, videos: recentVideos, games: recentGames });
+      res.render('index', { title: 'Home Page', blogs: result, videos: recentVideos, games: recentGames, RAWG_API_KEY, GIANT_BOMB_KEY });
     })
     .catch((err) => {
       console.log(err);
@@ -281,10 +281,28 @@ app.post('/signup', async (req, res) => {
       res.status(400).json({ errors });
   }
 })
+app.get('/user/profile', requireAuth, (req, res) => {
+  res.render('profile', {title: 'Profile'});
+});
+app.put('/user/profile/:id', requireAuth, async (req, res) => {
+  const id = req.params.id;
+  const update = JSON.parse(JSON.stringify(req.body));
+  const data = await User.findByIdAndUpdate({ _id : id }, update)
+
+  if (update.profile_pic) {
+    User.updateOne(
+      { _id : id },
+      { $set: { profile_pic: update.profile_pic}},{upsert:true})
+      .then((result, err) => {
+         return res.status(200).json({ data: result, message:"Profile Updated Successfully" });
+     })
+  }
+  res.status(200).json({ data: data, message:"Profile Updated Successfully" });
+});
 app.get('/create-blog', requireAuth, (req, res) => {
   res.render('blog-creator', {title: 'Blog Creator'});
 });
-app.post('/create-blog/publish', (req, res) => {
+app.post('/create-blog/publish', requireAuth, (req, res) => {
 
   let re = new RegExp('blogImage', 'gi')
   const blogImageUrlsKeys = [];
@@ -315,7 +333,7 @@ app.post('/create-blog/publish', (req, res) => {
     })
     .catch((err) => console.log(err));
 });
-app.get('/blogs/delete-blog', (req, res) => {
+app.get('/blogs/manage-blogs', requireAuth, (req, res) => {
   // Blog.find()
   // .then((result) => {
   //   const blogs = result;
@@ -324,7 +342,7 @@ app.get('/blogs/delete-blog', (req, res) => {
   // .catch((err) => {
   //   console.log(err);
   // })
-  res.render('deleteBlog', { title: 'Delete Blogs'});
+  res.render('manageBlogs', { title: 'Delete Blogs'});
 })
 
 app.use((req, res) => {

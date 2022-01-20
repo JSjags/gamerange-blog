@@ -82,7 +82,7 @@
             container.appendChild(blogSpinner);
             container.firstElementChild.style.display = "block";
 
-            fetch(`/blogs/category/${this.innerText.toLowerCase().split(" ").join("")}?limit=1&page=0`)
+            fetch(`/blogs/category/${this.innerText.toLowerCase().split(" ").join("")}?limit=10&page=0`)
                 .then(blob => blob.json())
                 .then(result => {
                     const data = result.data
@@ -337,7 +337,7 @@
                 }
             }
         }
-        fetch(`/blogs/category/${storedCategory}?limit=1&page=0`)
+        fetch(`/blogs/category/${storedCategory}?limit=10&page=0`)
             .then(blob => blob.json())
             .then(result => {
                 const data = result.data
@@ -581,10 +581,11 @@
     const searchHeader = document.createElement("h1");
     const backBtn = document.createElement("button");
     
+    const homeSearchVal = sessionStorage.getItem("homeSearchVal")
 
     // fill with search function
     function fillWithSearch (data, count, pageIndex, page, pages, searchVal, header, resultBox) {
-        const limit = 1;
+        const limit = 10;
         const resultsPages = resultBox.firstElementChild.nextElementSibling;
 
         // clear loader
@@ -933,7 +934,7 @@
 
         blogsCont.appendChild(blogsLoaderCopy);
         
-        fetch("/blogs?limit=1&page=0", {
+        fetch("/blogs?limit=10&page=0", {
             method: "post",
             headers: {
                         'Accept': 'application/json',
@@ -1544,6 +1545,13 @@
             .catch(e => console.log(e));
         
     })
+
+    
+    if(homeSearchVal) {
+            blogsSearchBar.value = homeSearchVal;
+            blogsSearchForm.requestSubmit()
+            sessionStorage.removeItem("homeSearchVal")
+    }
 
 </script>
 

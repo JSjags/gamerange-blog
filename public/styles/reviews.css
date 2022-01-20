@@ -5,6 +5,7 @@
     overflow-y: scroll;
     position: fixed;
     display: none;
+    align-items: flex-start;
     justify-content: center;
     top: 0;
     left: 0;
@@ -85,7 +86,7 @@
     width: 800px;
     min-width: 300px;
     max-width: 800px;
-    min-height: 130vh;
+    min-height: 60vh;
     flex-basis: 800px;
     flex-shrink: 1;
     margin: 100px 10px 50px;

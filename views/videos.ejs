@@ -427,8 +427,9 @@
     const videoSearchForm = document.querySelector("#search-form");
     const videoSearchInput = document.querySelector("#videos-search");
     let searchSpinner = recentVideosBox.firstElementChild;
-
-    videoSearchForm.addEventListener('submit', (e) => {
+    const homeSearchVal = sessionStorage.getItem("homeSearchVal")
+    
+    function searchVideos(e) {
         e.preventDefault();
         if (videoSearchInput.value.trim() === "") return
         const videoSearchVal = videoSearchInput.value;
@@ -734,7 +735,18 @@
         .catch(err => {
             console.log(err);
         })
+    }
+
+    videoSearchForm.addEventListener('submit', (e) => {
+        searchVideos(e)
     })
+
+    if(homeSearchVal) {
+            videoSearchInput.value = homeSearchVal;
+            videoSearchForm.requestSubmit()
+            sessionStorage.removeItem("homeSearchVal")
+    }
+
 </script>
 
 <!-- video player logic -->

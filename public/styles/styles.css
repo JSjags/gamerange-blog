@@ -136,12 +136,23 @@ header nav ul a li {
     border-radius: 5px;
     position: relative;
     transition: all 300ms ease;
-    width: 140px;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 #login-div #user-box:hover {
     background: var(--background-color);
     box-shadow: none;
     cursor: pointer;
+}
+#login-div #user-box .avatar {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: white;
+    margin-right: 10px;
 }
 #login-div #user-box i.fa-user-circle {
     font-size: 1.4em;
@@ -151,11 +162,17 @@ header nav ul a li {
     font-size: 1.4em;
     margin-right: 5px;
     transition: transform 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
 }
 #login-div #user-box i.fa-caret-down.drop {
     transform: rotateZ(180deg);
 }
 #login-div #user-box span.username {
+    display: inline-block;
+    width: 90px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 1.2em;
     padding: 0 5px 0 0;
 }
@@ -163,7 +180,7 @@ header nav ul a li {
     position: absolute;
     top: 0;
     right: 0;
-    width: 140px;
+    width: fit-content;
     font-size: 1.2em;
     box-shadow: 0 6px 20px #a7a7a7;
     background: black;
@@ -224,6 +241,13 @@ header nav ul a li {
     line-height: 100%;
     padding: 10px 5px;
     transition: all 200ms ease;
+}
+#user-box-list li.logout a svg {
+    fill: white;
+    font-size: 1.1em;
+    display: inline;
+    padding: 0 5px;
+    display: inline-block;
 }
 #user-box-list li.logout a i {
     font-size: 1.1em;
@@ -362,10 +386,23 @@ input[type="search"]::-webkit-search-cancel-button {
     width: 10px;
     height: 10px;
 }
+/* back to homepage btn */
+.back-btn.home {
+    opacity: 0;
+    cursor: pointer;
+    pointer-events: none;
+    transition: all 300ms ease;
+}
+.back-btn.home.visible {
+    opacity: 1;
+    cursor: pointer;
+    pointer-events: visible;
+    transition: all 300ms ease;
+}
 
 /* latest blogs */
 .latest {
-    margin: 70px 0 0 20px;
+    margin: 0 0 0 20px;
     font-size: 4vw;
     color: transparent;
     background: var(--background-color);
@@ -593,6 +630,8 @@ input[type="search"]::-webkit-search-cancel-button {
     border-radius: 1px;
 } */
 
+/* backboard */
+
 /* blog card section */
 #blog-card-sect {
     width: 100%;
@@ -610,7 +649,11 @@ input[type="search"]::-webkit-search-cancel-button {
     bottom: 20px;
     left: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #blog-card-sect .blog-card-sect {
     display: flex;
@@ -793,7 +836,11 @@ input[type="search"]::-webkit-search-cancel-button {
     bottom: 47px;
     left: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #video-card-sect .video-card-sect {
     display: flex;
@@ -970,7 +1017,11 @@ input[type="search"]::-webkit-search-cancel-button {
     bottom: 47px;
     left: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    font-weight: bolder;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #review-card-sect .review-card-sect {
     display: flex;
@@ -1162,4 +1213,437 @@ input[type="search"]::-webkit-search-cancel-button {
     width: 20px;
     height: 20px;
     vertical-align: -4px;
+}
+
+/* reviews modal stylings start here */
+.modal {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    position: fixed;
+    display: none;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    background: #000000cc;
+    z-index: 10;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+.modal::-webkit-scrollbar,
+.img-modal::-webkit-scrollbar {
+    appearance: none;
+    background: black;
+    width: 6px;
+}
+.modal::-webkit-scrollbar-thumb,
+.img-modal::-webkit-scrollbar-thumb {
+    appearance: none;
+    border-radius: 10px;
+    background: linear-gradient(315deg, #cc01aa, #01d3c1);
+    width: 10px;
+    height: 10px;
+}
+.modal::-webkit-scrollbar-corner,
+.img-modal::-webkit-scrollbar-corner {
+    appearance: none;
+    background: #000;
+}
+.img-modal {
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    position: fixed;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    background: #000000cc;
+    z-index: 20;
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+.img-modal .fa-window-close {
+    position: fixed;
+    color: white;
+    font-size: 2em;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+.fullscreen {
+    width: calc(100% - 20px);
+    margin: 50px 10px;
+    border-radius: 5px;
+}
+.modal .review-card-details :is(#details-cont) {
+    padding: 10px;
+    width: fit-content;
+}
+.modal .review-card-details :is(.title)::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 6px;
+    background: var(--background-color);
+    margin-top: 4px;
+    border-radius: 6px 6px 3px 3px;
+    margin-bottom: 10px;
+}
+.modal .fa-window-close {
+    position: fixed;
+    color: white;
+    font-size: 2em;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+.modal .review-card-details {
+    display: block;
+    width: 800px;
+    min-width: 300px;
+    max-width: 800px;
+    min-height: 130vh;
+    flex-basis: 800px;
+    flex-shrink: 1;
+    margin: 100px 10px 50px;
+    background: rgb(214, 214, 214);
+    border-radius: 10px;
+}
+.modal .review-card-details svg {
+    margin-top: 100px;
+    width: 100%;
+    height: 100px;
+}
+.modal .review-card-details svg circle.spinner-2 {
+    margin-left: 50px;
+    cx: 50%;
+    cy: 40px;
+    r: 20px;
+    stroke: url(#linear-2);
+    stroke-width: 4;
+    fill: transparent;
+    stroke-dasharray: 62.85;
+    stroke-dashoffset: 1px 0;
+    stroke-linecap: round;
+    animation: fill-animation 1s cubic-bezier(1,1,1,1) 0s infinite;
+}
+.modal .review-card-details #game-info{
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    background: rgb(214, 214, 214);
+}
+.modal .review-card-details img {
+    width: 100%;
+    border-radius: 10px;
+}
+.modal .review-card-details #details-cont {
+    width: 100%;
+    min-height: 60vh;
+    border-radius: 10px;
+    background: rgb(214, 214, 214);
+}
+.modal .review-card-details #details-cont .rating-box {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    margin-top: 20px;
+}
+.modal .review-card-details #details-cont .rating-box .score {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    margin-right: 20px;
+}
+.modal .review-card-details #details-cont .rating-box .score h3 {
+    margin-top: 20px;
+}
+.modal .review-card-details #details-cont .rating-box .score p {
+    font-size: 3em;
+}
+.modal .review-card-details #details-cont .rating-box .score span.outer-stars {
+    width: 100px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    top: 5px;
+    margin: 0;
+}
+.modal .review-card-details #details-cont .rating-box .score span.outer-stars::before {
+    content: "\2606 \2606 \2606 \2606 \2606";
+    color: hsl(43, 74%, 50%);
+    font-weight: 100;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.modal .review-card-details #details-cont .rating-box .score span.outer-stars span.inner-stars {
+    height: 100%;
+    display: inline-block;
+    margin: 0;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+}
+.modal .review-card-details #details-cont .rating-box .score span.outer-stars span.inner-stars::before {
+    content: "\2605 \2605 \2605 \2605 \2605";
+    color: hsl(43, 74%, 50%);
+    font-weight: 100;
+    height: 100%;
+    width: 100px;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    flex-wrap: nowrap;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+.modal .review-card-details #details-cont .rating-box .bars {
+    margin-top: 40px;
+    flex: 1;
+}
+.modal .review-card-details #details-cont .rating-box .bars p.rating-count {
+    font-weight: bolder;
+    padding-right: 10px;
+    text-align: right;
+}
+.modal .review-card-details #details-cont .rating-box .bars p span {
+    background: var(--background-color);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+.modal .review-card-details #details-cont .rating-box .bars .bar {
+    height: 16px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    margin: 10px;
+    position: relative;
+    overflow: hidden;
+}
+.modal .review-card-details #details-cont .rating-box .bars .bar .inner-bar {
+    height: 100%;
+    position: absolute;
+    border-radius: 8px;
+    top: 0;
+    left: 0;
+    background: var(--background-color);
+}
+.modal .review-card-details #details-cont .rating-box .bars .bar p {
+    line-height: 16px;
+    margin-left: 5px;
+    text-transform: capitalize;
+    vertical-align: middle;
+    font-size: 0.8em;
+    font-weight: bolder;
+    position: relative;
+    font-weight: bolder;
+    z-index: 1;
+}
+.modal .review-card-details #details-cont .game-description {
+    margin-top: 50px;
+}
+.modal .review-card-details #details-cont .game-description h3 {
+    margin-bottom: 10px;
+    width: fit-content;
+}
+.modal .review-card-details #details-cont .game-description h3::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 6px;
+    background: var(--background-color);
+    margin-top: 4px;
+    border-radius: 6px 6px 3px 3px;
+    margin-bottom: 10px;
+}
+.modal .review-card-details #details-cont .game-description img {
+    margin-bottom: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+}
+.modal .review-card-details #details-cont .game-description p::first-letter {
+    font-size: 1.6em;
+    background: var(--background-color);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+.modal .review-card-details #details-cont .game-description p {
+    line-height: 1.4em;
+    font-size: 1.1em;
+}
+.modal .review-card-details #details-cont .game-screenshots {
+    margin-top: 10px;
+}
+.modal .review-card-details #details-cont .game-screenshots h3 {
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    width: fit-content;
+}
+.modal .review-card-details #details-cont .game-screenshots h3::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 6px;
+    background: var(--background-color);
+    margin-top: 4px;
+    border-radius: 6px 6px 3px 3px;
+    margin-bottom: 10px;
+}
+.modal .review-card-details #details-cont .game-screenshots .screenshots {
+    width: 100%;
+    height: 150px;
+    border-radius: 10px;
+    overflow: scroll;
+    display: flex;
+    align-items: center;
+}
+.modal .review-card-details #details-cont .game-screenshots .screenshots img {
+    height: 90%;
+    margin: 0 10px 0 0;
+    cursor: zoom-in;
+    transition: all 200ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.modal .review-card-details #details-cont .game-screenshots .screenshots img:hover {
+    transform: scale(1.05);
+}
+.modal .review-card-details #details-cont .game-screenshots .screenshots::-webkit-scrollbar{
+    appearance: none;
+    background: rgb(214, 214, 214);
+    width: 6px;
+}
+.modal .review-card-details #details-cont .game-screenshots .screenshots::-webkit-scrollbar-thumb {
+    appearance: none;
+    border-radius: 10px;
+    background: linear-gradient(315deg, #cc01aa, #01d3c1);
+    width: 6px;
+    height: 6px;
+}
+.modal .review-card-details #details-cont .game-screenshots .screenshots::-webkit-scrollbar-corner {
+    appearance: none;
+    background: rgb(214, 214, 214);
+}
+.modal .review-card-details #details-cont .more-details {
+    margin-top: 20px;
+}
+.modal .review-card-details #details-cont .more-details h3 {
+    margin-bottom: 10px;
+    font-size: 1.4em;
+    position: relative;
+    width: fit-content;
+}
+.modal .review-card-details #details-cont .more-details h3::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 6px;
+    background: var(--background-color);
+    margin-top: 4px;
+    border-radius: 6px 6px 3px 3px;
+    margin-bottom: 10px;
+}
+.modal .review-card-details #details-cont .more-details .details {
+    width: 100%;
+}
+.modal .review-card-details #details-cont .more-details .details p {
+    font-weight: bolder;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+.modal .review-card-details #details-cont .more-details .details p span {
+    font-weight: lighter;
+}
+.modal .review-card-details #details-cont .more-details .details p a {
+    font-weight: lighter;
+    color: transparent;
+    background: var(--background-color);
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+.modal .review-card-details #details-cont .more-details .details p a:hover {
+    text-decoration: underline;
+    text-decoration-color: rgba(0, 0, 0, 0.8);
+    text-decoration-thickness: 2px;
+}
+.wedge {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+}
+/* reviews modal styling ends here */
+
+/* search  stylings */
+.search-header {
+    position: relative;
+    width: fit-content;
+    padding-bottom: 10px;
+    color: transparent;
+    background: var(--background-color);
+    width: fit-content;
+    -webkit-background-clip: text; 
+    -moz-background-clip: text;
+}
+.search-header::after {
+    content: "";
+    position: absolute;
+    display: block;
+    background: var(--background-color);
+    bottom: -8px;
+    width: 100%;
+    height: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 6px 6px 2px 2px;
+}
+.search-error {
+    width: 50%;
+    margin: 100px auto 0;
+    text-align: center;
+}
+.home-container {
+    min-height: 100vh;
+}
+.home-container .results-box {
+    margin-left: 20px;
+    font-weight: bolder;
+    font-size: 1.4em;
+    padding-bottom: 10px;
+    color: transparent;
+    background: var(--background-color);
+    width: fit-content;
+    -webkit-background-clip: text; 
+    -moz-background-clip: text;
+}
+.home-container svg {
+    width: 100%;
+    height: 120px;
+    display: none;
+}
+.home-container svg circle {
+    margin-left: 50px;
+    cx: 50%;
+    cy: 50%;
+    r: 20px;
+    stroke: url(#linear-home);
+    stroke-width: 4;
+    fill: transparent;
+    stroke-dasharray: 62.85;
+    stroke-dashoffset: 1px 0;
+    stroke-linecap: round;
+    animation: fill-animation 1s cubic-bezier(1,1,1,1) 0s infinite;
 }

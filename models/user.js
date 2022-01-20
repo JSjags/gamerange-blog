@@ -25,13 +25,25 @@ const userSchema = new Schema({
         type: String,
         required: [true, "Please Input Password"],
         minlength: [6, "Password must be at least 6 characters"]
+    },
+    profile_pic: {
+        type: String,
     }
 }, {timestamps: true})
 
-// hashing user passwords with bcrypt
+// hashing user passwords with bcrypt before creating user
 userSchema.pre('save', async function(next) {
     const salt = await bcrypt.genSalt();
     this.password = await bcrypt.hash(this.password, salt);
+    next();
+});
+
+// hashing user passwords with bcrypt before updating
+userSchema.pre('findOneAndUpdate', async function (next) {
+    if(this._update.password) {
+        const salt = await bcrypt.genSalt();
+        this._update.password = await bcrypt.hash(this._update.password, salt)
+    }
     next();
 });
 

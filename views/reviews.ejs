@@ -58,7 +58,7 @@
             </ul>
         </div>
         <div class="nb">
-            <span>N.B :</span>
+            <span>N.B:</span>
             <span>Ratings begin at 80 and are based on critically acclaimed Metacritic scores. Results are automatically sorted based on ratings from the last 12 months</span>
         </div>
         <section id="pages">
@@ -764,6 +764,7 @@
             })
         }
     })
+
 </script>
 
 <!-- reviews search logic -->
@@ -772,6 +773,10 @@
     const pages = document.querySelector('.pages');
     const searchForm = document.querySelector("#search-form");
     const reviewsSearch = document.querySelector("#search-form #reviews-search");
+
+    const homeSearchVal = sessionStorage.getItem("homeSearchVal")
+
+
     searchForm.addEventListener('submit', (e) => {
         e.preventDefault();
         if (reviewsSearch.value.trim() === "") return;
@@ -1071,6 +1076,14 @@
             return;
         });
     })
+
+    if(homeSearchVal) {
+            reviewsSearch.value = homeSearchVal;
+            searchForm.requestSubmit()
+            sessionStorage.removeItem("homeSearchVal")
+    }
+
+
 </script>
 
 </body>

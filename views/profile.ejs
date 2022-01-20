@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('./partials/header.ejs') %>
+
+<body>
+<div class="container">
+
+    <%- include('./partials/nav.ejs') %>
+    <p class="message-box"></p>
+    <div id="profile-cont">
+        <div class="profile-cont">
+            <div class="profile-pic">
+                <img id="profile-img" src= <%=user.profile_pic%> >
+                <label for="profile-pic">
+                    <i class="fas fa-camera-retro"></i>
+                </label>
+                <input type="file" name="profile-pic" id="profile-pic" accept=".png, .jpg, .jpeg" capture >
+            </div>
+                <div class="profile-dets">
+                    <form action="">
+                        <div class="dets">
+                            <label for="">Username</label>
+                            <input type="text" name="username" value="<%=user.username%>" readonly>
+                            <i class="far fa-edit"></i>
+                        </div>
+                        <div class="dets">
+                            <label for="">E-mail</label>
+                            <input type="text" name="email" value="<%=user.email%>" readonly>
+                            <i class="far fa-edit"></i>
+                        </div>
+                        <div class="dets">
+                            <label for="">Change Password</label>
+                            <input type="password" name="password" readonly>
+                            <i class="fa  fa-times"></i>
+                        </div>
+                        <div class="dets">
+                            <input type="hidden" name="profile-pic">
+                        </div>
+                        <p>
+                            <button type="submit">Submit</button>
+                        </p>
+                    </form>
+                </div>
+        </div>
+    </div>
+    
+</div>
+
+<%- include('./partials/footer.ejs') %>
+
+<script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+
+<script>
+    const messageBox = document.querySelector(".message-box");
+
+    const profilePicIcon = document.querySelector(".fa-camera-retro");
+    const profilePic = document.querySelector("input[type='file']");
+    const profileImg = document.querySelector(".profile-dets .dets:nth-child(4) input");
+    const profileImgDiv = document.querySelector(".profile-cont .profile-pic");
+
+    const profilePicBase64 = document.querySelector("input[type='hidden']");
+
+    const img = document.querySelector("#profile-img");
+
+    const form = document.querySelector("form");
+
+    const usernameIcon = document.querySelector(".profile-dets .dets:nth-child(1) i");
+    const usernameInput = document.querySelector(".profile-dets .dets:nth-child(1) input");
+
+    const emailIcon = document.querySelector(".profile-dets .dets:nth-child(2) i");
+    const emailInput = document.querySelector(".profile-dets .dets:nth-child(2) input");
+
+    const passwordLabel = document.querySelector(".profile-dets .dets:nth-child(3) label");
+    const passwordInput = document.querySelector(".profile-dets .dets:nth-child(3) input");
+    const passwordCancel = document.querySelector(".profile-dets .dets:nth-child(3) i");
+
+    const profileSubmitBtn = document.querySelector(".profile-dets p button");
+
+    const profileInputs = document.querySelectorAll(".profile-dets .dets input");
+    
+    let inputsData = {};
+
+    let alphaData = {}
+
+
+    // logic starts here
+    profilePicIcon.addEventListener("click", () => {
+        inputsData[`${profileImg.name}`] = { prevData: img.src, currentData: img.src}
+    })
+
+    profilePic.addEventListener("change", (e) => {
+        const chosenPic = e.target.files[0];
+        if (chosenPic) {
+            img.style.background = "rgb(228, 228, 228)";
+            const reader = new FileReader();
+            reader.addEventListener("load", () => {
+                img.src = reader.result;
+                profilePicBase64.value = reader.result;
+
+
+                inputsData[`${profileImg.name}`].currentData = reader.result;
+
+                if(inputsData[`${profileImg.name}`].currentData !== inputsData[`${profileImg.name}`].prevData) {
+                    profileSubmitBtn.style.opacity = "1";
+                    profileSubmitBtn.style.pointerEvents = "visible";
+                } else {
+                    profileSubmitBtn.style.opacity = "0";
+                    profileSubmitBtn.style.pointerEvents = "none";
+                }
+
+            })
+            reader.readAsDataURL(chosenPic);
+            
+        } else {
+            img.style.background = "url(../person-icon.png), rgb(228, 228, 228)";
+        }
+    })
+
+    if (img.src.includes('data:image/png;base64')) {
+        img.style.background = "rgb(228, 228, 228)";
+        profileImgDiv.style.background = "transparent";
+    } else {
+        img.style.background = "url(../person-icon.png), rgb(228, 228, 228)";
+    }
+
+    img.addEventListener('load', () => {
+        
+        if (img.height <= img.width) {
+            img.style.height = "100%"
+            img.style.width = "auto"
+        } else {
+            img.style.height = "auto"
+            img.style.width = "100%"
+        }
+
+        if (img.src.includes('data:image/png;base64')) {
+            img.style.background = "rgb(228, 228, 228)";
+            profileImgDiv.style.background = "transparent";
+        } else {
+            img.style.background = "url(../person-icon.png), rgb(228, 228, 228)";
+        }
+        
+        })
+    
+    usernameIcon.addEventListener("click", function() {
+        usernameInput.disabled = false;
+        usernameInput.readOnly = false;
+        usernameInput.focus();
+    }) 
+
+    emailIcon.addEventListener("click", function() {
+        emailInput.disabled = false;
+        emailInput.readOnly = false;
+        emailInput.focus();
+    }) 
+
+    passwordLabel.addEventListener("click", function() {
+        passwordLabel.innerText = "Password";
+        passwordLabel.style.padding = "0";
+        passwordLabel.style.pointerEvents = "none";
+
+        passwordInput.style.opacity = "1";
+        passwordInput.disabled = false;
+        passwordInput.readOnly = false;
+        passwordInput.focus();
+
+        passwordCancel.style.opacity = "1";
+        passwordCancel.style.pointerEvents = "visible";
+    })
+
+    passwordCancel.addEventListener("click", function() {
+        passwordLabel.innerText = "Change Password";
+        passwordLabel.style.padding = "5px";
+        passwordLabel.style.pointerEvents = "visible";
+
+        passwordInput.style.opacity = "0";
+        passwordInput.disabled = true;
+        passwordInput.readOnly = true;
+
+        passwordCancel.style.opacity = "0";
+        passwordCancel.style.pointerEvents = "none";
+
+        passwordInput.value = ""
+        inputsData[`${passwordInput.name}`] = {prevData: passwordInput.value, currentData: passwordInput.value};
+        console.log(inputsData);
+
+
+        if (inputsData[`${passwordInput.name}`].currentData !== inputsData[`${passwordInput.name}`].prevData) {
+                profileSubmitBtn.style.opacity = "1";
+                profileSubmitBtn.style.pointerEvents = "visible";
+            } else {
+                profileSubmitBtn.style.opacity = "0";
+                profileSubmitBtn.style.pointerEvents = "none";
+            }
+    })
+
+    profileInputs.forEach(input => {
+        input.disabled = true;
+    })
+    profileInputs.forEach(input => {
+        input.addEventListener("focus", () => {
+
+            // populating input data;
+            inputsData[`${input.name}`] = { prevData: input.value, currentData: "" };
+        })
+    })
+    profileInputs.forEach(input => {
+        input.addEventListener("blur", () => {
+            input.disabled = true;
+            
+            // populating input data;
+            inputsData[`${input.name}`].currentData = input.value;
+
+            const formb = document.querySelectorAll("form input") 
+    
+    formb.forEach(input => {
+        if (input.style.opacity === "0") return;
+        if (input.value === "") return;
+        
+        if (input.name === "profile-pic") {
+            alphaData.profile_pic = `${input.value}`  ;
+            return;
+        }
+
+        alphaData[`${input.name}`] = `${input.value}`;
+    })
+            
+        })
+    })
+    profileInputs.forEach(input => {
+        input.addEventListener("keyup", () => {
+            inputsData[`${input.name}`].currentData = input.value;    
+            if (inputsData[`${input.name}`].currentData !== inputsData[`${input.name}`].prevData) {
+                profileSubmitBtn.style.opacity = "1";
+                profileSubmitBtn.style.pointerEvents = "visible";
+            } else {
+                profileSubmitBtn.style.opacity = "0";
+                profileSubmitBtn.style.pointerEvents = "none";
+            }
+        })
+    })
+
+form.addEventListener('submit', function(e) {
+    const loader = `<svg>
+                        <defs>
+                            <linearGradient id="linear-5" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%"   stop-color="#01d3c1"/>
+                            <stop offset="100%" stop-color="#cc01aa"/>
+                            </linearGradient>
+                        </defs>
+                        <circle cx= "20px" cy= "20px" r= "10px" class="spinner-5">
+                        </circle>
+                    </svg>`
+            
+    e.preventDefault();
+    console.log(alphaData);
+    const formInputs = document.querySelectorAll("form input") 
+    
+    formInputs.forEach(input => {
+        if (input.style.opacity === "0") return;
+        if (input.value === "") return;
+        if (input.name === "profile-pic") {
+            alphaData.profile_pic = `${input.value}`  ;
+            return;
+        }
+        alphaData[`${input.name}`] = `${input.value}`;
+    })
+    profileSubmitBtn.disabled = true;
+    profileSubmitBtn.style.cursor = "not-allowed";
+    profileSubmitBtn.innerText = "";
+    profileSubmitBtn.innerHTML = loader;
+    fetch('/user/profile/<%=user._id%>', {
+        method: 'PUT',
+        body: JSON.stringify(alphaData),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+        })
+        .then(response => {
+            if (response.status === 200) {
+                messageBox.textContent = "Profile Updated Successfully";
+                messageBox.style.opacity = "1";
+                messageBox.classList.remove('error')
+                messageBox.classList.add('success')
+            } else {
+                messageBox.textContent = "Profile Update Failed";
+                messageBox.style.opacity = "1";
+                messageBox.classList.remove('success')
+                messageBox.classList.add('error')
+            }
+            
+            return response.json();
+        })
+        .then(result => {
+        console.log('Success:', result);
+
+        profileSubmitBtn.disabled = false;
+        profileSubmitBtn.style.cursor = "pointer";
+        profileSubmitBtn.innerHTML = "";
+        profileSubmitBtn.innerText = "Submit";
+        
+        let messageTimeout = setTimeout(() => {
+            messageBox.style.opacity = "0";
+        }, 5000);
+        
+        location.reload()
+        })
+        .catch(error => {
+            messageBox.textContent = "Profile Update Failed";
+            messageBox.style.opacity = "1";
+            messageBox.classList.remove('success')
+            messageBox.classList.add('error')
+
+            profileSubmitBtn.disabled = false;
+            profileSubmitBtn.style.cursor = "pointer";
+            profileSubmitBtn.innerHTML = "";
+            profileSubmitBtn.innerText = "Submit";
+
+            let messageTimeout = setTimeout(() => {
+                messageBox.style.opacity = "0";
+            }, 5000);
+        })
+
+})
+
+
+</script>
+
+</body>
+</html>

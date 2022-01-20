@@ -4,213 +4,262 @@
 <%- include('./partials/header.ejs') %>
 
 <body>
-<div class="container">
-
-    <%- include('./partials/nav.ejs') %>
-    <%- include('./partials/search.ejs') %>
-    
-    <h1 class="latest">Latest Blogs</h1>
-    <div class="carousel">
-        <div class="carousel-slider">
-            <% for(let i = 0; i < (blogs.length - 1); i++) { %>
-                <div class="img">
-                    <img src="<%= blogs[i].hero %>" >
-                    <div class="caption">
-                        <a href="/blogs/<%= blogs[i]._id %>"> <%= blogs[i].title %> </a>
-                        <h2> <%= blogs[i].snippet %> </h2>
+    <div class="modal">
+        <i class="far fa-window-close"></i>
+        <div class="review-card-details">
+            <svg>
+                <defs>
+                    <linearGradient id="linear-2" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%"   stop-color="#01d3c1"/>
+                      <stop offset="100%" stop-color="#cc01aa"/>
+                    </linearGradient>
+                </defs>
+                <circle class="spinner-2">
+                </circle>
+            </svg>
+            <section id="game-info">
+                <img src="" alt="Game-Image" class="poster-img">
+                <div id="details-cont">
+                    <h1 class="title"></h1>
+                    <div class="rating-box">
+                        <div class="score"></div>
+                        <div class="bars">
+                        </div>
+                    </div>
+                    <div class="game-description">
+                    </div>
+                    <div class="game-screenshots">
+                        <h3>Game Screenshots</h3>
+                        <div class="screenshots">
+                        </div>
+                    </div>
+                    <div class="more-details">
+                        <h3>More Details</h3>
+                        <div class="details">
+                        </div>
                     </div>
                 </div>
+            </section>
+            <div class="wedge"></div>
+        </div>
+    </div>
+    <div class="container">
+
+        <%- include('./partials/nav.ejs') %>
+        <%- include('./partials/search.ejs') %>
+        
+        <button class="back-btn home">Go back home</button>
+        <div class="home-container">
+            <svg>
+                <defs>
+                    <linearGradient id="linear-home" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%"   stop-color="#01d3c1"/>
+                    <stop offset="100%" stop-color="#cc01aa"/>
+                    </linearGradient>
+                </defs>
+                <circle cx= "20px" cy= "20px" r= "10px" class="spinner-home">
+                </circle>
+            </svg>
+            <h1 class="latest">Latest Blogs</h1>
+            <div class="carousel">
+                <div class="carousel-slider">
+                    <% for(let i = 0; i < (blogs.length - 1); i++) { %>
+                        <div class="img">
+                            <img src="<%= blogs[i].hero %>" >
+                            <div class="caption">
+                                <a href="/blogs/<%= blogs[i]._id %>"> <%= blogs[i].title %> </a>
+                                <h2> <%= blogs[i].snippet %> </h2>
+                            </div>
+                        </div>
+                    <% } %>
+                    
+                </div>
+                <button id="previous-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13.427 3.021h-7.427v-3.021l-6 5.39 6 5.61v-3h7.427c3.071 0 5.561 2.356 5.561 5.427 0 3.071-2.489 5.573-5.561 5.573h-7.427v5h7.427c5.84 0 10.573-4.734 10.573-10.573s-4.733-10.406-10.573-10.406z"/></svg></button>
+                <button id="next-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10.573 3.021h7.427v-3.021l6 5.39-6 5.61v-3h-7.427c-3.071 0-5.561 2.356-5.561 5.427 0 3.071 2.489 5.573 5.561 5.573h7.427v5h-7.427c-5.84 0-10.573-4.734-10.573-10.573s4.733-10.406 10.573-10.406z"/></svg></button>
+                
+                <div class="slider-dots">
+
+                </div>
+            </div>
+            <div id="blog-card-sect">
+                <div id="backboard">
+                </div>
+                <section class="blog-card-sect">
+                <% if(blogs.length > 0) {                                           %>
+                    <% blogs.forEach(blog => {                                      %>
+                        <% let mimetype = blog.hero[0]['mimetype']                  %>
+                        <% let base64 = blog.hero[0]['base64']                      %>
+                        <div class="blog-card">
+                            <% if(blog.category === 'Xbox') { %>
+                            <div style="background: green; display: flex; align-items: center; justify-content: center;" class="category">
+                                <img src="https://img.icons8.com/ios-glyphs/30/ffffff/xbox.png"/>
+                            </div>
+                            <% } %>
+                            <% if(blog.category === 'Playstation') { %>
+                            <div style="background: blue; display: flex; align-items: center; justify-content: center;" class="category">
+                                <img src="https://img.icons8.com/ios-glyphs/30/ffffff/play-station.png"/>
+                            </div>
+                            <% } %>
+                            <% if(blog.category === 'Nintendo') { %>
+                            <div style="background: red; display: flex; align-items: center; justify-content: center;" class="category">
+                                <img src="https://img.icons8.com/ios-filled/30/ffffff/nintendo.png"/>
+                            </div>
+                            <% } %>
+                            <% if(blog.category === 'PC') { %>
+                            <div style="background: black; display: flex; align-items: center; justify-content: center;" class="category">
+                                <img src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png"/>
+                            </div>
+                            <% } %>
+                            <div style="background: url()" class="bc-img-div">
+                            <img class="blog-card-img" src=<%= blog.hero %> alt="poster">
+                            </div>
+                            <h3 class="blog-card-title"><%= blog.title %></h3>
+                            <p class="blog-card-body"><%= blog.blogSect1%></p>
+                            <a href="blogs/<%= blog._id%>" class="blog-card-btn">read more</a>
+                        </div>
+                    <% }) %>
+                <% } %>
+                </section>
+            </div>
+            <p class="button-holder">
+                <a href="/blogs">&#129122; Go to blogs</a>
+            </p>
+
+            <!-- timestamp code to convert video length from seconds to hh:mm:ss format -->
+            <% function timeStampLogic(val) { %>
+                <% if ( Math.floor( val / 60 ) > 59 ) { %>
+                    <% return `${ Math.floor( val / 60 / 60 ) }:${ Math.floor( val / 60 % 60 ) < 10 ? "0" + Math.floor( val / 60 % 60 ) : Math.floor( val / 60 % 60 ) }:${ Math.floor( val % 60 ) < 10 ? "0" + Math.floor( val % 60 ) : Math.floor( val % 60 )}`; %>
+                <% } else { %>
+                    <%  return `${ Math.floor( val / 60) }:${ Math.floor( val % 60) < 10 ? "0" + Math.floor( val % 60 ) : Math.floor( val % 60 ) }`; %>
+                <% } %>
             <% } %>
+
+
+            <div class="latest-videos">
+                <h1 class="latest">Latest Shows & Videos</h1>
             
-        </div>
-        <button id="previous-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M13.427 3.021h-7.427v-3.021l-6 5.39 6 5.61v-3h7.427c3.071 0 5.561 2.356 5.561 5.427 0 3.071-2.489 5.573-5.561 5.573h-7.427v5h7.427c5.84 0 10.573-4.734 10.573-10.573s-4.733-10.406-10.573-10.406z"/></svg></button>
-        <button id="next-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10.573 3.021h7.427v-3.021l6 5.39-6 5.61v-3h-7.427c-3.071 0-5.561 2.356-5.561 5.427 0 3.071 2.489 5.573 5.561 5.573h7.427v5h-7.427c-5.84 0-10.573-4.734-10.573-10.573s4.733-10.406 10.573-10.406z"/></svg></button>
-        
-        <div class="slider-dots">
-
-        </div>
-    </div>
-    <div id="blog-card-sect">
-        <div id="backboard">
-        </div>
-        <section class="blog-card-sect">
-        <% if(blogs.length > 0) {                                           %>
-            <% blogs.forEach(blog => {                                      %>
-                <% let mimetype = blog.hero[0]['mimetype']                  %>
-                <% let base64 = blog.hero[0]['base64']                      %>
-                <div class="blog-card">
-                    <% if(blog.category === 'Xbox') { %>
-                    <div style="background: green; display: flex; align-items: center; justify-content: center;" class="category">
-                        <img src="https://img.icons8.com/ios-glyphs/30/ffffff/xbox.png"/>
+                <div id="video-card-sect">
+                    <div id="backboard">
                     </div>
+                    <section class="video-card-sect">
+                    <% if(videos.results.length > 0) {                                           %>
+                        <% videos.results.forEach(video => {                                      %>
+                            <a href="<%= video.embed_player %>" target="_blank" rel="noopener">
+                                <div class="video-card">
+                                    <div class="vid-img">
+                                        <img class="vid-poster" src=<%= video.image.screen_url %> alt="poster">
+                                        <span class="timestamp"><%= timeStampLogic(video.length_seconds) %></span>
+                                    </div>
+                                    <div class="vid-dets">
+                                        <span class="vid-icon" style="
+                                            <% if (video.video_show) { %>
+                                                background: url(<%= video.video_show.image.icon_url %>); background-size: 40px;
+                                            <% } else { %>
+                                        
+                                            <% } %>
+                                        "></span>
+                                        <p class="vid-name"><%= video.name %></p>
+                                    </div>
+                                    <p class="show-title">
+                                        <% if (video.video_show) { %>
+                                            <%= video.video_show.title %>
+                                            <% } else { %>
+                                        
+                                        <% } %>
+                                    </p>
+                                    <p class="publish-date"><%= video.publish_date %></p>
+                                </div>
+                            </a>
+                        <% }) %>
                     <% } %>
-                    <% if(blog.category === 'Playstation') { %>
-                    <div style="background: blue; display: flex; align-items: center; justify-content: center;" class="category">
-                        <img src="https://img.icons8.com/ios-glyphs/30/ffffff/play-station.png"/>
-                    </div>
-                    <% } %>
-                    <% if(blog.category === 'Nintendo') { %>
-                    <div style="background: red; display: flex; align-items: center; justify-content: center;" class="category">
-                        <img src="https://img.icons8.com/ios-filled/30/ffffff/nintendo.png"/>
-                    </div>
-                    <% } %>
-                    <% if(blog.category === 'PC') { %>
-                    <div style="background: black; display: flex; align-items: center; justify-content: center;" class="category">
-                        <img src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png"/>
-                    </div>
-                    <% } %>
-                    <div style="background: url()" class="bc-img-div">
-                    <img class="blog-card-img" src=<%= blog.hero %> alt="poster">
-                    </div>
-                    <h3 class="blog-card-title"><%= blog.title %></h3>
-                    <!-- <p class="blog-card-snippet"><%= blog.snippet %></p> -->
-                    <p class="blog-card-body"><%= blog.blogSect1%></p>
-                    <a href="blogs/<%= blog._id%>" class="blog-card-btn">read more</a>
+                    </section>
                 </div>
-            <% }) %>
-        <% } %>
-        </section>
-    </div>
-    <p class="button-holder">
-        <a href="/blogs">&#129122; Go to blogs</a>
-    </p>
-
-    <!-- timestamp code to convert video length from seconds to hh:mm:ss format -->
-    <% function timeStampLogic(val) { %>
-        <% if ( Math.floor( val / 60 ) > 59 ) { %>
-            <% return `${ Math.floor( val / 60 / 60 ) }:${ Math.floor( val / 60 % 60 ) < 10 ? "0" + Math.floor( val / 60 % 60 ) : Math.floor( val / 60 % 60 ) }:${ Math.floor( val % 60 ) < 10 ? "0" + Math.floor( val % 60 ) : Math.floor( val % 60 )}`; %>
-        <% } else { %>
-            <%  return `${ Math.floor( val / 60) }:${ Math.floor( val % 60) < 10 ? "0" + Math.floor( val % 60 ) : Math.floor( val % 60 ) }`; %>
-        <% } %>
-    <% } %>
-
-
-    <div class="latest-videos">
-        <h1 class="latest">Latest Shows & Videos</h1>
-    
-        <div id="video-card-sect">
-            <div id="backboard">
+                <p class="button-holder">
+                    <a href="/videos">&#129122; Go to videos</a>
+                </p>
             </div>
-            <section class="video-card-sect">
-            <% if(videos.results.length > 0) {                                           %>
-                <% videos.results.forEach(video => {                                      %>
-                    <a href="<%= video.embed_player %>" target="_blank" rel="noopener">
-                        <div class="video-card">
-                            <div class="vid-img">
-                                <img class="vid-poster" src=<%= video.image.screen_url %> alt="poster">
-                                <span class="timestamp"><%= timeStampLogic(video.length_seconds) %></span>
-                            </div>
-                            <div class="vid-dets">
-                                <span class="vid-icon" style="
-                                    <% if (video.video_show) { %>
-                                        background: url(<%= video.video_show.image.icon_url %>); background-size: 40px;
-                                    <% } else { %>
-                                
-                                    <% } %>
-                                "></span>
-                                <p class="vid-name"><%= video.name %></p>
-                            </div>
-                            <p class="show-title">
-                                <% if (video.video_show) { %>
-                                    <%= video.video_show.title %>
-                                    <% } else { %>
-                                
-                                <% } %>
-                            </p>
-                            <p class="publish-date"><%= video.publish_date %></p>
-                        </div>
-                    </a>
-                <% }) %>
+
+            
+
+            <% function populatePlats(arr) { %>
+                <% let code = "fab" %>
+                <% let newArr = arr.map((item, i) => { %>
+                    <% switch (item.toLowerCase()) {
+                        case "pc": %>
+                            <% item = ""
+                            code = "desktop-pc" %>
+                            <% break;
+                        case "nintendo": %>
+                            <% item = ""
+                            code = "nintendo-icon" %>
+                            <% break;
+                        default: %>
+                            <% item = item;
+                            code = "fab" %>
+                            <% break; %>
+                    <% } %>
+                    <% return `<i class="${code} fa-${item.toLowerCase()} platform-icons"></i>` %>
+                <% }).join(""); %>
+                <% return newArr %>
             <% } %>
-            </section>
-        </div>
-        <p class="button-holder">
-            <a href="/videos">&#129122; Go to videos</a>
-        </p>
-    </div>
 
-    
-
-    <% function populatePlats(arr) { %>
-        <% let code = "fab" %>
-        <% let newArr = arr.map((item, i) => { %>
-            <% switch (item.toLowerCase()) {
-                case "pc": %>
-                    <% item = ""
-                    code = "desktop-pc" %>
-                    <% break;
-                case "nintendo": %>
-                    <% item = ""
-                    code = "nintendo-icon" %>
-                    <% break;
-                default: %>
-                    <% item = item;
-                    code = "fab" %>
-                    <% break; %>
-            <% } %>
-            <% return `<i class="${code} fa-${item.toLowerCase()} platform-icons"></i>` %>
-        <% }).join(""); %>
-        <% return newArr %>
-    <% } %>
-
-<!-- calculate inner star width -->
-<% function innerWidth (val, maxVal) { %>
-    <% return `${(val / maxVal) * 100}` %>
-<% } %>
+        <!-- calculate inner star width -->
+        <% function innerWidth (val, maxVal) { %>
+            <% return `${(val / maxVal) * 100}` %>
+        <% } %>
 
 
 
 
-    <div class="latest-games">
-        <h1 class="latest">Newest Game Releases</h1>
-        
-        <div id="review-card-sect">
-            <div id="backboard">
-            </div>
-            <section class="review-card-sect">
-            <% if(games.results.length > 0) { %>
-                <% games.results.forEach(game => { %>
-                    <% let platsArray = []; %>
-                    <% game.parent_platforms.forEach(p => platsArray.push(p.platform.name)) %>
-
-                    <div class="review-card">
-                        <img src="<%=game.background_image%>" alt="game-image">
-                        <div class="info-box">
-                            <h3><%=game.name%></h3>
-                            <div class="platforms"><span>Platforms:</span> <%- populatePlats(platsArray) %></div>
-                            <div class="rating">
-                                <span>Rating:</span> 
-                                <% if (game.rating_top >= 4) { %>
-                                    <span class="outer-stars">
-                                        <span class="inner-stars" style="width: <%= innerWidth(game.rating, game.rating_top) %>%;">
-                                        </span>
-                                     </span>
-                                     <span class="rating-details">
-                                        <%= game.rating %>/<%= game.rating_top %>
-                                     </span></div>
-                                <% } else { %>
-                                    <span class="rating-details">
-                                        N/A
-                                     </span></div>
-                                <% } %>
-                            <div class="released">
-                                <span>Released:</span> <%=game.released %>
-                            </div>
-                        </div>
-                        <div class="mc-box">
-                            <div class="mc-score"><%= game.metacritic %></div>
-                        </div>
+            <div class="latest-games">
+                <h1 class="latest">Newest Game Releases</h1>
+                
+                <div id="review-card-sect">
+                    <div id="backboard">
                     </div>
-                <% }) %>
-            <% } %>
-            </section>
+                    <section class="review-card-sect">
+                    <% if(games.results.length > 0) { %>
+                        <% games.results.forEach(game => { %>
+                            <% let platsArray = []; %>
+                            <% game.parent_platforms.forEach(p => platsArray.push(p.platform.name)) %>
+
+                            <div class="review-card" onclick="showDetails(<%= game.id%>)">
+                                <img src="<%=game.background_image%>" alt="game-image">
+                                <div class="info-box">
+                                    <h3><%=game.name%></h3>
+                                    <div class="platforms"><span>Platforms:</span> <%- populatePlats(platsArray) %></div>
+                                    <div class="rating">
+                                        <span>Rating:</span> 
+                                        <% if (game.rating_top >= 4) { %>
+                                            <span class="outer-stars">
+                                                <span class="inner-stars" style="width: <%= innerWidth(game.rating, game.rating_top) %>%;">
+                                                </span>
+                                            </span>
+                                            <span class="rating-details">
+                                                <%= game.rating %>/<%= game.rating_top %>
+                                            </span></div>
+                                        <% } else { %>
+                                            <span class="rating-details">
+                                                N/A
+                                            </span></div>
+                                        <% } %>
+                                    <div class="released">
+                                        <span>Released:</span> <%=game.released %>
+                                    </div>
+                                </div>
+                                <div class="mc-box">
+                                    <div class="mc-score"><%= game.metacritic %></div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } %>
+                    </section>
+                </div>
+                <p class="button-holder">
+                    <a href="/reviews">&#129122; Go to reviews</a>
+                </p>
         </div>
-        <p class="button-holder">
-            <a href="/reviews">&#129122; Go to reviews</a>
-        </p>
     </div>
-    
-</div>
 
 <%- include('./partials/footer.ejs') %>
 
@@ -351,5 +400,648 @@ nextBtn.addEventListener('click', nextSlide);
 prevBtn.addEventListener('click', prevSlide);
 </script>
 
+<!-- reviews script -->
+<script>
+    const body = document.querySelector("body");
+
+    //modal variables
+    const modal = document.querySelector(".modal")
+    const modalReview = document.querySelector(".modal .review-card-details")
+    const modalGameInfo = document.querySelector(".modal .review-card-details #game-info")
+    const modalReviewImage = document.querySelector(".modal .review-card-details img")
+    const modalReviewTitle = document.querySelector(".modal .review-card-details .title")
+    const modalReviewScore = document.querySelector(".modal .review-card-details .rating-box .score")
+    const modalReviewBars = document.querySelector(".modal .review-card-details .rating-box .bars")
+    const modalGameDescription = document.querySelector(".modal .review-card-details #game-info  #details-cont .game-description")
+    const modalGameScreenshots = document.querySelector(".modal .review-card-details #game-info  #details-cont .game-screenshots .screenshots")
+    const modalMoreDetails = document.querySelector(".modal .review-card-details #game-info  #details-cont .more-details .details")
+    const modalCloseBtn = document.querySelector(".modal .fa-window-close")
+
+    const parentNode = modal.parentNode;
+
+
+    modalCloseBtn.addEventListener("click", () => {
+        body.style.overflow = "visible";
+        modalReview.firstElementChild.style.display = "block";
+        modalGameInfo.style.height = "0";
+        modalGameInfo.style.overflow = "hidden";
+        modalCloseBtn.parentElement.style.display = "none";
+    })
+
+    // inline function for review card
+    function showDetails (id)  {
+                    body.style.overflow = "hidden"
+                    modal.style.display = "flex";
+
+                    fetch(`https://api.rawg.io/api/games/${id}?key=<%=RAWG_API_KEY%>`)
+                    .then((blob) => blob.json())
+                    .then((file) => {
+                        const gameInfo = file;
+                        modalGameInfo.style.height = "fit-content";
+                        modalGameInfo.style.overflow = "visible";
+                        modalReview.firstElementChild.style.display = "none";
+                        modalReviewImage.src = gameInfo.background_image;
+                        modalReviewImage.alt = gameInfo.slug;
+                        modalReviewTitle.innerText = gameInfo.name;
+                        modalReviewScore.innerHTML = `<h3>Rating $ Reviews</h3>
+                                                    <p>${gameInfo.rating}</p>
+                                                    <span class="outer-stars">
+                                                        <span class="inner-stars" style="width: ${Number(gameInfo.rating) * 20}%";>
+                                                        </span>
+                                                    </span>`;
+                        // rating bars logic
+                        const ratingArr = gameInfo.ratings;
+                        function barsInnerHtml(arr) {
+                            let returnString = "";
+                            arr.forEach(i => {
+                                const value = `<div class="bar"><div class="inner-bar" style="width: ${i.percent}%"></div><p>${i.title}</p></div>`
+                                returnString = returnString.concat(value)
+                            })
+                            return returnString
+                        }
+                        modalReviewBars.innerHTML = `${barsInnerHtml(ratingArr)}<p class="rating-count">Total Ratings Count: <span>${gameInfo.ratings_count}</span></p>`;
+                        modalGameDescription.innerHTML = `
+                                                            <h3>Game Description</h3>
+                                                            <img src="${gameInfo.background_image_additional}">
+                                                            <p>${gameInfo.description_raw}</p>
+                                                        `;
+                        //screenshots logic
+                        function screenShots (arr) {
+                            let initialStr = "";
+                            arr.forEach(item => {
+                                initialStr = initialStr + `<img src=${item.image}>`;
+                            })
+                            return initialStr;
+                        }
+                        fetch(`https://api.rawg.io/api/games/${gameInfo.id}/screenshots?key=<%=RAWG_API_KEY%>`)
+                        .then(box => box.json())
+                        .then(shots => {
+                            let shotsArr = shots.results;
+                            let finalShotsStr = screenShots(shotsArr)
+                            modalGameScreenshots.innerHTML = finalShotsStr;
+                        })
+                        //screenshots logic ends here
+
+                        //publisher string
+                        let publisherStr = "";
+                        for (let i = 0; i < gameInfo.publishers.length; i++) {
+                            const element = gameInfo.publishers[i];
+                            if (i === ((gameInfo.publishers.length) - 1)) {
+                                publisherStr = publisherStr + element.name;
+                            } else {
+                                publisherStr = publisherStr + element.name + ", "
+                            }
+                        };
+
+                        //developer string
+                        let devStr = "";
+                        for (let i = 0; i < gameInfo.developers.length; i++) {
+                            const element = gameInfo.developers[i];
+                            if (i === ((gameInfo.developers.length) - 1)) {
+                                devStr = devStr + element.name;
+                            } else {
+                                devStr = devStr + element.name + ", "
+                            }
+                        };
+                        
+                        //genre string
+                        let genreStr = "";
+                        for (let i = 0; i < gameInfo.genres.length; i++) {
+                            const element = gameInfo.genres[i];
+                            if (i === ((gameInfo.genres.length) - 1)) {
+                                genreStr = genreStr + element.name;
+                            } else {
+                                genreStr = genreStr + element.name + " | "
+                            }
+                        };
+                        //platforms string
+                        let platformStr = "";
+                        for (let i = 0; i < gameInfo.platforms.length; i++) {
+                            const element = gameInfo.platforms[i];
+                            if (i === ((gameInfo.platforms.length) - 1)) {
+                                platformStr = platformStr + element.platform.name;
+                            } else {
+                                platformStr = platformStr + element.platform.name + " | "
+                            }
+                        };
+
+                        modalMoreDetails.innerHTML = `
+                                                    <p>Released: <span>${gameInfo.released ? gameInfo.released : "N/A"}</></p>
+                                                    <p>Publishers: <span>${gameInfo.publishers ? publisherStr : "N/A"}</></p>
+                                                    <p>Developer: <span>${gameInfo.developers ? devStr : "N/A"}</></p>
+                                                    <p>Genres: <span>${gameInfo.genres ? genreStr : "N/A"}</></p>
+                                                    <p>ESRB Rating: <span>${gameInfo.esrb_rating === null ? "N/A" : gameInfo.esrb_rating.name}</></p>
+                                                    <p>Metacritic Score: <span>${gameInfo.metacritic ? gameInfo.metacritic + ` <a href=${gameInfo.metacritic_url} target="_blank" rel="noopener noreferrer">Click here to redirect to metacritic</a>` : "N/A"}</></p>
+                                                    <p>Reviews Count: <span>${gameInfo.reviews_count ? gameInfo.reviews_count : "N/A"}</></p>
+                                                    <p>Platforms: <span>${gameInfo.platforms ? platformStr : "N/A"}</></p>
+                                                    <p>Game Website: <a href=${gameInfo.website} target="_blank" rel="noopener noreferrer">${gameInfo.platforms ? "Click here to visit game website" : "N/A"}</a></p>
+                                                    `
+                    })
+                }
+
+    
+    modalGameScreenshots.addEventListener("click", (e) => {
+        if (e.target.tagName === "IMG") {
+            const displayBox = document.createElement("div");
+            const cancelBtn = document.createElement("i");
+            const img = document.createElement("img");
+
+            parentNode.insertBefore(displayBox, modal);
+            displayBox.appendChild(cancelBtn);
+            displayBox.appendChild(img);
+
+            displayBox.classList.add("img-modal")
+            cancelBtn.classList.add("far", "fa-window-close")
+            img.classList.add("fullscreen")
+
+            img.src = e.target.src;
+
+            cancelBtn.addEventListener("click", () => {
+                displayBox.remove();
+            })
+        }
+    })
+
+
+</script>
+
+<!-- search functionality -->
+<script>
+    const form = document.querySelector('#search-form');
+    const homeSearch = document.querySelector('#home-search');
+    const homeContainer = document.querySelector('.home-container')
+    
+    // back to homepage btn
+    const backBtn = document.querySelector('.back-btn.home')
+
+    // grabbing loading svg
+    const loader = homeContainer.firstElementChild;
+
+        
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        
+        // creating new elements
+        const searchHeader = document.createElement("h1")
+        const resultsBox = document.createElement("p")
+
+        const blogsCardSect = document.createElement("div")
+        const blogsCardCont = document.createElement("section")
+        const blogsHeader = document.createElement("h1")
+        
+        const videosCardSect = document.createElement("div")
+        const videosCardCont = document.createElement("section")
+        const videosHeader = document.createElement("h1")
+
+        const reviewsCardSect = document.createElement("div")
+        const reviewsCardCont = document.createElement("section")
+        const reviewsHeader = document.createElement("h1")
+
+        blogsCardSect.id = "blog-card-sect"
+        blogsCardCont.className = "blog-card-sect"
+
+        videosCardSect.id = "video-card-sect"
+        videosCardCont.className = "video-card-sect"
+
+        reviewsCardSect.id = "review-card-sect"
+        reviewsCardCont.className = "review-card-sect"
+
+        const searchVal = homeSearch.value;
+
+        homeSearch.value = ""
+        homeSearch.disabled = true;
+
+        
+        // emptying container
+        homeContainer.innerHTML = "";
+        
+
+        // assigning content
+        searchHeader.innerText = "Searching for results..."
+
+        // assigning classes to new elements
+        searchHeader.classList.add("search-header")
+        resultsBox.classList.add("results-box")
+
+        blogsHeader.classList.add("search-header")
+        videosHeader.classList.add("search-header")
+        reviewsHeader.classList.add("search-header")
+
+
+        //appending children
+        homeContainer.appendChild(searchHeader)
+        homeContainer.appendChild(resultsBox)
+        homeContainer.appendChild(loader)
+
+        // display loader
+        loader.style.display = "block";
+
+        // fetching data
+        async function searchData () {
+            try {
+                let [blogs, videos, reviews] = await Promise.all([
+                    fetch("/blogs?limit=10&page=0", {
+                        method: "post",
+                        headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                        body: JSON.stringify({search: searchVal})
+                    })
+                    .then(blob => blob.json()),
+                    fetch(`https://pointblank-proxy-server.herokuapp.com/https://www.giantbomb.com/api/search/?format=json&api_key=<%=GIANT_BOMB_KEY%>&query=${searchVal}&resources=video`)
+                    .then(blob => blob.json()),
+                    fetch(`https://api.rawg.io/api/games?search=${searchVal}&metacritic=1,99&page=1&page_size=12&search_precise=true&key=<%=RAWG_API_KEY%>`)
+                    .then(blob => blob.json())
+                ]);
+
+                backBtn.classList.add("visible");
+                backBtn.addEventListener("click", () => {
+                    location.reload();
+                })
+
+                let blogsCount = blogs.count > 1 ? "blogs" : "blog"
+                let videosCount = videos.number_of_total_results > 1 ? "videos" : "video"
+                let reviewsCount = reviews.count > 1 ? "reviews" : "review"
+
+                homeSearch.disabled = false
+                homeSearch.focus()
+                searchHeader.innerText = `Search results for '${searchVal}'`
+                resultsBox.innerText = `${blogs.count} ${blogsCount} | ${videos.number_of_total_results} ${videosCount} | ${reviews.count} ${reviewsCount} found.`
+                loader.style.display = "none"
+
+
+                const categories = [blogs, videos, reviews];
+
+                function showResult (data) {
+
+                    const blogsBackBoard = document.createElement('div');
+                    blogsBackBoard.id = "backboard"
+
+                    const videosBackBoard = document.createElement('div');
+                    videosBackBoard.id = "backboard"
+
+                    const reviewsBackBoard = document.createElement('div');
+                    reviewsBackBoard.id = "backboard"
+
+                    // blogs cont result
+                    if (data.result) {
+                        if (data.result && data.result.length) {
+                         data.result.forEach(result => {
+                            const blogCard = document.createElement('div');
+                            const blogCategory = document.createElement('div');
+                            const blogCategoryIcon = document.createElement('img');
+                            const blogCardImgDiv = document.createElement('div');
+                            const blogCardImg = document.createElement('img');
+                            const blogCardTitle = document.createElement('h3');
+                            const blogCardBody = document.createElement('p');
+                            const blogCardBtn = document.createElement('a');
+
+                            blogCard.classList.add("blog-card")
+                            blogCategory.classList.add("category")
+                            blogCardImgDiv.classList.add("bc-img-div")
+                            blogCardImg.classList.add("blog-card-img")
+                            blogCardTitle.classList.add("blog-card-title")
+                            blogCardBody.classList.add("blog-card-body")
+                            blogCardBtn.classList.add("blog-card-btn")
+
+                            // blog category conditional rendering
+                            switch (result.category) {
+                                case 'Xbox':
+                                    blogCategory.style.background = "green"
+                                    blogCategory.style.display = "flex"
+                                    blogCategory.style.alignItems = "center"
+                                    blogCategory.style.justifyContent = "center"
+                                    blogCategoryIcon.src = "https://img.icons8.com/ios-glyphs/30/ffffff/xbox.png"
+                                    break;
+                                case 'Playstation':
+                                    blogCategory.style.background = "blue"
+                                    blogCategory.style.display = "flex"
+                                    blogCategory.style.alignItems = "center"
+                                    blogCategory.style.justifyContent = "center"
+                                    blogCategoryIcon.src = "https://img.icons8.com/ios-glyphs/30/ffffff/play-station.png"
+                                    break;
+                                case 'Nintendo':
+                                    blogCategory.style.background = "red"
+                                    blogCategory.style.display = "flex"
+                                    blogCategory.style.alignItems = "center"
+                                    blogCategory.style.justifyContent = "center"
+                                    blogCategoryIcon.src = "https://img.icons8.com/ios-filled/30/ffffff/nintendo.png"
+                                    break;
+                                case 'PC':
+                                    blogCategory.style.background = "black"
+                                    blogCategory.style.display = "flex"
+                                    blogCategory.style.alignItems = "center"
+                                    blogCategory.style.justifyContent = "center"
+                                    blogCategoryIcon.src ="https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png"
+                                    break;
+                            
+                                default:
+                                    break;
+                            }
+                            blogsHeader.innerText = "Blogs"
+
+                            blogCardImg.src = result.hero
+                            blogCardTitle.innerText = result.title
+                            blogCardBody.innerText = result.blogSect1
+                            blogCardBtn.innerText = "read more"
+                            blogCardBtn.href = `/blogs/${result._id}`
+
+
+                            blogCard.appendChild(blogCategory)
+                            blogCard.appendChild(blogCategory)
+                            blogCategory.appendChild(blogCategoryIcon)
+                            blogCard.appendChild(blogCardImgDiv)
+                            blogCardImgDiv.appendChild(blogCardImg)
+                            blogCard.appendChild(blogCardTitle)
+                            blogCard.appendChild(blogCardBody)
+                            blogCard.appendChild(blogCardBtn)
+
+                            blogsCardCont.appendChild(blogCard)
+                            blogsCardSect.appendChild(blogsBackBoard)
+                            blogsCardSect.appendChild(blogsCardCont)
+
+                            homeContainer.appendChild(blogsCardSect)
+                            blogsCardSect.before(blogsHeader)
+                        })
+                        } 
+                        if (data.count < 1) {
+                            const backBoardMessage= document.createElement('h3');
+
+                            backBoardMessage.innerText = "No blogs found";
+                            blogsHeader.innerText = "Blogs"
+
+                            homeContainer.appendChild(blogsCardSect)
+                            blogsCardSect.appendChild(blogsBackBoard)
+                            blogsBackBoard.appendChild(backBoardMessage)
+                            blogsCardSect.before(blogsHeader)
+                        }        
+                        if (data.count > 10) {
+                            const moreBtn = document.createElement('p');
+                            const link = document.createElement('a');
+
+                            moreBtn.classList.add("button-holder");
+                            link.href = "/blogs";
+                            link.innerText = `\uD83E\uDC62 See more blogs`;
+
+                            moreBtn.addEventListener("click", () => {
+                                sessionStorage.setItem("homeSearchVal", searchVal);
+                            })
+
+                            moreBtn.appendChild(link);
+                            blogsCardSect.after(moreBtn);
+                        }
+                    }
+
+                    //videos cont result
+                    if (data.error === "OK" && data.status_code === 1)  {
+                        
+                        function timeStampLogic(val) { 
+                            if ( Math.floor( val / 60 ) > 59 ) { 
+                                return `${ Math.floor( val / 60 / 60 ) }:${ Math.floor( val / 60 % 60 ) < 10 ? "0" + Math.floor( val / 60 % 60 ) : Math.floor( val / 60 % 60 ) }:${ Math.floor( val % 60 ) < 10 ? "0" + Math.floor( val % 60 ) : Math.floor( val % 60 )}`; 
+                            } else { 
+                                return `${ Math.floor( val / 60) }:${ Math.floor( val % 60) < 10 ? "0" + Math.floor( val % 60 ) : Math.floor( val % 60 ) }`; 
+                            } 
+                        } 
+
+                        if (data.results && data.results.length && data.error === "OK") {
+                            console.log(data)
+                            data.results.forEach(result => {
+                                const videoLink = document.createElement('a');
+                                const videoCard = document.createElement('div');
+                                const videoCardImgDiv = document.createElement('div');
+                                const videoCardImg = document.createElement('img');
+                                const videoTimestamp = document.createElement('span');
+                                const videoDets = document.createElement('div');
+                                const videoIcon = document.createElement('span');
+                                const videoName = document.createElement('p');
+                                const showTitle = document.createElement('p');
+                                const publishDate = document.createElement('p');
+
+                                videoCard.classList.add("video-card")
+                                videoCardImgDiv.classList.add("vid-img")
+                                videoCardImg.classList.add("vid-poster")
+                                videoTimestamp.classList.add("timestamp")
+                                videoDets.classList.add("vid-dets")
+                                videoIcon.classList.add("vid-icon")
+                                videoName.classList.add("vid-name")
+                                showTitle.classList.add("show-title")
+                                publishDate.classList.add("publish-date")
+                                
+                                videoLink.href = result.embed_player
+                                videoLink.target = "_blank"
+                                videoLink.rel = "noopener" 
+                                videosHeader.innerText = "Videos"
+                                videoCardImg.src = result.image.screen_url
+                                videoTimestamp.innerText =  timeStampLogic(result.length_seconds)
+                                videoIcon.style.background = result.video_show && `url(${result.video_show.image.icon_url})`
+                                videoIcon.style.backgroundSize = "40px";
+                                videoName.innerText = result.name;
+                                showTitle.innerText = result.video_show && result.video_show.title;
+                                publishDate.innerText = result.publish_date;
+
+                                videoLink.appendChild(videoCard)
+                                videoCard.appendChild(videoCardImgDiv)
+                                videoCardImgDiv.appendChild(videoCardImg)
+                                videoCardImgDiv.appendChild(videoTimestamp)
+                                videoCard.appendChild(videoDets)
+                                videoDets.appendChild(videoIcon)
+                                videoDets.appendChild(videoIcon)
+                                videoDets.appendChild(videoName)
+                                videoCard.appendChild(showTitle)
+                                videoCard.appendChild(publishDate)
+                                
+                                videosCardCont.appendChild(videoLink)
+                                videosCardSect.appendChild(videosBackBoard)
+                                videosCardSect.appendChild(videosCardCont)
+
+                                homeContainer.appendChild(videosCardSect)
+                                videosCardSect.before(videosHeader)
+                            })
+                        }
+                        
+                        if (data.number_of_total_results < 1) {
+                            const backBoardMessage= document.createElement('h3');
+
+                            backBoardMessage.innerText = "No videos found";
+                            videosHeader.innerText = "Videos"
+
+                            homeContainer.appendChild(videosCardSect)
+                            videosCardSect.appendChild(videosBackBoard)
+                            videosBackBoard.appendChild(backBoardMessage)
+                            videosCardSect.before(videosHeader)
+                        }        
+                    
+                        if (data.number_of_total_results > 10) {
+                            const moreBtn = document.createElement('p');
+                            const link = document.createElement('a');
+
+                            moreBtn.classList.add("button-holder");
+                            link.href = "/videos";
+                            link.innerText = `\uD83E\uDC62 See more videos`;
+
+                            moreBtn.addEventListener("click", () => {
+                                sessionStorage.setItem("homeSearchVal", searchVal);
+                            })
+
+                            moreBtn.appendChild(link);
+                            videosCardSect.after(moreBtn)
+                        }
+                    }
+                  
+                    // reviews cont result
+                    if (data.user_platforms === false) {
+                        
+                        function populatePlats(arr) { 
+                                let code = "fab" 
+                                let newArr = arr.map((item, i) => { 
+                                    switch (item.toLowerCase()) {
+                                        case "pc": 
+                                        item = ""
+                                        code = "desktop-pc" 
+                                        break;
+                                    case "nintendo": 
+                                        item = ""
+                                        code = "nintendo-icon" 
+                                        break;
+                                    default:
+                                        item = item;
+                                        code = "fab" 
+                                        break; 
+                                } 
+                                return `<i class="${code} fa-${item.toLowerCase()} platform-icons"></i>` 
+                            }).join(""); 
+                            return newArr 
+                        } 
+
+                        // calculate inner star width 
+                        function innerWidth (val, maxVal) { 
+                            return `${(val / maxVal) * 100}` 
+                        } 
+
+
+                        if (data.results && data.results.length ) {
+                            console.log(data)
+                            data.results.forEach(result => {
+
+                                // platforms array
+                                let platsArray = []; 
+                                result.parent_platforms.forEach(p => platsArray.push(p.platform.name)) 
+
+                                const reviewCard = document.createElement('div');
+                                const reviewCardImg = document.createElement('img');
+                                const reviewInfoBox = document.createElement('div');
+                                const gameName = document.createElement('h3');
+                                const platforms = document.createElement('div');
+                                const rating = document.createElement('div');
+                                const released = document.createElement('div');
+                                const mcBox = document.createElement('div');
+                                const mcScore = document.createElement('div');
+
+                                reviewCard.classList.add("review-card")
+                                reviewInfoBox.classList.add("info-box")
+                                platforms.classList.add("platforms")
+                                rating.classList.add("rating")
+                                released.classList.add("released")
+                                mcBox.classList.add("mc-box")
+                                mcScore.classList.add("mc-score")
+
+                                reviewsHeader.innerText = "Reviews"
+                                
+                                const ratingIfValue = `<span>Rating:</span>                                  
+                                                        <span class="outer-stars">
+                                                            <span class="inner-stars" style="width:${ innerWidth(result.rating, result.rating_top) }%;">
+                                                            </span>
+                                                        </span>
+                                                        <span class="rating-details">
+                                                        ${ result.rating + '/' + result.rating_top }
+                                                        </span>`
+
+                                const ratingElseValue = `<span class="rating-details">
+                                                            N/A
+                                                        </span>`
+                                
+                                reviewCardImg.src = result.background_image
+                                gameName.innerText = result.name
+                                platforms.innerHTML = `<span>Platforms:</span> ${ populatePlats(platsArray) }</div>`
+                                rating.innerHTML = result.rating_top >= 4 ? ratingIfValue : ratingElseValue
+                                released.innerHTML = `<span>Released:</span> ${result.released}`
+                                mcScore.innerText = result.metacritic;
+
+                                // review card event listener
+                                reviewCard.addEventListener("click", () => {
+                                    showDetails(result.id)
+                                })
+
+                                reviewCard.appendChild(reviewCardImg)
+                                reviewCard.appendChild(reviewInfoBox)
+                                reviewInfoBox.appendChild(gameName)
+                                reviewInfoBox.appendChild(platforms)
+                                reviewInfoBox.appendChild(rating)
+                                reviewInfoBox.appendChild(released)
+                                reviewCard.appendChild(mcBox)
+                                mcBox.appendChild(mcScore)
+                                
+                                reviewsCardSect.appendChild(reviewsBackBoard)
+                                reviewsCardSect.appendChild(reviewsCardCont)
+                                reviewsCardCont.appendChild(reviewCard)
+
+                                homeContainer.appendChild(reviewsCardSect)
+                                reviewsCardSect.before(reviewsHeader)
+                            })
+                        }
+                        
+                        if (data.results.length < 1) {
+                            
+                            const backBoardMessage= document.createElement('h3');
+
+                            backBoardMessage.innerText = "No reviews found";
+                            reviewsHeader.innerText = "Reviews"
+
+                            reviewsCardSect.appendChild(reviewsBackBoard)
+                            reviewsBackBoard.appendChild(backBoardMessage)
+                            homeContainer.appendChild(reviewsCardSect)
+                            reviewsCardSect.before(reviewsHeader)
+                        }        
+                    
+                        if (data.count > 11) {
+                            const moreBtn = document.createElement('p');
+                            const link = document.createElement('a');
+
+                            moreBtn.classList.add("button-holder");
+                            link.href = "/reviews";
+                            link.innerText = `\uD83E\uDC62 See more reviews`;
+
+                            moreBtn.addEventListener("click", () => {
+                                sessionStorage.setItem("homeSearchVal", `${searchVal}`);
+                            })
+
+                            moreBtn.appendChild(link);
+                            reviewsCardSect.after(moreBtn)
+                        }
+                    
+                    }
+                }
+
+                categories.forEach(category => {
+                    if (category.result ?? category.results) showResult(category);
+                })
+            }
+            catch(err) {
+                loader.style.display = "none"
+
+                const errorMessage = document.createElement("h3");
+                errorMessage.classList.add("search-error")
+                errorMessage.innerText = "Oops, Please try searching again after refreshing the page."
+
+                homeContainer.appendChild(errorMessage);
+            };
+        }
+   
+        
+        searchData();
+    })
+</script>
 </body>
 </html>

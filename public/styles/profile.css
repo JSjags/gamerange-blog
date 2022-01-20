@@ -1,0 +1,240 @@
+.message-box {
+    width: fit-content;
+    border-radius: 10px;
+    font-weight: bolder;
+    margin: 20px auto 0;
+    padding: 20px 30px;
+    transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    opacity: 0;
+}
+.message-box.success {
+    background: rgb(90, 224, 0);
+    transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    opacity: 1;
+    color: white;
+}
+.message-box.error {
+    background: rgb(255, 0, 0);
+    transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    opacity: 1;
+    color: white;
+}
+#profile-cont {
+    width: 100%;
+    height: fit-content;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+}
+.profile-cont {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 800px;
+    margin: 40px 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+    height: 400px;
+    background: rgb(221, 221, 221);
+    position: relative;
+}
+.profile-cont h2{
+    width: fit-content;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+.profile-cont h2::after {
+    content: "";
+    position: absolute;
+    display: block;
+    background: var(--background-color);
+    bottom: -8px;
+    width: 100%;
+    height: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 6px 6px 2px 2px;
+}
+.profile-pic {
+    width: 40%;
+    height: 80%;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(175, 175, 175);
+    position: relative;
+    background: url(../person-icon.png), rgb(228, 228, 228);
+    background-size: cover;
+    background-position: center 30px;
+    background-repeat: no-repeat;
+}
+.profile-pic img {
+    width: 100%;
+    object-fit: cover;
+}
+.profile-pic label {
+    display: block;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: black;
+    border: 1px solid #b1b1b1;
+    left: 50%;
+    top: 80%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: all 300ms ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 200ms ease;
+}
+.profile-pic:hover label {
+    opacity: 1;
+}
+.profile-pic label i {
+    display: block;
+    color: white;
+    transition: all 200ms ease;
+    font-size: 1.4em;
+}
+.profile-pic label:hover {
+    background: var(--background-color);
+}
+.profile-pic input {
+    position: absolute;
+    display: none;
+}
+.profile-cont .profile-dets {
+    width: 50%;
+    height: 100%;
+}
+.profile-dets {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+.profile-dets form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+.profile-dets div {
+    margin: 20px 0;
+    width: 100%;
+}
+.profile-dets .dets label {
+    display: block;
+    font-weight: bolder;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+.profile-dets .dets input {
+    width: 75%;
+    padding: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    font-size: 1.1em;
+    background: transparent;
+}
+.profile-dets .dets:nth-child(3) label {
+    display: block;
+    width: fit-content;
+    padding: 5px;
+    border-radius: 5px;
+    transition: all 200ms ease;
+}
+.profile-dets .dets:nth-child(3) label:hover {
+    background: var(--background-color);
+    color: white;
+}
+.profile-dets .dets:nth-child(3) input {
+    opacity: 0;
+    pointer-events: none;
+}
+.profile-dets .dets:nth-child(4) {
+    display: none;
+}
+.profile-dets p {
+    display: grid;
+    width: 100%;
+    padding-right: calc(25% - 50px);
+}
+.profile-dets p button {
+    display: block;
+    width: 100px;
+    height: 50px;
+    font-weight: bolder;
+    padding: 10px;
+    border-radius: 5px;
+    background: black;
+    color: white;
+    border: none;
+    justify-self: right;
+    transition: all 200ms ease;
+    opacity: 0;
+    cursor: pointer;
+    pointer-events: none;
+}
+.profile-dets p button:hover {
+    background: var(--background-color);
+}
+
+.fa-edit {
+    font-size: 1.4em;
+    display: inline-block;
+    background: black;
+    color: white;
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.fa-edit:hover {
+    background: var(--background-color);
+}
+
+.fa-times {
+    font-size: 1.4em;
+    display: inline-block;
+    background: black;
+    color: white;
+    margin-left: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    opacity: 0;
+    transition: all 200ms ease;
+    cursor: pointer;
+    pointer-events: none;
+}
+.fa-times:hover {
+    background: red;
+}
+
+.profile-dets p button svg {
+    width: 100%;
+    height: 100%;
+}
+.profile-dets p button svg circle {
+    margin-left: 50px;
+    cx: 50%;
+    cy: 50%;
+    r: 10px;
+    stroke: url(#linear-5);
+    stroke-width: 4;
+    fill: transparent;
+    stroke-dasharray: 62.85;
+    stroke-dashoffset: 1px 0;
+    stroke-linecap: round;
+    animation: fill-animation 1s cubic-bezier(1,1,1,1) 0s infinite;
+}
