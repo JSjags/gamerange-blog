@@ -2,15 +2,20 @@
 <html lang="en">
 
 <%- include('./partials/header.ejs') %>
+</head>
 
 <body>
 <div class="container">
 
     <%- include('./partials/nav.ejs') %>
 
+    <div id="menu-btn-icon">
+        <i class="fas fa-bars"></i>
+        <span class="menu-btn-text">Menu</span>
+    </div>
     <div class="about-cont">
         <section class="about-hero">
-        <h1>GameRange.Inc</h1>
+        <h1>GameRange</h1>
         <p>...for everything gaming.</p>
         </section>
     </div>
@@ -87,7 +92,6 @@
 <%- include('./partials/footer.ejs') %>
 
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
-<script src="functions.js"></script>
 <script>
     const aboutHero = document.querySelector(".about-cont");
     const aboutLogo = document.querySelector(".about-hero");

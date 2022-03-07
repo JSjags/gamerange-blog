@@ -7,6 +7,7 @@
 }
 .blogs-page {
     transform-style: preserve-3d;
+    overflow-x: hidden;
 }
 .back-btn {
     height: 40px;
@@ -49,7 +50,7 @@
     border-radius: 6px 6px 3px 3px;
 }
 .blogs-section.results {
-    width: 70vw;
+    max-width: 800px;
     min-height: 180px;
     background: white;
     border-radius: 10px 10px 10px 10px;
@@ -81,6 +82,7 @@
     animation: fill-animation 1s cubic-bezier(1,1,1,1) 0s infinite;
 }
 .blogs-section .blog-item {
+    position: relative;
     width: 100%;
     margin-top: 10px;
     height: fit-content;
@@ -92,6 +94,7 @@
     "sp1 sp2"
     ;
     box-shadow: 0 5px 15px #00000033;
+    overflow: hidden;
 }
 .blogs-section .blog-item .sub-parent-1 {
     width: 100%;
@@ -106,10 +109,15 @@
 }
 .blogs-section .blog-item .sub-parent-2 a {
     font-size: 1.3em;
-    display: inline-block;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-weight: bolder;
+    -webkit-line-clamp: 2;
     color: black;
     width: calc(100% - 50px);
+    height: 60px;
 }
 .blogs-section .blog-item .sub-parent-2 a:hover{
     text-decoration: underline;
@@ -257,7 +265,7 @@
 }
 .blog-page-cont .blog-item .sub-parent-2 a {
     font-size: 1.3em;
-    display: inline-block;
+    display: -webkit-box;
     font-weight: bolder;
     color: black;
     width: calc(100% - 50px);
@@ -312,3 +320,113 @@
       stroke-dashoffset: -93.9;
     }
   }
+
+
+/* for screens less than 585px */
+@media only screen and (max-width: 585px) {
+    .blogs-section .tabs {
+        overflow: scroll;
+        width: calc(100% - 14px);
+        padding: 30px 0 5px;
+    }
+    .blogs-section .tabs .tab {
+        transform: translateX(0) translateZ(0);
+        margin-right: 20px;
+        white-space: nowrap; 
+        box-shadow: none;
+        border-radius: 5px;
+        padding: 10px 10px 10px 10px;
+    }
+    .blogs-section .tabs::-webkit-scrollbar{
+        appearance: none;
+        background: transparent;
+        width: 6px;
+        height: 6px;
+    }
+    .blogs-section .tabs::-webkit-scrollbar-thumb {
+        appearance: none;
+        border-radius: 10px;
+        background: linear-gradient(315deg, #cc01aa, #01d3c1);
+        width: 10px;
+        height: 10px;
+    }
+    .blogs-section .tabs::-webkit-scrollbar-corner {
+        appearance: none;
+        background: transparent;
+    }
+    .blogs-section .blog-page-cont {
+        width: calc(100% - 40px);
+        border-radius: 10px;
+        margin-top: 30px;
+    }
+    .blogs-section .blog-item .sub-parent-2 a {
+        font-size: 1.1em;
+        height: 68px;
+        -webkit-line-clamp: 3;
+    }
+}
+/* for screens less than 475px */
+@media only screen and (max-width: 475px) {
+    .blog-page-cont .blog-item {
+        flex-direction: column;
+        display: flex;
+        padding: 0;
+    }
+    .blog-page-cont .blog-item .sub-parent-1 {
+        border-radius: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+    .blog-page-cont .blog-item .sub-parent-1 img {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+    .blog-page-cont .blog-item .sub-parent-2 {
+        margin-left: 0;
+        padding: 5px;
+    }
+    .blogs-section .blog-item .sub-parent-2::before {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #0000007c;
+        backdrop-filter: blur(2px);
+        top: 0;
+        left: 0;
+    }
+    .blogs-section .blog-item .sub-parent-2 a {
+        color: white;
+        position: relative;
+    }
+    .blogs-section .blog-item .sub-parent-2 p {
+        color: #ffffff83;
+        position: relative;
+    }
+    
+    .blogs-section .blog-item .sub-parent-2 .blog-snippet {
+        background: linear-gradient(to bottom, white 20%, transparent);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-weight: bolder;
+    }
+    .blogs-section .blog-item .sub-parent-2 .blog-snippet::after {
+        display: none;
+    }
+    .blog-page-cont .blog-item .sub-parent-2 span {
+        background: linear-gradient(to bottom, white 20%, transparent);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-weight: bolder;
+    }
+    .blog-page-cont .blog-item .sub-parent-2 span::after {
+        display: none;
+    }
+}

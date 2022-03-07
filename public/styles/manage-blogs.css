@@ -1,0 +1,1226 @@
+#blogs-manager-body {
+    background: black;
+    width: 100%;
+    min-height: 100vh;
+    padding-left: 10px;
+}
+#blogs-manager-body .pages {
+    background: var(--background-color);
+    font-weight: bolder;
+    padding: 5px 10px;
+    box-shadow: 0 6px 20px #0000004d;
+    border-radius: 10px;
+}
+#bm-search {
+    color: white;
+}
+#search-hl {
+    background: var(--background-color); 
+    display: inline; 
+    border-radius: 5px; 
+    color: white; 
+    text-transform: capitalize;
+}
+.bm-title {
+    color: white;
+    margin-top: 30px;
+    background: radial-gradient(circle, red, orange, yellow, green, blue, indigo, violet);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    width: fit-content;
+}
+.bm-title i {
+    font-size: 1.6em;
+    margin-right: 10px;
+}
+.bm-title span {
+    font-size: 1.6em;
+}
+.bm-tabs {
+    margin: 30px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 800px;
+}
+.bm-tabs .bm-tab {
+    font-weight: bolder;
+    font-size: 1.2em;
+    border-radius: 5px;
+    padding: 5px 10px;
+    border: 1px solid #5f5f5f;
+    cursor: pointer;
+    list-style-type: none;
+    color: white;
+    transition: all 200ms ease;
+}
+.bm-tabs .bm-tab.active:nth-child(1) {
+    background: white;
+    border: 1px solid white;
+    color: black;
+}
+.bm-tabs .bm-tab:nth-child(1):hover {
+    background: white;
+    border: 1px solid white;
+    color: black;
+}
+.bm-tabs .bm-tab.active:nth-child(2) {
+    background: green;
+    border: 1px solid green;
+    color: white;
+}
+.bm-tabs .bm-tab:nth-child(2):hover {
+    background: green;
+    border: 1px solid green;
+    color: white;
+}
+.bm-tabs .bm-tab.active:nth-child(3) {
+    background: blue;
+    border: 1px solid blue;
+    color: white;
+}
+.bm-tabs .bm-tab:nth-child(3):hover {
+    background: blue;
+    border: 1px solid blue;
+    color: white;
+}
+.bm-tabs .bm-tab.active:nth-child(4) {
+    background: red;
+    border: 1px solid red;
+    color: white;
+}
+.bm-tabs .bm-tab:nth-child(4):hover {
+    background: red;
+    border: 1px solid red;
+    color: white;
+}
+.bm-tabs .bm-tab.active:nth-child(5) {
+    background: #5f5f5f;
+    border: 1px solid #5f5f5f;
+    color: white;
+}
+.bm-tabs .bm-tab:nth-child(5):hover {
+    background: #5f5f5f;
+    border: 1px solid #5f5f5f;
+    color: white;
+}
+
+.bm-page-cont {
+    width: 800px;
+    min-height: 30vh;
+    background: transparent;
+    border: 1px solid #5f5f5f;
+    padding: 0 10px 10px 10px;
+    border-radius: 10px;
+    margin: auto;
+}
+.bm-page-cont svg {
+    margin-top: 30px;
+    width: 100%;
+    height: 100px;
+}
+.bm-page-cont svg circle {
+    margin-left: 50px;
+    cx: 50%;
+    cy: 40px;
+    r: 20px;
+    stroke: url(#linear);
+    stroke-width: 4;
+    fill: transparent;
+    stroke-dasharray: 62.85;
+    stroke-dashoffset: 1px 0;
+    stroke-linecap: round;
+    animation: fill-animation 1s cubic-bezier(1,1,1,1) 0s infinite;
+}
+.bm-page-cont .blog-item {
+    width: 100%;
+    margin-top: 10px;
+    max-height: 200px;
+    padding: 5px;
+    display: grid;
+    border: 1px solid #5f5f5f;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: 
+    "sp1 sp2"
+    ;
+    box-shadow: 0 5px 15px #00000033;
+    position: relative;
+    overflow: hidden;
+}
+.bm-page-cont .blog-item .sub-parent-1 {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 5px;
+}
+.bm-page-cont .blog-item .sub-parent-1 img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.bm-page-cont .blog-item .sub-parent-2 {
+    margin-left: 10px;
+    position: relative;
+}
+.bm-page-cont .blog-item .sub-parent-2 a {
+    font-size: 1.3em;
+    display: inline-block;
+    font-weight: bolder;
+    color: white;
+    width: calc(100% - 50px);
+}
+.bm-page-cont .blog-item .sub-parent-2 a:hover{
+    text-decoration: underline;
+}
+.bm-page-cont .blog-item .sub-parent-2 p {
+    color: #8b8b8b;
+    margin-top: 5px;
+}
+.bm-page-cont .blog-item .sub-parent-2 .blog-snippet {
+    display: block;
+    padding-top: 20px;
+    height: 90px;
+    overflow: hidden;
+    position: relative;
+    color: #5f5f5f;
+}
+.bm-page-cont .blog-item .sub-parent-2 .blog-snippet::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, black);
+    bottom: 0;
+}
+.bm-page-cont .blog-item .sub-parent-2 i {
+    position: absolute;
+    font-size: 2em;
+    top: 2px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    filter: brightness(1);
+}
+.bm-page-cont .search-msg {
+    margin-top: 10vh;
+    color: white;
+}
+
+
+.edit-btn {
+    height: 40px;
+    transform: translateX(calc(100% - (1.2em + 10px)));
+    position: absolute;
+    font-size: 1.2em;
+    color: green;
+    background: white;
+    padding: 5px;
+    display: block;
+    border: none;
+    border-left: 5px solid green;
+    right: 0;
+    bottom: 40px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    cursor: pointer;
+    transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.del-btn {
+    height: 40px;
+    transform: translateX(calc(100% - (1.2em + 10px)));
+    position: absolute;
+    font-size: 1.2em;
+    color: red;
+    background: white;
+    padding: 5px;
+    display: block;
+    border: none;
+    border-left: 5px solid red;
+    right: 0;
+    bottom: 0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    cursor: pointer;
+    transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.edit-btn i,
+.del-btn i {
+    padding-right: 5px;
+}
+.edit-btn:hover {
+    color: white;
+    background: green;
+    transform: translateX(0);
+}
+.del-btn:hover {
+    color: white;
+    background: red;
+    transform: translateX(0);
+}
+/* delete modal */
+.bm-modal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.555);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+.del-modal {
+    max-width: 400px;
+    height: fit-content;
+    padding: 20px;
+    border-radius: 10px;
+    background: white;
+}
+.del-modal h3{
+    color: red;
+    font-size: 1.3em;
+}
+.del-modal p{
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+.del-modal p svg {
+    margin: 20px auto 0;
+    width: 100%;
+    height: 100px;
+}
+.del-modal p svg circle {
+    margin-left: 50px;
+    cx: 50%;
+    cy: 40px;
+    r: 20px;
+    stroke: url(#linear-modal);
+    stroke-width: 4;
+    fill: transparent;
+    stroke-dasharray: 62.85;
+    stroke-dashoffset: 1px 0;
+    stroke-linecap: round;
+    animation: fill-animation 1s cubic-bezier(1,1,1,1) 0s infinite;
+}
+.del-modal div{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+.del-modal button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: all 200ms ease;
+}
+.del-modal button:hover {
+    filter: brightness(0.7);
+}
+.del-modal div button:nth-child(1) {
+    background: white;
+    margin-right: 10px;
+    border: 1px solid black;
+}
+.del-modal div button:nth-child(2) {
+    background: red;
+    color: white;
+}
+/* edit modal styling starts here */
+.edit-modal {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background: #00000033;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    overflow: scroll;
+}
+
+.edit-modal .fa-window-close {
+    position: fixed;
+    color: white;
+    font-size: 2em;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+.edit-modal #bc-form {
+    width: 800px;
+    margin: 50px auto;
+    padding: 0 0 50px 0;
+    color: white;
+    font-family: "Average Sans", sans-serif;
+    border-radius: 10px;
+    border: 1px solid #5f5f5f;
+    box-shadow: none;
+    background: black;
+}
+.edit-modal #bc-form input {
+    color: white;
+}
+.edit-modal #bc-form .header {
+    text-transform: capitalize;
+    padding: 20px 10px;
+}
+.edit-modal #bc-form hr {
+    border: none;
+    border-bottom: 1px solid #5f5f5f;
+}
+.edit-modal #bc-form .dropdown {
+    padding: 30px 10px 0;
+    transition: all 500ms ease-in-out;
+}
+.edit-modal #bc-form .dropdown label {
+    font-size: 1.2em;
+    display: block;
+    text-transform: capitalize;
+    width: fit-content;
+}
+.edit-modal #bc-form .dropdown #input {
+    margin-top: 10px;
+    width: 200px;
+    height: 30px;
+    display: flex;
+    position: relative;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    position: relative;
+    z-index: 2;
+}
+.edit-modal #bc-form .dropdown #input:hover{
+    box-shadow: 0 0 5px 2px green;
+    border: none;
+    transition: all 200ms ease;
+}
+.edit-modal #bc-form .dropdown #input input {
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: 0 0 1px #5f5f5f;
+    background: transparent;
+    padding: 0 0 0 5px;
+    font-family: "Average Sans", sans-serif;
+    font-size: 1.1em;
+    outline: none;
+    color: white;
+    caret-color: #cc01aa;
+    transition: all 200ms ease;
+}
+.edit-modal #bc-form .dropdown input:hover{
+    border: none;
+    transition: all 200ms ease;
+}
+.edit-modal #bc-form .dropdown input:focus{  
+  border: 2px solid green;
+}
+.edit-modal #bc-form .dropdown input::placeholder {
+    color: #5f5f5f;
+}
+.edit-modal #bc-form .dropdown #input svg {
+    position: absolute;
+    top: 30%;
+    right: 5px;
+    transform: scale(0.5) translateY(-50%) rotateZ(-90deg);
+    fill: white;
+    transition: all 500ms ease-in-out;
+}
+.edit-modal #bc-form .dropdown.show #input svg {
+    transform: scale(0.5) translateY(-50%) rotateZ(0);
+} 
+.edit-modal #bc-form .dropdown #options {
+    width: 200px;
+    margin: 10px 0 0 0;
+    background: transparent;
+    border: 1px solid #5f5f5f;
+    padding: 5px 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 0;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-40px);
+    transition: all 500ms ease-in-out;
+    position: relative;
+    z-index: 0;
+}
+.edit-modal #bc-form .dropdown.show #options {
+    height: 173px;
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+}
+.edit-modal #bc-form .dropdown #options li{
+    list-style: none;
+    font-size: 1.1em;
+    text-transform: capitalize;
+    margin: 5px;
+    background: transparent;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 5px;
+    transition: all 200ms ease-in-out;
+}
+.edit-modal #bc-form .dropdown #options li:hover {
+    background: #cc01aa;
+    box-shadow: 0 0 5px #cc01aa;
+    color: #cfcfcf;
+}
+.edit-modal #bc-form .title {
+    padding: 30px 10px;
+}
+.edit-modal #bc-form .title label {
+    font-size: 1.2em;
+    display: block;
+    text-transform: capitalize;
+    width: fit-content;
+}
+.edit-modal #bc-form .title input {
+    display: block;
+    width: 70%;
+    margin: 10px 0 0 0;
+    height: 30px;
+    border: none;
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: transparent;
+    box-shadow: inset 0 -1px #5f5f5f;
+    padding: 0 0 0 5px;
+    font-family: "Average Sans", sans-serif;
+    font-size: 1.1em;
+    outline: none;
+    caret-color: #cc01aa;
+    transition: all 200ms ease;
+}
+.edit-modal #bc-form .title input:hover{
+    box-shadow: 0 0 5px 2px green;
+    border: none;
+}
+.edit-modal #bc-form .title input:focus{
+    box-shadow: inset 0 -2px solid green;
+}
+.edit-modal #bc-form .title input::placeholder {
+    color: #5f5f5f;
+}
+.edit-modal #bc-form .author-name {
+    padding: 30px 10px;
+}
+.edit-modal #bc-form .author-name label {
+    font-size: 1.2em;
+    display: block;
+    text-transform: capitalize;
+    width: fit-content;
+}
+.edit-modal #bc-form .author-name input {
+    display: block;
+    width: 70%;
+    margin: 10px 0 0 0;
+    height: 30px;
+    border: none;
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: transparent;
+    box-shadow: inset 0 -1px #5f5f5f;
+    padding: 0 0 0 5px;
+    font-family: "Average Sans", sans-serif;
+    font-size: 1.1em;
+    outline: none;
+    caret-color: #cc01aa;
+    transition: all 200ms ease;
+}
+.edit-modal #bc-form .author-name input:hover{
+    box-shadow: 0 0 5px 2px green;
+    border: none;
+}
+.edit-modal #bc-form .author-name input:focus{
+    box-shadow: inset 0 -2px green;
+}
+.edit-modal #bc-form .author-name input::placeholder {
+    color: #5f5f5f;
+}
+.edit-modal #hero {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 20px 20px 0 0;
+    margin: 0 0 20px 0;
+}
+.edit-modal #hero-text {
+    padding: 0 10px 0 10px;
+}
+.edit-modal #hero-text p {
+    font-size: 1.2em;
+    text-transform: capitalize;
+}
+.edit-modal #hero-text span {
+    font-size: 1.1em;
+    text-transform: capitalize;
+    display: block;
+    margin: 20px 0 0 0;
+}
+.edit-modal #hero-text label {
+    cursor: pointer;
+    margin: 20px 0 0 0;
+    display: block;
+    line-height: 30px;
+    width: fit-content;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px 20px;
+    background: green;
+    text-transform: capitalize;
+    transition: all 200ms ease-in-out;
+}
+.edit-modal #hero-text label:hover {
+    background: #cc01aa;
+    box-shadow: 0 0 10px #cc01aa;
+}
+.edit-modal #hero #hero-img {
+    display: block;
+    width: 140%;
+    margin: 10px 0 0 0;
+    height: 30px;
+    border: none;
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: transparent;
+    box-shadow: inset 0 -1px #5f5f5f;
+    padding: 0 0 0 5px;
+    font-family: "Average Sans", sans-serif;
+    font-size: 1.1em;
+    color: white;
+    outline: none;
+    caret-color: #cc01aa;
+    transition: all 200ms ease;
+}
+
+.edit-modal #hero #hero-img:hover{
+    box-shadow: 0 0 5px 2px green;
+    border: none;
+}
+.edit-modal #hero #hero-img:focus{
+    box-shadow: inset 0 -2px green;
+}
+.edit-modal #hero #hero-img::placeholder {
+    color: #5f5f5f;
+}
+.edit-modal #hero #hero-img-sect p {
+    text-transform: capitalize;
+    color: #5f5f5f;
+}
+.edit-modal #hero #hero-img-sect img {
+    width: 360px;
+    max-width: 360px;
+    min-height: 180px;
+    max-height: 720px;
+    box-shadow: none;
+    position: relative;
+    margin-top: 5px;
+    overflow: hidden;
+    margin-right: 20px;
+    display: block;
+    position: relative;
+    border-radius: 10px;
+}
+.edit-modal #hero #hero-img-sect img::after {
+    content: url(./preview-icon.png) " "attr(data-text);
+    position: absolute;
+    font-size: 1.5em;
+    color: #5f5f5f;
+    text-transform: capitalize;
+    text-align: center;
+    box-sizing: border-box;
+    border: 1px solid #5f5f5f;
+    fill: #5f5f5f;
+    width: 100%;
+    max-width: 100%;
+    word-wrap: break-word;
+    padding: 0 150px;
+    height: 100%;
+    background: black;
+    background-size: 100vh;
+    background-position: center;
+    background-attachment: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+}
+.edit-modal #bc-form .snippet {
+    padding: 30px 10px;
+}
+.edit-modal #bc-form .snippet label {
+    font-size: 1.2em;
+    display: block;
+    text-transform: capitalize;
+    width: fit-content;
+}
+.edit-modal #bc-form .snippet input {
+    display: block;
+    width: 70%;
+    margin: 10px 0 0 0;
+    height: 30px;
+    border: none;
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: transparent;
+    box-shadow: inset 0 -1px #5f5f5f;
+    padding: 0 0 0 5px;
+    font-family: "Average Sans", sans-serif;
+    font-size: 1.1em;
+    outline: none;
+    caret-color: #cc01aa;
+    transition: all 200ms ease;
+}
+.edit-modal #bc-form .snippet input:hover{
+    box-shadow: 0 0 5px 2px green;
+    border: none;
+}
+.edit-modal #bc-form .snippet input:focus{
+    box-shadow: inset 0 -2px green;
+}
+.edit-modal #bc-form .snippet input::placeholder {
+    color: #5f5f5f;
+}
+.edit-modal #bc-form .blog-sect {
+    padding: 30px 10px;
+}
+.edit-modal #bc-form .blog-sect label {
+    font-size: 1.2em;
+    display: block;
+    text-transform: capitalize;
+    width: fit-content;
+}
+.edit-modal #bc-form .blog-sect textarea {
+    display: block;
+    resize: both;
+    min-width: 90%;
+    max-width: 100%;
+    margin: 10px 0 0 0;
+    min-height: 300px;
+    max-height: 360px;
+    border: none;
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: transparent;
+    box-shadow: 0 0 0 1px #5f5f5f;
+    padding: 10px 5px;
+    font-family: "Average Sans", sans-serif;
+    font-size: 1.1em;
+    outline: none;
+    caret-color: #cc01aa;
+    color: white;
+    transition: all 200ms ease;
+}
+.edit-modal ::-webkit-resizer {
+    appearance: none;
+    background: url('../resize.png');
+    filter: hue-rotate(180deg);
+    transform: rotateZ(45deg);
+    background-size: cover;
+    transform: rotateZ(180deg);
+    background-repeat: no-repeat;
+    transform: scale(8);
+    position: absolute;
+}
+.edit-modal ::-webkit-resizer::after {
+    content: "r";
+    display: block;
+}
+.edit-modal #bc-form .blog-sect textarea:hover{
+    box-shadow: 0 0 5px 1px green;
+}
+.edit-modal #bc-form .blog-sect textarea:focus{
+    box-shadow: 0 0 0 2px green;
+}
+.edit-modal #bc-form .blog-sect textarea::placeholder {
+    color: #5f5f5f;
+}
+.edit-modal #blog-images {
+    width: 100%;
+    padding: 30px 10px;
+    display: flex;
+    align-items: flex-start;
+}
+.edit-modal #blog-images-text {
+    width: 40%;
+    padding: 0 10px 0 0;
+}
+.edit-modal #blog-images-text p{
+    font-size: 1.2em;
+}
+.edit-modal #blog-images-text span {
+    display: block;
+    font-size: 1.1em;
+    margin: 20px 0 0 0;
+}
+.edit-modal #blog-images-text  label {
+    cursor: pointer;
+    margin: 20px 0 0 0;
+    display: block;
+    line-height: 30px;
+    width: fit-content;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px 20px;
+    background: green;
+    text-transform: capitalize;
+    transition: all 200ms ease-in-out;
+}
+.edit-modal #blog-images-text label:hover {
+    background: #cc01aa;
+    box-shadow: 0 0 10px #cc01aa;
+}
+.edit-modal #bc-form .remark {
+    padding: 30px 10px;
+}
+.edit-modal #bc-form .remark label {
+    font-size: 1.2em;
+    display: block;
+    text-transform: capitalize;
+    width: fit-content;
+}
+.edit-modal #bc-form .remark input {
+    display: block;
+    width: 70%;
+    margin: 10px 0 0 0;
+    height: 30px;
+    border: none;
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: transparent;
+    box-shadow: inset 0 -1px #5f5f5f;
+    padding: 0 0 0 5px;
+    font-family: "Average Sans", sans-serif;
+    font-size: 1.1em;
+    outline: none;
+    caret-color: #cc01aa;
+    transition: all 200ms ease;
+}
+.edit-modal #bc-form .remark input:hover{
+    box-shadow: 0 0 5px 2px green;
+    border: none;
+}
+.edit-modal #bc-form .remark input:focus{
+    box-shadow: inset 0 -2px green;
+}
+.edit-modal #bc-form .remark input::placeholder {
+    color: #5f5f5f;
+}
+.edit-modal .blog-tags-sect {
+    padding: 30px 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.edit-modal .blog-tags-sect .blog-tags {
+    width: 50%;
+}
+.edit-modal .blog-tags-sect .blog-tags label {
+    font-size: 1.2em;
+    display: block;
+    text-transform: capitalize;
+    width: fit-content;
+}
+.edit-modal .blog-tags-sect .blog-tags input {
+    display: block;
+    width: 80%;
+    margin: 10px 0 0 0;
+    height: 30px;
+    border: none;
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: transparent;
+    box-shadow: inset 0 -1px #5f5f5f;
+    padding: 0 0 0 5px;
+    font-family: "Average Sans", sans-serif;
+    font-size: 1.1em;
+    outline: none;
+    caret-color: #cc01aa;
+    transition: all 200ms ease;
+}
+.edit-modal .blog-tags-sect .blog-tags input:hover{
+    box-shadow: 0 0 5px 2px green;
+    border: none;
+}
+.edit-modal .blog-tags-sect .blog-tags input:focus{
+    box-shadow: inset 0 -2px green;
+}
+.edit-modal .blog-tags-sect .blog-tags input::placeholder {
+    color: #5f5f5f;
+}
+.edit-modal .blog-tags-sect .blog-tags span {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    background: green;
+    border-radius: 5px;
+    color: white;
+    width: fit-content;
+    cursor: pointer;
+}
+.edit-modal .blog-tags-sect .tags-display {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    flex: 1;
+    min-height: 30px;
+    border-radius: 10px;
+    margin-right: 40px;
+    border: 1px solid #5f5f5f;
+    box-shadow: none;
+}
+.edit-modal .blog-tags-sect .tags-display .tag{
+    width: 100px;
+    font-size: 1em;
+    display: block;
+    padding: 5px 0;
+    text-align: center;
+    background: green;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    margin: 5px;
+    text-transform: capitalize;
+    list-style-type: none;
+}
+.edit-modal .link-cont {
+    width: fit-content;
+    display: flex;
+    align-items: baseline;
+    padding: 5px 5px 5px 0;
+    margin: 10px 0 0 0;
+}
+.edit-modal .blog-posters {
+    display: block;
+    width: 90%;
+    height: 30px;
+    border: none;
+    border-radius: 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: transparent;
+    box-shadow: inset 0 -1px #5f5f5f;
+    padding: 0 0 0 5px;
+    font-family: "Average Sans", sans-serif;
+    font-size: 1.1em;
+    outline: none;
+    caret-color: #cc01aa;
+    transition: all 200ms ease;
+    overflow: hidden;
+}
+.edit-modal .delete-btn {
+    color: white;
+    background: transparent;
+    display: block;
+    padding: 2px 4px;
+    border-radius: 3px;
+    margin-left: 5px;
+    visibility: hidden;
+    box-shadow: none;
+    border: 1px solid #5f5f5f;
+    pointer-events: none;
+    transition: all 200ms ease-in-out;
+}
+.edit-modal .link-cont:hover > .delete-btn {
+    visibility: visible;
+    pointer-events: visible;
+}
+.edit-modal .delete-btn:hover {
+    background: red;
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 0 5px 2px #ff00007c;
+}
+.edit-modal #blog-images-text .blog-posters:hover{
+    box-shadow: 0 0 5px 2px green;
+    border: none;
+}
+.edit-modal #blog-images-text .blog-posters:focus{
+    box-shadow: inset 0 -2px green;
+}
+.edit-modal #blog-images-text .blog-posters::placeholder {
+    color: #5f5f5f;
+}
+.edit-modal #blog-images-links {
+    width: fit-content;
+}
+.edit-modal #blog-images-links-btn {
+    font-size: 1.3em;
+    padding: 6px 20px;
+    background: green;
+    color: #cfcfcf;
+    margin: 20px 0 0 0;
+    border: none;
+    border-radius: 5px;
+    transition: all 200ms ease-in-out;
+    text-transform: capitalize;
+    font-family: "Average Sans", sans-serif;
+    font-weight: bolder;
+    position: relative;
+}
+.edit-modal #blog-images-links-btn:hover {
+    border-radius: 5px;
+    background: #cc01aa;
+    box-shadow: 0 0 10px #cc01aa;
+}
+.edit-modal #blog-images-links-btn::after {
+    content: "";
+    transition: all 200ms ease-in-out;
+    font-size: 0.7em;
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    color: #cc01aa;
+    transform: translateY(-50%) translateX(-50%);
+    opacity: 0;
+    padding: 3px 5px;
+    width: fit-content;
+    background: transparent;
+    box-shadow: 0 0 20px rgba(0, 128, 0, 0.5);
+    white-space: nowrap;
+    border-radius: 0 3px 3px 0;
+    z-index: -1;
+}
+.edit-modal #blog-images-links-btn:hover::after {
+    content: "Add New Link";
+    transition: all 200ms ease-in-out;
+    font-size: 0.7em;
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    opacity: 1;
+    color: #cc01aa;
+    transform: translateY(-50%) translateX(0);
+    padding: 3px 5px;
+    width: fit-content;
+    background: transparent;
+    box-shadow: 0 0 20px rgba(0, 128, 0, 0.5);
+    white-space: nowrap;
+    border-radius: 0 3px 3px 0;
+    z-index: -1;
+}
+.edit-modal #blog-images-preview {
+    padding: 10px 0;
+    width: 360px;
+    min-height: 180px;
+    max-height: 640px;
+    border-radius: 10px 10px 3px 3px;
+    overflow-x: scroll;
+    border: 1px solid #5f5f5f;
+    box-shadow: none;
+    transform-style: preserve-3d;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+.edit-modal #blog-images-preview::-webkit-scrollbar {
+    appearance: none;
+    background: green;
+    height: 6px;
+    width: 6px;
+    border-radius: 3px;
+}
+.edit-modal #blog-images-preview::-webkit-scrollbar-thumb {
+    appearance: none;
+    height: 5px;
+    background: #cc01aa;
+    border-radius: 3px;
+}
+.edit-modal #blog-images-preview .note {
+    content: url(./preview-icon.png) " "attr(data-text);
+    position: absolute;
+    font-size: 1.5em;
+    color: #5f5f5f;
+    text-transform: capitalize;
+    text-align: center;
+    box-sizing: border-box;
+    fill: #5f5f5f;
+    width: 100%;
+    max-width: 100%;
+    word-wrap: break-word;
+    padding: 0 150px;
+    height: 100%;
+    background: transparent;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateZ(-20px);
+} 
+.edit-modal #blog-images-preview .note i {
+    display: block;
+}
+.edit-modal .previewed-images {
+    font-size: 0.9em;
+    padding: 5px 0 0 0;
+}
+.edit-modal .img-preview {
+    max-width: 340px;
+    margin: 5px;
+    border-radius: 10px;
+    box-shadow: none;
+}
+.edit-modal button.submit {
+    font-size: 1em;
+    width: 140px;
+    height: 60px;
+    padding: 10px 20px;
+    background: green;
+    cursor: pointer;
+    color: white;
+    margin: 20px 0 0 10px;
+    border: none;
+    border-radius: 5px;
+    transition: all 200ms ease-in-out;
+    text-transform: capitalize;
+    font-family: "Average Sans", sans-serif;
+}
+.edit-modal button.submit:hover {
+    border-radius: 5px;
+    background: #cc01aa;
+    box-shadow: 0 0 10px #cc01aa;
+}
+.edit-modal button.submit svg {
+    width: 100%;
+    height: 100%;
+}
+.edit-modal button.submit svg circle {
+    margin-left: 50px;
+    cx: 50%;
+    cy: 50%;
+    r: 10px;
+    stroke: url(#linear-5);
+    stroke-width: 4;
+    fill: transparent;
+    stroke-dasharray: 62.85;
+    stroke-dashoffset: 1px 0;
+    stroke-linecap: round;
+    animation: fill-animation 1s cubic-bezier(1,1,1,1) 0s infinite;
+}
+.succ-modal {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: #00000033;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+.succ-msg {
+    width: 100%;
+    font-size: 2em;
+    font-weight: bolder;
+    text-align: center;
+    color: white;
+}
+.err-modal {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background: #ff0000c0;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+.err-msg {
+    width: 100%;
+    font-size: 2em;
+    font-weight: bolder;
+    text-align: center;
+    color: white;
+}
+/* page control and buttons styling */
+#blogs-manager-body .page-controls-cont {
+    width: calc(100% - 40px);
+    margin: 20px auto 0;
+    height: 50px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} 
+#blogs-manager-body .page-control-btn {
+    padding: 5px 10px;
+    background: black;
+    border-radius: 5px;
+    border: 1px solid #5f5f5f;
+    font-size: 1.2em;
+    margin: 10px 20px;
+    font-weight: bolder;
+    position: relative;
+}
+#blogs-manager-body .page-control-btn:hover {
+    background: var(--background-color);
+}
+#blogs-manager-body .page-control-btn.disabled {
+    visibility: hidden;
+    pointer-events: none;
+}
+#blogs-manager-body .page-control-btn.disabled::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 5px;
+    background-color: #fdfdfd7e;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+#blogs-manager-body .page-control-btn.disabled:hover {
+    background: black;
+}
+#blogs-manager-body .page-control-num {
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    font-weight: bolder;
+    border: 1px solid #5f5f5f;
+    font-size: 1.4em;
+    border-radius: 5px;
+}

@@ -210,6 +210,20 @@ app.get('/blogs/recent', (req, res) => {
     .then(result => res.json(result))
     .catch(e => console.log(e))
 });
+app.get('/blogs/manage-blogs', requireAuth, (req, res) => {
+  // res.json({message: "hello world"})
+  res.render('manageBlogs', { title: 'Manage Blogs'});
+})
+app.put('/blogs/manage-blogs/:id', requireAuth, async (req, res) => {
+  const id = req.params.id
+  const response = await Blog.findOneAndUpdate({ _id : id }, req.body)
+  res.json(response)
+})
+app.delete('/blogs/manage-blogs/:id', requireAuth, async (req, res) => {
+  const id = req.params.id;
+  const response = await Blog.findOneAndDelete({ _id : id })
+  res.json(response);
+})
 app.get('/blogs/:id', (req, res) => {
   const _id = req.params.id;
   Blog.findById(_id)
@@ -219,6 +233,7 @@ app.get('/blogs/:id', (req, res) => {
     })
     .catch(e => res.send(e))
 });
+
 app.get('/reviews', (req, res) => {
   res.render('reviews', {title: 'Reviews Page', RAWG_API_KEY});
 });
@@ -333,17 +348,6 @@ app.post('/create-blog/publish', requireAuth, (req, res) => {
     })
     .catch((err) => console.log(err));
 });
-app.get('/blogs/manage-blogs', requireAuth, (req, res) => {
-  // Blog.find()
-  // .then((result) => {
-  //   const blogs = result;
-  //   res.render('deleteBlog', { title: 'Delete Blogs', blogs});
-  // })
-  // .catch((err) => {
-  //   console.log(err);
-  // })
-  res.render('manageBlogs', { title: 'Delete Blogs'});
-})
 
 app.use((req, res) => {
   res.status(404).render("404", {title: '404 Page Not Found'});

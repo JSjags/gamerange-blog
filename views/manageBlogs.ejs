@@ -1,19 +1,2373 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/delete.css">
-    <title><%= title %></title>
+
+<%- include('./partials/header.ejs') %>
+<link rel="stylesheet" href="/styles/manage-blogs.css">
     <!-- #55066E -->
 </head>
 <body>
-    <header>
-        <h1>Gamerange</h1>
-        <div class="bdm">
-        <p>Blogs Manager</p>
+    <div class="edit-modal">
+        <i class="far fa-window-close"></i>
+        <form method="post" action="" enctype="application/x-www-form-urlencoded" id="bc-form">
+            <div class="header">
+                <h2>
+                    create a new blog below
+                </h2>
+                <p>all input fields are required.no input field should be submitted blank. </p>
+            </div>
+            <hr>
+            <div class="dropdown">
+                <label for="val">select category:</label>
+                <ul id="input">
+                    <input type="text" id="val" readonly placeholder="Choose from list" name="category" required>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M23.677 18.52c.914 1.523-.183 3.472-1.967 3.472h-19.414c-1.784 0-2.881-1.949-1.967-3.472l9.709-16.18c.891-1.483 3.041-1.48 3.93 0l9.709 16.18z"/></svg>
+                </ul>
+                <ul id="options">
+                    <li>playstation</li>
+                    <li>xbox</li>
+                    <li>nintendo</li>
+                    <li>PC</li>
+                </ul>
+            </div>
+            <div class="title">
+                <label for="title-box">title:</label>
+                <input type="text" id="title-box" name="title" placeholder="E.g Dele goes to school" required>
+            </div>
+            <div class="author-name">
+                <label for="author">author:</label>
+                <input type="text" id="author-name" name="author" placeholder="E.g John schmidt" required>
+            </div>
+            <div id="hero">
+                <div id="hero-text">
+                    <p>poster:</p>
+                    <span>input image URL below.</span>
+                    <input type="text" name="hero" id="hero-img" placeholder="E.g https://ireallydontcare.com/img.jpg" required>
+                    <label for="hero-img" id="poster-preview">preview poster</label>
+                </div>
+                <div id="hero-img-sect">
+                    <p>*selected image should preview here.</p>
+                    <img id="poster" data-text="poster preview" src="" alt="Poster">
+                </div>
+            </div>
+            <div class="snippet">
+                <label for="snippet">snippet:</label>
+                <input type="text" id="snippet" name="snippet" placeholder="E.g The sun shall soon shine!!!" required>
+            </div>
+            <div class="blog-sect">
+                <label for="blog-sect-1">first blog section:</label>
+                <textarea id="blog-sect-1" name="blogSect1" placeholder="Input first blog post section here" required></textarea>
+            </div>
+            <div id="blog-images">
+                <div id="blog-images-text">
+                    <p>Blog Image(s):</p>
+                    <span>Input Or Add Image Link(s) Below.</span>
+                        <div id="blog-images-links">
+                            <div class="link-cont">
+                                <input type="text" class="blog-posters" placeholder="E.g https://justcopyandpaste.com/img.jpg" required>
+                                <button class="delete-btn">✕</button>
+                            </div>
+                        </div>
+                    <button id="blog-images-links-btn">+</button>
+                    <label for="blog-posters" id="blog-images-review-btn">preview blog images</label>
+                </div>
+                <div id="blog-images-sect">
+                    <p>*Selected Image(s) Should Preview Here.</p>
+                    <div id="blog-images-preview">
+                        <div class="note">
+                            <i><img src="/preview-icon.png" alt=""></i>
+                            <p>blog images preview</p>
+                        </div>
+                    </div>
+                    <p class="previewed-images">No Image Previewed.</p>
+                </div>
+            </div>
+            <div class="blog-sect">
+                <label for="blog-sect-2">second blog section:</label>
+                <textarea id="blog-sect-2" name="blogSect2" placeholder="Input second blog post section here" required></textarea>
+            </div>
+            <div class="remark">
+                <label for="remark">closing remark:</label>
+                <input type="text" id="remark" name="closingRemark" placeholder="E.g What do you think about today's sunrise" required>
+            </div>
+            <div class="blog-tags-sect">
+                <div class="blog-tags">
+                    <label for="tags">tags:</label>
+                    <input type="text" id="tags" placeholder="Input Tag Here E.g Shooter">
+                    <span class="add-tag">Create Tag</span>
+                </div>
+                <div class="tags-display">
+                </div>
+            </div>
+            <button class="submit" id="publish-btn" type="submit">edit blog</button>
+        </form>
+    </div>
+    <%- include('./partials/nav.ejs') %>
+    
+    <div id="blogs-manager-body">
+
+        <%- include('./partials/search.ejs') %>
+        <div class="bm-title">
+            <i class=" fas fa-tasks"></i> <span>Manage Blogs</span>
         </div>
-    </header>
+        <ul class="bm-tabs">
+            <li class="bm-tab active"><span>All Blogs</span></li>
+            <li class="bm-tab">Xbox</li>
+            <li class="bm-tab">PlayStation</li>
+            <li class="bm-tab">Nintendo</li>
+            <li class="bm-tab">PC</li>
+        </ul>
+        <section class="bm-page-cont">
+            <svg>
+                <defs>
+                    <linearGradient id="linear" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%"   stop-color="#01d3c1"/>
+                      <stop offset="100%" stop-color="#cc01aa"/>
+                    </linearGradient>
+                </defs>
+                <circle>
+                </circle>
+            </svg>
+        </section>
+    
+        <div class="page-controls-cont">
+        </div>
+    </div>
+
+<%- include('./partials/footer.ejs') %>
+
+<script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+<script src="/functions.js"></script>
+<script src="/create-blog.js"></script>
+
+<!-- blogs page initial setup -->
+<script>
+    let controller = new AbortController()
+    let signal = controller.signal
+
+    let tabsPage = 0;
+    const limit = 10;
+    let tabs = document.querySelectorAll(".bm-tab")
+    const container = document.querySelector(".bm-page-cont")
+    const recentArticleContainer = document.querySelector(".recent-blogs-box")
+    const pageControlsCont = document.querySelector(".page-controls-cont")
+    let editId
+
+    let storedCategory = "allblogs";
+
+    tabs.forEach(tab => {
+        tab.addEventListener("click", function() {
+            this.innerText.toLowerCase() === "all blogs" ? storedCategory = "allblogs" : storedCategory = this.innerText.toLowerCase()     
+            tabs.forEach(tabBtn => tabBtn.disabled = true)
+
+
+            for (let i = 0; i < tabs.length; i++) {
+                const element = tabs[i];
+                element.classList.remove("active");
+            }
+            this.classList.add("active");
+            if (backBtn && searchHeader && resultBox) {
+                backBtn.remove()
+                searchHeader.remove()
+                resultBox.remove()
+            }
+             
+            pageControlsCont.innerHTML = "";
+
+            const blogSpinner = container.firstElementChild;
+            container.innerHTML = "";
+            container.appendChild(blogSpinner);
+            container.firstElementChild.style.display = "block";
+
+            fetch(`/blogs/category/${this.innerText.toLowerCase().split(" ").join("")}?limit=10&page=0`, {signal})
+                .then(blob => blob.json())
+                .then(result => {
+                    tab.disabled = false;
+
+                    const data = result.data
+                    container.firstElementChild.style.display = "none";
+                    result.pages <= 1 ? pageControlsCont.innerHTML = "" : pageControlsCont.innerHTML = `
+                                                                                                                <button class="page-control-btn" id="double-prev" name="double-prev" data-offset="-2"> << </button>
+                                                                                                                <button class="page-control-btn" id="single-prev" name="single-prev" data-offset="-1"> < </button>
+                                                                                                                <span class="page-control-num" id="page-control-num" name="page-control-num" data-offset=""> Page 1 </span>
+                                                                                                                <button class="page-control-btn" id="single-next" name="single-next" data-offset="1"> > </button>
+                                                                                                                <button class="page-control-btn" id="double-next" name="double-next" data-offset="2"> >> </button>
+                                                                                                                `
+
+                    if (result.pages > 1) {
+                    const doublePrev = pageControlsCont.firstElementChild;
+                    const singlePrev = doublePrev.nextElementSibling;
+                    const pageControlNum = singlePrev.nextElementSibling;
+                    const singleNext = pageControlNum.nextElementSibling;
+                    const doubleNext = singleNext.nextElementSibling;
+
+                    pageControlNum.innerText = `Page ${result.page}`;
+
+                    if (result.page < 3) {
+                        doublePrev.classList.add("disabled");
+                        doublePrev.disabled = true;
+                    }
+                    if (result.page < 2) {
+                        singlePrev.classList.add("disabled");
+                        singlePrev.disabled = true;
+                    }
+                    if ((result.page + 1) > result.pages) {
+                        singleNext.classList.add("disabled");
+                        singleNext.disabled = true;
+                    }
+                    if ((result.page + 2) > result.pages) {
+                        doubleNext.classList.add("disabled");
+                        doubleNext.disabled = true;
+                    }
+                    let pageBtns = [...pageControlsCont.children];
+                    pageBtns.splice(2, 1);
+                
+                    pageBtns.forEach(btn => {
+                        btn.addEventListener("click", () => {
+                            pageControlsCont.style.display = "none";
+
+                            searchSpinner = container.firstElementChild;
+                            container.innerHTML = "";
+                            container.appendChild(searchSpinner);
+                            searchSpinner.style.display = "block";
+                            result.pageIndex += Number(btn.dataset.offset);
+                            result.page += Number(btn.dataset.offset);
+
+                            // updating variables
+                            pageControlNum.innerText = `Page ${result.page}`;
+
+                            if (result.page < 3) {
+                                doublePrev.classList.add("disabled");
+                                doublePrev.disabled = true;
+                            } else {
+                                doublePrev.classList.remove("disabled");
+                                doublePrev.disabled = false;
+                            }
+
+                            if (result.page < 2) {
+                                singlePrev.classList.add("disabled");
+                                singlePrev.disabled = true;
+                            } else {
+                                singlePrev.classList.remove("disabled");
+                                singlePrev.disabled = false;
+                            }
+
+                            if ((result.page + 1) > result.pages) {
+                                singleNext.classList.add("disabled");
+                                singleNext.disabled = true;
+                            }  else {
+                                singleNext.classList.remove("disabled");
+                                singleNext.disabled = false;
+                            }
+
+                            if ((result.page + 2) > result.pages) {
+                                doubleNext.classList.add("disabled");
+                                doubleNext.disabled = true;
+                            } else {
+                                doubleNext.classList.remove("disabled");
+                                doubleNext.disabled = false;
+                            }
+                            
+                            // fetching page number based on button data-offset
+                            fetch(`/blogs/category/${storedCategory}?limit=10&page=${result.pageIndex}`, {signal})
+                            .then(blob => blob.json())
+                            .then(data => {
+                                pageControlsCont.style.display = "flex";
+
+                                searchSpinner.style.display = "none";
+                                const results = data.data;
+                                results.forEach(data => {
+                                    const parent = document.createElement("div")
+                                    const subParent1 = document.createElement("div")
+                                    const subParent2 = document.createElement("div")
+                                    const img = document.createElement("img")
+                                    const title = document.createElement("a")
+                                    const date = document.createElement("p")
+                                    const snippet = document.createElement("span")
+                                    const icon = document.createElement("i")
+                                    const editBtn = document.createElement("button")
+                                    const delBtn = document.createElement("button")
+
+                                    title.setAttribute("href", `/blogs/${data._id}`)
+                                    editBtn.setAttribute("data-id", `${data._id}`)
+                                    delBtn.setAttribute("data-id", `${data._id}`)
+
+                                    parent.classList.add("blog-item");
+                                    subParent1.classList.add("sub-parent-1");
+                                    subParent2.classList.add("sub-parent-2");
+                                    snippet.classList.add("blog-snippet");
+                                    editBtn.classList.add("edit-btn");
+                                    delBtn.classList.add("del-btn");
+
+                                    img.src = data.hero;
+                                    title.innerText = data.title;
+                                    date.innerText = `Published: ${data.createdAt}`;
+                                    snippet.innerText = data.blogSect1;
+                                    editBtn.innerHTML = `<i class="fas fa-tasks"></i> Edit Blog`
+                                    delBtn.innerHTML = `<i class="fas fa-trash-alt"></i> Delete Blog`
+
+                                    editBtn.addEventListener("click", () => {
+                                        const editModal = document.querySelector(".edit-modal")
+                                        const editModalCancel = document.querySelector(".edit-modal .fa-window-close")
+                                        
+                                        const editForm = document.querySelector(".edit-modal #bc-form");
+
+                                        const category = document.querySelector(".edit-modal #bc-form .dropdown #input input")
+                                        const title = document.querySelector(".edit-modal #bc-form .title input")
+                                        const author = document.querySelector(".edit-modal #bc-form .author-name input")
+                                        const poster = document.querySelector(".edit-modal #hero #hero-img")
+                                        const posterBtn = document.querySelector(".edit-modal #hero-text label")
+                                        const snippet = document.querySelector(".edit-modal #bc-form .snippet input")
+                                        const blogSect1 = document.querySelector(".edit-modal #bc-form .blog-sect textarea#blog-sect-1")
+                                        const blogImages = document.querySelector(".edit-modal .blog-posters")
+                                        const blogImagesLinks = document.querySelectorAll("div.link-cont input")
+                                        const blogImagesLinksBtn = document.querySelector(".edit-modal #blog-images-links-btn")
+                                        const blogImagesPreviewBtn = document.querySelector(".edit-modal label#blog-images-review-btn")
+                                        const blogSect2 = document.querySelector(".edit-modal #bc-form .blog-sect textarea#blog-sect-2")
+                                        const closingRemark = document.querySelector(".edit-modal #bc-form .remark input")
+                                        const tags = document.querySelector(".edit-modal .blog-tags-sect .blog-tags input")
+                                        const tagsBtn = document.querySelector(".edit-modal .blog-tags-sect .blog-tags span")
+
+                                        editModalCancel.addEventListener("click", () => {
+                                            editModal.style.display = "none";
+                                        })
+
+                                        editForm.addEventListener("submit", (e) => {
+                                            const submitBtn = document.querySelector(".edit-modal button.submit")
+                                            const loader = `<svg>
+                                                                <defs>
+                                                                    <linearGradient id="linear-5" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                    <stop offset="0%"   stop-color="#01d3c1"/>
+                                                                    <stop offset="100%" stop-color="#cc01aa"/>
+                                                                    </linearGradient>
+                                                                </defs>
+                                                                <circle class="spinner-5">
+                                                                </circle>
+                                                            </svg>`
+
+                                            e.preventDefault()
+                                            submitBtn.disabled = true
+                                            submitBtn.innerText = ""
+                                            submitBtn.innerHTML = loader
+                                            submitBtn.style.cursor = "not-allowed"
+
+                                            function populateBodyImages () {
+                                                let arr = []
+                                                const images = document.querySelectorAll(".blog-posters")
+                                                images.forEach(img => {
+                                                    arr.push(img.value)
+                                                })
+                                                return arr
+                                            }
+                                            const bodyImagesArr = populateBodyImages()
+                                            
+                                            function populateTags () {
+                                                let arr = []
+                                                const tags = document.querySelectorAll(".tag")
+                                                tags.forEach(tag => {
+                                                    arr.push(tag.value)
+                                                })
+                                                return arr
+                                            }
+                                            const tagsArr = populateTags()
+
+                                            let editBody = {
+                                                category: category.value,
+                                                title: title.value,
+                                                author: author.value,
+                                                hero: poster.value,
+                                                snippet: snippet.value,
+                                                blogSect1: blogSect1.value,
+                                                bodyImages: bodyImagesArr,
+                                                blogSect2: blogSect2.value,
+                                                closingRemark: closingRemark.value,
+                                                tags: tagsArr
+                                            };
+                                            console.log(editBody)
+                                            fetch(`/blogs/manage-blogs/${data._id}`, {
+                                                method: 'PUT',
+                                                body: JSON.stringify(editBody),
+                                                headers: {
+                                                    "Content-Type": "application/json"
+                                                }
+                                            })
+                                            .then(blob => blob.json())
+                                            .then(response => {
+                                                submitBtn.disabled = false
+                                                submitBtn.innerHTML = ""
+                                                submitBtn.innerText = "edit blog"
+                                                submitBtn.style.cursor = "pointer"
+
+                                                const successModal = document.createElement("div") 
+                                                const message = document.createElement("p") 
+
+                                                message.innerText = "Blog post successfully updated."
+
+                                                successModal.classList.add("succ-modal")
+                                                message.classList.add("succ-msg")
+
+                                                editModal.before(successModal)
+                                                successModal.appendChild(message)
+
+                                                const succTimeout = setTimeout(() => {
+                                                    successModal.remove()
+                                                }, 5000);
+
+                                                location.reload();
+                                            })
+                                            .catch(err => {
+                                                submitBtn.disabled = false
+                                                submitBtn.innerHTML = ""
+                                                submitBtn.innerText = "edit blog"
+                                                submitBtn.style.cursor = "pointer"
+
+                                                const errorModal = document.createElement("div") 
+                                                const message = document.createElement("p") 
+
+                                                message.innerText = "Something's wrong, we couldn't update this blog post."
+
+                                                errorModal.classList.add("err-modal")
+                                                message.classList.add("err-msg")
+
+                                                editModal.before(errorModal)
+                                                errorModal.appendChild(message)
+
+                                                const succTimeout = setTimeout(() => {
+                                                    errorModal.remove()
+                                                }, 5000);
+                                            })
+                                        })
+                                        
+                                        editModal.style.display = "block";
+                                        category.value = data.category;
+                                        title.value = data.title;
+                                        author.value = data.author;
+                                        poster.value = data.hero;
+                                        posterBtn.click()
+                                        snippet.value = data.snippet;
+                                        blogSect1.value = data.blogSect1;
+                                        for (let i = 0; i < data.bodyImages.length; i++) {
+                                            const element = data.bodyImages[i];
+                                            if (i === data.bodyImages.length - 1 ) {
+                                                blogImagesLinks[i].value = element;
+                                            } else {
+                                                blogImagesLinks[i].value = element;
+                                                blogImagesLinksBtn.click();
+                                            }
+                                        }
+                                        blogImagesPreviewBtn.click()
+                                        blogSect2.value = data.blogSect2;
+                                        closingRemark.value = data.closingRemark;
+                                        for (let i = 0; i < data.tags.length; i++) {
+                                            const element = data.tags[i];
+                                            
+                                            tags.value = element;
+                                            tagsBtn.click();
+                                        }
+                                    })
+                                    
+                                    delBtn.addEventListener("click", () => {
+                                        const body = document.querySelector("header")
+
+                                        const modal = document.createElement("div")
+                                        const delModal = document.createElement("div")
+                                        const header = document.createElement("h3")
+                                        const message = document.createElement("p")
+                                        const btnBox = document.createElement("div")
+                                        const cancel = document.createElement("button")
+                                        const ok = document.createElement("button")
+
+                                        modal.classList.add("bm-modal");
+                                        delModal.classList.add("del-modal");
+
+                                        header.innerText = "Delete Blog"
+                                        message.innerText = `Are you sure you want to delete the blog with the title: \n "${data.title}"`
+                                        cancel.innerText = "Cancel"
+                                        ok.innerText = "Delete"
+
+                                        cancel.addEventListener("click", () => {
+                                            modal.remove();
+                                        })
+                                        ok.addEventListener("click", function () {
+                                            header.innerText = "Deleting Blog";
+                                            message.innerHTML = `<svg>
+                                                                    <defs>
+                                                                        <linearGradient id="linear-modal" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                        <stop offset="0%"   stop-color="#01d3c1"/>
+                                                                        <stop offset="100%" stop-color="#cc01aa"/>
+                                                                        </linearGradient>
+                                                                    </defs>
+                                                                    <circle>
+                                                                    </circle>
+                                                                </svg>`
+                                            message.style.display = "block";
+                                            cancel.disabled = true
+                                            ok.disabled = true
+
+                                            fetch(`/blogs/manage-blogs/${delBtn.dataset.id}`, {
+                                                method: "DELETE"
+                                            })
+                                            .then(blob => blob.json())
+                                            .then(result => {
+                                                header.innerText = "Blog Deleted";
+                                                message.innerHTML = "";
+                                                message.innerText = `Blog article with title "${result.title}" has been successfully deleted`
+                                                ok.remove();
+                                                cancel.disabled = false;
+                                                cancel.innerText = "Close";
+
+                                                let delTimeout = setTimeout(() => {
+                                                    location.reload();
+                                                }, 0);
+                                            })
+                                        })
+                                        
+                                        modal.appendChild(delModal)
+                                        delModal.appendChild(header)
+                                        delModal.appendChild(message)
+                                        delModal.appendChild(btnBox)
+                                        btnBox.appendChild(cancel)
+                                        btnBox.appendChild(ok)
+
+                                        body.before(modal)
+                                    })
+
+                                    switch (data.category) {
+                                        case 'Xbox':
+                                            parent.style.borderRight = "5px solid green";
+                                            parent.style.borderRadius = "5px";
+                                            icon.classList.add("fab", "fa-xbox");
+                                            break;
+                                        case 'Playstation':
+                                            parent.style.borderRight = "5px solid blue";
+                                            parent.style.borderRadius = "5px";
+                                            icon.style.color = "blue";
+                                            icon.style.right = "10px";
+                                            icon.classList.add("fab", "fa-playstation");
+                                            break;
+                                        case 'Nintendo':
+                                            const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
+                                            parent.style.borderRight = "5px solid red";
+                                            parent.style.borderRadius = "5px";
+                                            icon.style.filter = filter;
+                                            icon.style.webkitFilter = filter;
+                                            icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
+                                            break;
+                                        case 'PC':
+                                            parent.style.borderRight = "5px solid #5f5f5f";
+                                            parent.style.borderRadius = "5px";
+                                            icon.style.filter = "invert(50%)";
+                                            icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                    parent.appendChild(subParent1);
+                                    parent.appendChild(subParent2);
+                                    parent.appendChild(editBtn);
+                                    parent.appendChild(delBtn);
+                                    subParent1.appendChild(img);
+                                    subParent2.appendChild(title);
+                                    subParent2.appendChild(date);
+                                    subParent2.appendChild(snippet);
+                                    subParent2.appendChild(icon);
+
+                                    container.appendChild(parent);
+                                })
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            })
+                        })
+                    })
+                }
+        
+                    data.forEach(data => {
+                    const parent = document.createElement("div")
+                    const subParent1 = document.createElement("div")
+                    const subParent2 = document.createElement("div")
+                    const img = document.createElement("img")
+                    const title = document.createElement("a")
+                    const date = document.createElement("p")
+                    const snippet = document.createElement("span")
+                    const icon = document.createElement("i")
+                    const editBtn = document.createElement("button")
+                    const delBtn = document.createElement("button")
+
+                    title.setAttribute("href", `/blogs/${data._id}`)
+                    editBtn.setAttribute("data-id", `${data._id}`)
+                    delBtn.setAttribute("data-id", `${data._id}`)
+
+                    parent.classList.add("blog-item");
+                    subParent1.classList.add("sub-parent-1");
+                    subParent2.classList.add("sub-parent-2");
+                    snippet.classList.add("blog-snippet");
+                    editBtn.classList.add("edit-btn");
+                    delBtn.classList.add("del-btn");
+
+                    img.src = data.hero;
+                    title.innerText = data.title;
+                    date.innerText = `Published: ${data.createdAt}`;
+                    snippet.innerText = data.blogSect1;
+                    editBtn.innerHTML = `<i class="fas fa-tasks"></i> Edit Blog`
+                    delBtn.innerHTML = `<i class="fas fa-trash-alt"></i> Delete Blog`
+
+                    editBtn.addEventListener("click", () => {
+                        const editModal = document.querySelector(".edit-modal")
+                        const editModalCancel = document.querySelector(".edit-modal .fa-window-close")
+
+                        const category = document.querySelector(".edit-modal #bc-form .dropdown #input input")
+                        const title = document.querySelector(".edit-modal #bc-form .title input")
+                        const author = document.querySelector(".edit-modal #bc-form .author-name input")
+                        const poster = document.querySelector(".edit-modal #hero #hero-img")
+                        const posterBtn = document.querySelector(".edit-modal #hero-text label")
+                        const snippet = document.querySelector(".edit-modal #bc-form .snippet input")
+                        const blogSect1 = document.querySelector(".edit-modal #bc-form .blog-sect textarea#blog-sect-1")
+                        const blogImages = document.querySelector(".edit-modal .blog-posters")
+                        const blogImagesLinks = document.querySelectorAll("div.link-cont input")
+                        const blogImagesLinksBtn = document.querySelector(".edit-modal #blog-images-links-btn")
+                        const blogImagesPreviewBtn = document.querySelector(".edit-modal label#blog-images-review-btn")
+                        const blogSect2 = document.querySelector(".edit-modal #bc-form .blog-sect textarea#blog-sect-2")
+                        const closingRemark = document.querySelector(".edit-modal #bc-form .remark input")
+                        const tags = document.querySelector(".edit-modal .blog-tags-sect .blog-tags input")
+                        const tagsBtn = document.querySelector(".edit-modal .blog-tags-sect .blog-tags span")
+
+                        editModalCancel.addEventListener("click", () => {
+                            editModal.style.display = "none";
+                        })
+                        
+                        editModal.style.display = "block";
+                        category.value = data.category;
+                        title.value = data.title;
+                        author.value = data.author;
+                        poster.value = data.hero;
+                        posterBtn.click()
+                        snippet.value = data.snippet;
+                        blogSect1.value = data.blogSect1;
+                        for (let i = 0; i < data.bodyImages.length; i++) {
+                            const element = data.bodyImages[i];
+                            if (i === data.bodyImages.length - 1 ) {
+                                blogImagesLinks[i].value = element;
+                            } else {
+                                blogImagesLinks[i].value = element;
+                                blogImagesLinksBtn.click();
+                            }
+                        }
+                        blogImagesPreviewBtn.click()
+                        blogSect2.value = data.blogSect2;
+                        closingRemark.value = data.closingRemark;
+                        for (let i = 0; i < data.tags.length; i++) {
+                            const element = data.tags[i];
+                            
+                            tags.value = element;
+                            tagsBtn.click();
+                        }
+                    })
+                    
+                    delBtn.addEventListener("click", () => {
+                        const body = document.querySelector("header")
+
+                        const modal = document.createElement("div")
+                        const delModal = document.createElement("div")
+                        const header = document.createElement("h3")
+                        const message = document.createElement("p")
+                        const btnBox = document.createElement("div")
+                        const cancel = document.createElement("button")
+                        const ok = document.createElement("button")
+
+                        modal.classList.add("bm-modal");
+                        delModal.classList.add("del-modal");
+
+                        header.innerText = "Delete Blog"
+                        message.innerText = `Are you sure you want to delete the blog with the title: \n "${data.title}"`
+                        cancel.innerText = "Cancel"
+                        ok.innerText = "Delete"
+
+                        cancel.addEventListener("click", () => {
+                            modal.remove();
+                        })
+                        ok.addEventListener("click", function () {
+                            header.innerText = "Deleting Blog";
+                            message.innerHTML = `<svg>
+                                                    <defs>
+                                                        <linearGradient id="linear-modal" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%"   stop-color="#01d3c1"/>
+                                                        <stop offset="100%" stop-color="#cc01aa"/>
+                                                        </linearGradient>
+                                                    </defs>
+                                                    <circle>
+                                                    </circle>
+                                                 </svg>`
+                            message.style.display = "block";
+                            cancel.disabled = true
+                            ok.disabled = true
+
+                            fetch(`/blogs/manage-blogs/${delBtn.dataset.id}`, {
+                                method: "DELETE"
+                            })
+                            .then(blob => blob.json())
+                            .then(result => {
+                                header.innerText = "Blog Deleted";
+                                message.innerHTML = "";
+                                message.innerText = `Blog article with title "${result.title}" has been successfully deleted`
+                                ok.remove();
+                                cancel.disabled = false;
+                                cancel.innerText = "Close";
+
+                                let delTimeout = setTimeout(() => {
+                                    location.reload();
+                                }, 0);
+                            })
+                        })
+                        
+                        modal.appendChild(delModal)
+                        delModal.appendChild(header)
+                        delModal.appendChild(message)
+                        delModal.appendChild(btnBox)
+                        btnBox.appendChild(cancel)
+                        btnBox.appendChild(ok)
+
+                        body.before(modal)
+                    })
+
+                    switch (data.category) {
+                        case 'Xbox':
+                            parent.style.borderRight = "5px solid green";
+                            parent.style.borderRadius = "5px";
+                            icon.classList.add("fab", "fa-xbox");
+                            break;
+                        case 'Playstation':
+                            parent.style.borderRight = "5px solid blue";
+                            parent.style.borderRadius = "5px";
+                            icon.style.color = "blue";
+                            icon.style.right = "10px";
+                            icon.classList.add("fab", "fa-playstation");
+                            break;
+                        case 'Nintendo':
+                            const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
+                            parent.style.borderRight = "5px solid red";
+                            parent.style.borderRadius = "5px";
+                            icon.style.filter = filter;
+                            icon.style.webkitFilter = filter;
+                            icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
+                            break;
+                        case 'PC':
+                            parent.style.borderRight = "5px solid #5f5f5f";
+                            parent.style.borderRadius = "5px";
+                            icon.style.filter = "invert(50%)";
+                            icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
+                            break;
+                        default:
+                            break;
+                    }
+
+                    parent.appendChild(subParent1);
+                    parent.appendChild(subParent2);
+                    parent.appendChild(editBtn);
+                    parent.appendChild(delBtn);
+                    subParent1.appendChild(img);
+                    subParent2.appendChild(title);
+                    subParent2.appendChild(date);
+                    subParent2.appendChild(snippet);
+                    subParent2.appendChild(icon);
+
+                    container.appendChild(parent)
+                })
+                
+                })
+                .catch(e => console.log(e))
+            })
+        });
+
+    window.addEventListener("load", () => {
+        for (let i = 0; i < tabs.length; i++) {
+            const element = tabs[i];
+            element.classList.remove("active");
+            if ((element.innerText.toLowerCase() === storedCategory) || (element.innerText.toLowerCase().split(" ").join("") === storedCategory)) {
+                element.classList.add('active');
+            }
+        }
+
+        fetch(`/blogs/category/${storedCategory}?limit=10&page=0`, {signal})
+            .then(blob => blob.json())
+            .then(result => {
+                const data = result.data
+                container.firstElementChild.style.display = "none";
+                result.pages <= 1 ? pageControlsCont.innerHTML = "" : pageControlsCont.innerHTML = `
+                                                                                                                <button class="page-control-btn" id="double-prev" name="double-prev" data-offset="-2"> << </button>
+                                                                                                                <button class="page-control-btn" id="single-prev" name="single-prev" data-offset="-1"> < </button>
+                                                                                                                <span class="page-control-num" id="page-control-num" name="page-control-num" data-offset=""> Page 1 </span>
+                                                                                                                <button class="page-control-btn" id="single-next" name="single-next" data-offset="1"> > </button>
+                                                                                                                <button class="page-control-btn" id="double-next" name="double-next" data-offset="2"> >> </button>
+                                                                                                                `
+
+                if (result.pages > 1) {
+                const doublePrev = pageControlsCont.firstElementChild;
+                const singlePrev = doublePrev.nextElementSibling;
+                const pageControlNum = singlePrev.nextElementSibling;
+                const singleNext = pageControlNum.nextElementSibling;
+                const doubleNext = singleNext.nextElementSibling;
+
+                pageControlNum.innerText = `Page ${result.page}`;
+
+                if (result.page < 3) {
+                    doublePrev.classList.add("disabled");
+                    doublePrev.disabled = true;
+                }
+                if (result.page < 2) {
+                    singlePrev.classList.add("disabled");
+                    singlePrev.disabled = true;
+                }
+                if ((result.page + 1) > result.pages) {
+                    singleNext.classList.add("disabled");
+                    singleNext.disabled = true;
+                }
+                if ((result.page + 2) > result.pages) {
+                    doubleNext.classList.add("disabled");
+                    doubleNext.disabled = true;
+                }
+                let pageBtns = [...pageControlsCont.children];
+                pageBtns.splice(2, 1);
+                
+                pageBtns.forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        pageControlsCont.style.display = "none";
+
+                        searchSpinner = container.firstElementChild;
+                        container.innerHTML = "";
+                        container.appendChild(searchSpinner);
+                        searchSpinner.style.display = "block";
+                        result.pageIndex += Number(btn.dataset.offset);
+                        result.page += Number(btn.dataset.offset);
+
+                        // updating variables
+                        pageControlNum.innerText = `Page ${result.page}`;
+
+                        if (result.page < 3) {
+                            doublePrev.classList.add("disabled");
+                            doublePrev.disabled = true;
+                        } else {
+                            doublePrev.classList.remove("disabled");
+                            doublePrev.disabled = false;
+                        }
+
+                        if (result.page < 2) {
+                            singlePrev.classList.add("disabled");
+                            singlePrev.disabled = true;
+                        } else {
+                            singlePrev.classList.remove("disabled");
+                            singlePrev.disabled = false;
+                        }
+
+                        if ((result.page + 1) > result.pages) {
+                            singleNext.classList.add("disabled");
+                            singleNext.disabled = true;
+                        }  else {
+                            singleNext.classList.remove("disabled");
+                            singleNext.disabled = false;
+                        }
+
+                        if ((result.page + 2) > result.pages) {
+                            doubleNext.classList.add("disabled");
+                            doubleNext.disabled = true;
+                        } else {
+                            doubleNext.classList.remove("disabled");
+                            doubleNext.disabled = false;
+                        }
+                        
+                        // fetching page number based on button data-offset
+                        fetch(`/blogs/category/${storedCategory}?limit=10&page=${result.pageIndex}`)
+                        .then(blob => blob.json())
+                        .then(data => {
+                            pageControlsCont.style.display = "flex";
+
+                            searchSpinner.style.display = "none";
+                            const results = data.data;
+                            results.forEach(data => {
+                                const parent = document.createElement("div")
+                                const subParent1 = document.createElement("div")
+                                const subParent2 = document.createElement("div")
+                                const img = document.createElement("img")
+                                const title = document.createElement("a")
+                                const date = document.createElement("p")
+                                const snippet = document.createElement("span")
+                                const icon = document.createElement("i")
+                                const editBtn = document.createElement("button")
+                                const delBtn = document.createElement("button")
+
+                                title.setAttribute("href", `/blogs/${data._id}`)
+                                editBtn.setAttribute("data-id", `${data._id}`)
+                                delBtn.setAttribute("data-id", `${data._id}`)
+
+                                parent.classList.add("blog-item");
+                                subParent1.classList.add("sub-parent-1");
+                                subParent2.classList.add("sub-parent-2");
+                                snippet.classList.add("blog-snippet");
+                                editBtn.classList.add("edit-btn");
+                                delBtn.classList.add("del-btn");
+
+                                img.src = data.hero;
+                                title.innerText = data.title;
+                                date.innerText = `Published: ${data.createdAt}`;
+                                snippet.innerText = data.blogSect1;
+                                editBtn.innerHTML = `<i class="fas fa-tasks"></i> Edit Blog`
+                                delBtn.innerHTML = `<i class="fas fa-trash-alt"></i> Delete Blog`
+
+                                editBtn.addEventListener("click", () => {
+                                    const editModal = document.querySelector(".edit-modal")
+                                    const editModalCancel = document.querySelector(".edit-modal .fa-window-close")
+                                    
+                                    const editForm = document.querySelector(".edit-modal #bc-form");
+
+                                    const category = document.querySelector(".edit-modal #bc-form .dropdown #input input")
+                                    const title = document.querySelector(".edit-modal #bc-form .title input")
+                                    const author = document.querySelector(".edit-modal #bc-form .author-name input")
+                                    const poster = document.querySelector(".edit-modal #hero #hero-img")
+                                    const posterBtn = document.querySelector(".edit-modal #hero-text label")
+                                    const snippet = document.querySelector(".edit-modal #bc-form .snippet input")
+                                    const blogSect1 = document.querySelector(".edit-modal #bc-form .blog-sect textarea#blog-sect-1")
+                                    const blogImages = document.querySelector(".edit-modal .blog-posters")
+                                    const blogImagesLinks = document.querySelectorAll("div.link-cont input")
+                                    const blogImagesLinksBtn = document.querySelector(".edit-modal #blog-images-links-btn")
+                                    const blogImagesPreviewBtn = document.querySelector(".edit-modal label#blog-images-review-btn")
+                                    const blogSect2 = document.querySelector(".edit-modal #bc-form .blog-sect textarea#blog-sect-2")
+                                    const closingRemark = document.querySelector(".edit-modal #bc-form .remark input")
+                                    const tags = document.querySelector(".edit-modal .blog-tags-sect .blog-tags input")
+                                    const tagsBtn = document.querySelector(".edit-modal .blog-tags-sect .blog-tags span")
+
+                                    editModalCancel.addEventListener("click", () => {
+                                        editModal.style.display = "none";
+                                    })
+
+                                    editForm.addEventListener("submit", (e) => {
+                                        const submitBtn = document.querySelector(".edit-modal button.submit")
+                                        const loader = `<svg>
+                                                            <defs>
+                                                                <linearGradient id="linear-5" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%"   stop-color="#01d3c1"/>
+                                                                <stop offset="100%" stop-color="#cc01aa"/>
+                                                                </linearGradient>
+                                                            </defs>
+                                                            <circle class="spinner-5">
+                                                            </circle>
+                                                        </svg>`
+
+                                        e.preventDefault()
+                                        submitBtn.disabled = true
+                                        submitBtn.innerText = ""
+                                        submitBtn.innerHTML = loader
+                                        submitBtn.style.cursor = "not-allowed"
+
+                                        function populateBodyImages () {
+                                            let arr = []
+                                            const images = document.querySelectorAll(".blog-posters")
+                                            images.forEach(img => {
+                                                arr.push(img.value)
+                                            })
+                                            return arr
+                                        }
+                                        const bodyImagesArr = populateBodyImages()
+                                        
+                                        function populateTags () {
+                                            let arr = []
+                                            const tags = document.querySelectorAll(".tag")
+                                            tags.forEach(tag => {
+                                                arr.push(tag.value)
+                                            })
+                                            return arr
+                                        }
+                                        const tagsArr = populateTags()
+
+                                        let editBody = {
+                                            category: category.value,
+                                            title: title.value,
+                                            author: author.value,
+                                            hero: poster.value,
+                                            snippet: snippet.value,
+                                            blogSect1: blogSect1.value,
+                                            bodyImages: bodyImagesArr,
+                                            blogSect2: blogSect2.value,
+                                            closingRemark: closingRemark.value,
+                                            tags: tagsArr
+                                        };
+                                        console.log(editBody)
+                                        fetch(`/blogs/manage-blogs/${data._id}`, {
+                                            method: 'PUT',
+                                            body: JSON.stringify(editBody),
+                                            headers: {
+                                                "Content-Type": "application/json"
+                                            }
+                                        })
+                                        .then(blob => blob.json())
+                                        .then(response => {
+                                            submitBtn.disabled = false
+                                            submitBtn.innerHTML = ""
+                                            submitBtn.innerText = "edit blog"
+                                            submitBtn.style.cursor = "pointer"
+
+                                            const successModal = document.createElement("div") 
+                                            const message = document.createElement("p") 
+
+                                            message.innerText = "Blog post successfully updated."
+
+                                            successModal.classList.add("succ-modal")
+                                            message.classList.add("succ-msg")
+
+                                            editModal.before(successModal)
+                                            successModal.appendChild(message)
+
+                                            const succTimeout = setTimeout(() => {
+                                                successModal.remove()
+                                            }, 5000);
+
+                                            location.reload();
+                                        })
+                                        .catch(err => {
+                                            submitBtn.disabled = false
+                                            submitBtn.innerHTML = ""
+                                            submitBtn.innerText = "edit blog"
+                                            submitBtn.style.cursor = "pointer"
+
+                                            const errorModal = document.createElement("div") 
+                                            const message = document.createElement("p") 
+
+                                            message.innerText = "Something's wrong, we couldn't update this blog post."
+
+                                            errorModal.classList.add("err-modal")
+                                            message.classList.add("err-msg")
+
+                                            editModal.before(errorModal)
+                                            errorModal.appendChild(message)
+
+                                            const succTimeout = setTimeout(() => {
+                                                errorModal.remove()
+                                            }, 5000);
+                                        })
+                                    })
+                                    
+                                    editModal.style.display = "block";
+                                    category.value = data.category;
+                                    title.value = data.title;
+                                    author.value = data.author;
+                                    poster.value = data.hero;
+                                    posterBtn.click()
+                                    snippet.value = data.snippet;
+                                    blogSect1.value = data.blogSect1;
+                                    for (let i = 0; i < data.bodyImages.length; i++) {
+                                        const element = data.bodyImages[i];
+                                        if (i === data.bodyImages.length - 1 ) {
+                                            blogImagesLinks[i].value = element;
+                                        } else {
+                                            blogImagesLinks[i].value = element;
+                                            blogImagesLinksBtn.click();
+                                        }
+                                    }
+                                    blogImagesPreviewBtn.click()
+                                    blogSect2.value = data.blogSect2;
+                                    closingRemark.value = data.closingRemark;
+                                    for (let i = 0; i < data.tags.length; i++) {
+                                        const element = data.tags[i];
+                                        
+                                        tags.value = element;
+                                        tagsBtn.click();
+                                    }
+                                })
+                                
+                                delBtn.addEventListener("click", () => {
+                                    const body = document.querySelector("header")
+
+                                    const modal = document.createElement("div")
+                                    const delModal = document.createElement("div")
+                                    const header = document.createElement("h3")
+                                    const message = document.createElement("p")
+                                    const btnBox = document.createElement("div")
+                                    const cancel = document.createElement("button")
+                                    const ok = document.createElement("button")
+
+                                    modal.classList.add("bm-modal");
+                                    delModal.classList.add("del-modal");
+
+                                    header.innerText = "Delete Blog"
+                                    message.innerText = `Are you sure you want to delete the blog with the title: \n "${data.title}"`
+                                    cancel.innerText = "Cancel"
+                                    ok.innerText = "Delete"
+
+                                    cancel.addEventListener("click", () => {
+                                        modal.remove();
+                                    })
+                                    ok.addEventListener("click", function () {
+                                        header.innerText = "Deleting Blog";
+                                        message.innerHTML = `<svg>
+                                                                <defs>
+                                                                    <linearGradient id="linear-modal" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                    <stop offset="0%"   stop-color="#01d3c1"/>
+                                                                    <stop offset="100%" stop-color="#cc01aa"/>
+                                                                    </linearGradient>
+                                                                </defs>
+                                                                <circle>
+                                                                </circle>
+                                                            </svg>`
+                                        message.style.display = "block";
+                                        cancel.disabled = true
+                                        ok.disabled = true
+
+                                        fetch(`/blogs/manage-blogs/${delBtn.dataset.id}`, {
+                                            method: "DELETE"
+                                        })
+                                        .then(blob => blob.json())
+                                        .then(result => {
+                                            header.innerText = "Blog Deleted";
+                                            message.innerHTML = "";
+                                            message.innerText = `Blog article with title "${result.title}" has been successfully deleted`
+                                            ok.remove();
+                                            cancel.disabled = false;
+                                            cancel.innerText = "Close";
+
+                                            let delTimeout = setTimeout(() => {
+                                                location.reload();
+                                            }, 0);
+                                        })
+                                    })
+                                    
+                                    modal.appendChild(delModal)
+                                    delModal.appendChild(header)
+                                    delModal.appendChild(message)
+                                    delModal.appendChild(btnBox)
+                                    btnBox.appendChild(cancel)
+                                    btnBox.appendChild(ok)
+
+                                    body.before(modal)
+                                })
+
+                                switch (data.category) {
+                                    case 'Xbox':
+                                        parent.style.borderRight = "5px solid green";
+                                        parent.style.borderRadius = "5px";
+                                        icon.classList.add("fab", "fa-xbox");
+                                        break;
+                                    case 'Playstation':
+                                        parent.style.borderRight = "5px solid blue";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.color = "blue";
+                                        icon.style.right = "10px";
+                                        icon.classList.add("fab", "fa-playstation");
+                                        break;
+                                    case 'Nintendo':
+                                        const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
+                                        parent.style.borderRight = "5px solid red";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.filter = filter;
+                                        icon.style.webkitFilter = filter;
+                                        icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
+                                        break;
+                                    case 'PC':
+                                        parent.style.borderRight = "5px solid #5f5f5f";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.filter = "invert(50%)";
+                                        icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                parent.appendChild(subParent1);
+                                parent.appendChild(subParent2);
+                                parent.appendChild(editBtn);
+                                parent.appendChild(delBtn);
+                                subParent1.appendChild(img);
+                                subParent2.appendChild(title);
+                                subParent2.appendChild(date);
+                                subParent2.appendChild(snippet);
+                                subParent2.appendChild(icon);
+
+                                container.appendChild(parent); 
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                    })
+                })
+            }
+        
+                
+                data.forEach(data => {
+                    const parent = document.createElement("div")
+                    const subParent1 = document.createElement("div")
+                    const subParent2 = document.createElement("div")
+                    const img = document.createElement("img")
+                    const title = document.createElement("a")
+                    const date = document.createElement("p")
+                    const snippet = document.createElement("span")
+                    const icon = document.createElement("i")
+                    const editBtn = document.createElement("button")
+                    const delBtn = document.createElement("button")
+
+                    title.setAttribute("href", `/blogs/${data._id}`)
+                    editBtn.setAttribute("data-id", `${data._id}`)
+                    delBtn.setAttribute("data-id", `${data._id}`)
+
+                    parent.classList.add("blog-item");
+                    subParent1.classList.add("sub-parent-1");
+                    subParent2.classList.add("sub-parent-2");
+                    snippet.classList.add("blog-snippet");
+                    editBtn.classList.add("edit-btn");
+                    delBtn.classList.add("del-btn");
+
+                    img.src = data.hero;
+                    title.innerText = data.title;
+                    date.innerText = `Published: ${data.createdAt}`;
+                    snippet.innerText = data.blogSect1;
+                    editBtn.innerHTML = `<i class="fas fa-tasks"></i> Edit Blog`
+                    delBtn.innerHTML = `<i class="fas fa-trash-alt"></i> Delete Blog`
+
+                    editBtn.addEventListener("click", () => {
+                        const editModal = document.querySelector(".edit-modal")
+                        const editModalCancel = document.querySelector(".edit-modal .fa-window-close")
+                        
+                        const editForm = document.querySelector(".edit-modal #bc-form");
+
+                        const category = document.querySelector(".edit-modal #bc-form .dropdown #input input")
+                        const title = document.querySelector(".edit-modal #bc-form .title input")
+                        const author = document.querySelector(".edit-modal #bc-form .author-name input")
+                        const poster = document.querySelector(".edit-modal #hero #hero-img")
+                        const posterBtn = document.querySelector(".edit-modal #hero-text label")
+                        const snippet = document.querySelector(".edit-modal #bc-form .snippet input")
+                        const blogSect1 = document.querySelector(".edit-modal #bc-form .blog-sect textarea#blog-sect-1")
+                        const blogImages = document.querySelector(".edit-modal .blog-posters")
+                        const blogImagesLinks = document.querySelectorAll("div.link-cont input")
+                        const blogImagesLinksBtn = document.querySelector(".edit-modal #blog-images-links-btn")
+                        const blogImagesPreviewBtn = document.querySelector(".edit-modal label#blog-images-review-btn")
+                        const blogSect2 = document.querySelector(".edit-modal #bc-form .blog-sect textarea#blog-sect-2")
+                        const closingRemark = document.querySelector(".edit-modal #bc-form .remark input")
+                        const tags = document.querySelector(".edit-modal .blog-tags-sect .blog-tags input")
+                        const tagsBtn = document.querySelector(".edit-modal .blog-tags-sect .blog-tags span")
+
+                        editModalCancel.addEventListener("click", () => {
+                            editModal.style.display = "none";
+                        })
+
+                        editForm.addEventListener("submit", (e) => {
+                            const submitBtn = document.querySelector(".edit-modal button.submit")
+                            const loader = `<svg>
+                                                <defs>
+                                                    <linearGradient id="linear-5" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                    <stop offset="0%"   stop-color="#01d3c1"/>
+                                                    <stop offset="100%" stop-color="#cc01aa"/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <circle class="spinner-5">
+                                                </circle>
+                                            </svg>`
+
+                            e.preventDefault()
+                            submitBtn.disabled = true
+                            submitBtn.innerText = ""
+                            submitBtn.innerHTML = loader
+                            submitBtn.style.cursor = "not-allowed"
+
+                            function populateBodyImages () {
+                                let arr = []
+                                const images = document.querySelectorAll(".blog-posters")
+                                images.forEach(img => {
+                                    arr.push(img.value)
+                                })
+                                return arr
+                            }
+                            const bodyImagesArr = populateBodyImages()
+                            
+                            function populateTags () {
+                                let arr = []
+                                const tags = document.querySelectorAll(".tag")
+                                tags.forEach(tag => {
+                                    arr.push(tag.value)
+                                })
+                                return arr
+                            }
+                            const tagsArr = populateTags()
+
+                            let editBody = {
+                                category: category.value,
+                                title: title.value,
+                                author: author.value,
+                                hero: poster.value,
+                                snippet: snippet.value,
+                                blogSect1: blogSect1.value,
+                                bodyImages: bodyImagesArr,
+                                blogSect2: blogSect2.value,
+                                closingRemark: closingRemark.value,
+                                tags: tagsArr
+                            };
+                            console.log(editBody)
+                            fetch(`/blogs/manage-blogs/${data._id}`, {
+                                method: 'PUT',
+                                body: JSON.stringify(editBody),
+                                headers: {
+                                    "Content-Type": "application/json"
+                                }
+                            })
+                            .then(blob => blob.json())
+                            .then(response => {
+                                submitBtn.disabled = false
+                                submitBtn.innerHTML = ""
+                                submitBtn.innerText = "edit blog"
+                                submitBtn.style.cursor = "pointer"
+
+                                const successModal = document.createElement("div") 
+                                const message = document.createElement("p") 
+
+                                message.innerText = "Blog post successfully updated."
+
+                                successModal.classList.add("succ-modal")
+                                message.classList.add("succ-msg")
+
+                                editModal.before(successModal)
+                                successModal.appendChild(message)
+
+                                const succTimeout = setTimeout(() => {
+                                    successModal.remove()
+                                }, 5000);
+
+                                location.reload();
+                            })
+                            .catch(err => {
+                                submitBtn.disabled = false
+                                submitBtn.innerHTML = ""
+                                submitBtn.innerText = "edit blog"
+                                submitBtn.style.cursor = "pointer"
+
+                                const errorModal = document.createElement("div") 
+                                const message = document.createElement("p") 
+
+                                message.innerText = "Something's wrong, we couldn't update this blog post."
+
+                                errorModal.classList.add("err-modal")
+                                message.classList.add("err-msg")
+
+                                editModal.before(errorModal)
+                                errorModal.appendChild(message)
+
+                                const succTimeout = setTimeout(() => {
+                                    errorModal.remove()
+                                }, 5000);
+                            })
+                        })
+                        
+                        editModal.style.display = "block";
+                        category.value = data.category;
+                        title.value = data.title;
+                        author.value = data.author;
+                        poster.value = data.hero;
+                        posterBtn.click()
+                        snippet.value = data.snippet;
+                        blogSect1.value = data.blogSect1;
+                        for (let i = 0; i < data.bodyImages.length; i++) {
+                            const element = data.bodyImages[i];
+                            if (i === data.bodyImages.length - 1 ) {
+                                blogImagesLinks[i].value = element;
+                            } else {
+                                blogImagesLinks[i].value = element;
+                                blogImagesLinksBtn.click();
+                            }
+                        }
+                        blogImagesPreviewBtn.click()
+                        blogSect2.value = data.blogSect2;
+                        closingRemark.value = data.closingRemark;
+                        for (let i = 0; i < data.tags.length; i++) {
+                            const element = data.tags[i];
+                            
+                            tags.value = element;
+                            tagsBtn.click();
+                        }
+                    })
+                    
+                    delBtn.addEventListener("click", () => {
+                        const body = document.querySelector("header")
+
+                        const modal = document.createElement("div")
+                        const delModal = document.createElement("div")
+                        const header = document.createElement("h3")
+                        const message = document.createElement("p")
+                        const btnBox = document.createElement("div")
+                        const cancel = document.createElement("button")
+                        const ok = document.createElement("button")
+
+                        modal.classList.add("bm-modal");
+                        delModal.classList.add("del-modal");
+
+                        header.innerText = "Delete Blog"
+                        message.innerText = `Are you sure you want to delete the blog with the title: \n "${data.title}"`
+                        cancel.innerText = "Cancel"
+                        ok.innerText = "Delete"
+
+                        cancel.addEventListener("click", () => {
+                            modal.remove();
+                        })
+                        ok.addEventListener("click", function () {
+                            header.innerText = "Deleting Blog";
+                            message.innerHTML = `<svg>
+                                                    <defs>
+                                                        <linearGradient id="linear-modal" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%"   stop-color="#01d3c1"/>
+                                                        <stop offset="100%" stop-color="#cc01aa"/>
+                                                        </linearGradient>
+                                                    </defs>
+                                                    <circle>
+                                                    </circle>
+                                                 </svg>`
+                            message.style.display = "block";
+                            cancel.disabled = true
+                            ok.disabled = true
+
+                            fetch(`/blogs/manage-blogs/${delBtn.dataset.id}`, {
+                                method: "DELETE"
+                            })
+                            .then(blob => blob.json())
+                            .then(result => {
+                                header.innerText = "Blog Deleted";
+                                message.innerHTML = "";
+                                message.innerText = `Blog article with title "${result.title}" has been successfully deleted`
+                                ok.remove();
+                                cancel.disabled = false;
+                                cancel.innerText = "Close";
+
+                                let delTimeout = setTimeout(() => {
+                                    location.reload();
+                                }, 0);
+                            })
+                        })
+                        
+                        modal.appendChild(delModal)
+                        delModal.appendChild(header)
+                        delModal.appendChild(message)
+                        delModal.appendChild(btnBox)
+                        btnBox.appendChild(cancel)
+                        btnBox.appendChild(ok)
+
+                        body.before(modal)
+                    })
+
+                    switch (data.category) {
+                        case 'Xbox':
+                            parent.style.borderRight = "5px solid green";
+                            parent.style.borderRadius = "5px";
+                            icon.classList.add("fab", "fa-xbox");
+                            break;
+                        case 'Playstation':
+                            parent.style.borderRight = "5px solid blue";
+                            parent.style.borderRadius = "5px";
+                            icon.style.color = "blue";
+                            icon.style.right = "10px";
+                            icon.classList.add("fab", "fa-playstation");
+                            break;
+                        case 'Nintendo':
+                            const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
+                            parent.style.borderRight = "5px solid red";
+                            parent.style.borderRadius = "5px";
+                            icon.style.filter = filter;
+                            icon.style.webkitFilter = filter;
+                            icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
+                            break;
+                        case 'PC':
+                            parent.style.borderRight = "5px solid #5f5f5f";
+                            parent.style.borderRadius = "5px";
+                            icon.style.filter = "invert(50%)";
+                            icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
+                            break;
+                        default:
+                            break;
+                    }
+
+                    parent.appendChild(subParent1);
+                    parent.appendChild(subParent2);
+                    parent.appendChild(editBtn);
+                    parent.appendChild(delBtn);
+                    subParent1.appendChild(img);
+                    subParent2.appendChild(title);
+                    subParent2.appendChild(date);
+                    subParent2.appendChild(snippet);
+                    subParent2.appendChild(icon);
+
+                    container.appendChild(parent);
+                })
+            })
+            .catch(e => {
+                
+            });
+        })
+        
+</script>
+
+<!-- search functionality -->
+<script>
+    const blogsCont = document.querySelector(".bm-page-cont");
+    const bmSearchForm = document.querySelector("#search-form");
+    const blogsSearchBar = document.querySelector("#bm-search");
+    const blogsContCopy = blogsCont.innerHTML ;
+    const blogsLoader = container.firstElementChild;
+    const blogsLoaderCopy = blogsLoader;
+    const resultBox = document.createElement('div');
+    const searchHeader = document.createElement("h1");
+    const backBtn = document.createElement("button");
+    const bmCategories = document.querySelector(".bm-tabs");
+
+    // fill with search function
+    function fillWithSearch (data, count, pageIndex, page, pages, searchVal, header, resultBox) {
+        const limit = 10;
+        const resultsPages = resultBox.firstElementChild.nextElementSibling;
+
+        // clear loader
+        blogsLoaderCopy.style.display = "none";
+        
+        blogsCont.before(resultBox)
+        resultBox.firstElementChild.innerHTML = `
+                                        <span class="review-count">${count}</span>
+                                        <span>Result(s) Found</span>
+                                 `;
+        resultsPages.innerHTML = `
+                                        <span>Page</span>
+                                        <span class="current-page">${page}</span>
+                                        <span>of</span>
+                                        <span class="num-of-pages">${pages}</span>
+                                    `;
+
+
+        pages <= 1 ? pageControlsCont.innerHTML = "" : pageControlsCont.innerHTML = `
+                                                                                                                <button class="page-control-btn" id="double-prev" name="double-prev" data-offset="-2"> << </button>
+                                                                                                                <button class="page-control-btn" id="single-prev" name="single-prev" data-offset="-1"> < </button>
+                                                                                                                <span class="page-control-num" id="page-control-num" name="page-control-num" data-offset=""> Page 1 </span>
+                                                                                                                <button class="page-control-btn" id="single-next" name="single-next" data-offset="1"> > </button>
+                                                                                                                <button class="page-control-btn" id="double-next" name="double-next" data-offset="2"> >> </button>
+                                                                                                                `
+
+        if (count === 0 ) {
+            const searchMsg = document.createElement("p");
+            searchMsg.classList.add("search-msg");
+            searchMsg.innerText = `No blog title containing "${searchVal}" found, try searching something else.`;""
+            blogsCont.appendChild(searchMsg);
+
+            header.innerText = `No results found`;
+            resultBox.firstElementChild.innerHTML = `
+                                        <span class="review-count">${data.length}</span>
+                                        <span>Results Found</span>
+                                 `;
+            resultBox.firstElementChild.nextElementSibling.innerHTML = `
+                                        <span>Page</span>
+                                        <span class="current-page">0</span>
+                                        <span>of</span>
+                                        <span class="num-of-pages">0</span>
+                                    `;
+            return;
+        }
+        header.innerText = `Search results for "${searchVal}"`;
+
+        if (pages > 1) {
+                const doublePrev = pageControlsCont.firstElementChild;
+                const singlePrev = doublePrev.nextElementSibling;
+                const pageControlNum = singlePrev.nextElementSibling;
+                const singleNext = pageControlNum.nextElementSibling;
+                const doubleNext = singleNext.nextElementSibling;
+
+                pageControlNum.innerText = `Page ${page}`;
+
+                if (page < 3) {
+                    doublePrev.classList.add("disabled");
+                    doublePrev.disabled = true;
+                }
+                if (page < 2) {
+                    singlePrev.classList.add("disabled");
+                    singlePrev.disabled = true;
+                }
+                if ((page + 1) > pages) {
+                    singleNext.classList.add("disabled");
+                    singleNext.disabled = true;
+                }
+                if ((page + 2) > pages) {
+                    doubleNext.classList.add("disabled");
+                    doubleNext.disabled = true;
+                }
+                let pageBtns = [...pageControlsCont.children];
+                pageBtns.splice(2, 1);
+                
+                pageBtns.forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        pageControlsCont.style.display = "none";
+
+                        searchSpinner = blogsCont.firstElementChild;
+                        blogsCont.innerHTML = "";
+                        blogsCont.appendChild(searchSpinner);
+                        searchSpinner.style.display = "block";
+                        pageIndex += Number(btn.dataset.offset);
+                        page += Number(btn.dataset.offset);
+
+                        // updating variables
+                        pageControlNum.innerText = `Page ${page}`;
+
+                        if (page < 3) {
+                            doublePrev.classList.add("disabled");
+                            doublePrev.disabled = true;
+                        } else {
+                            doublePrev.classList.remove("disabled");
+                            doublePrev.disabled = false;
+                        }
+
+                        if (page < 2) {
+                            singlePrev.classList.add("disabled");
+                            singlePrev.disabled = true;
+                        } else {
+                            singlePrev.classList.remove("disabled");
+                            singlePrev.disabled = false;
+                        }
+
+                        if ((page + 1) > pages) {
+                            singleNext.classList.add("disabled");
+                            singleNext.disabled = true;
+                        }  else {
+                            singleNext.classList.remove("disabled");
+                            singleNext.disabled = false;
+                        }
+
+                        if ((page + 2) > pages) {
+                            doubleNext.classList.add("disabled");
+                            doubleNext.disabled = true;
+                        } else {
+                            doubleNext.classList.remove("disabled");
+                            doubleNext.disabled = false;
+                        }
+
+                        resultsPages.innerHTML = `
+                                                    <span>Page</span>
+                                                    <span class="current-page">${page}</span>
+                                                    <span>of</span>
+                                                    <span class="num-of-pages">${pages}</span>
+                                                `;
+                        
+                        // fetching page number based on button data-offset
+                        fetch(`/blogs?limit=${limit}&page=${pageIndex}`, {
+                            method: "post",
+                            headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                            body: JSON.stringify({search: searchVal})
+                        })
+                        .then(blob => blob.json())
+                        .then(data => {
+                            pageControlsCont.style.display = "flex";
+
+                            searchSpinner.style.display = "none";
+                            const results = data.result;
+                            results.forEach(data => {
+                                const parent = document.createElement("div")
+                                const subParent1 = document.createElement("div")
+                                const subParent2 = document.createElement("div")
+                                const img = document.createElement("img")
+                                const title = document.createElement("a")
+                                const date = document.createElement("p")
+                                const snippet = document.createElement("span")
+                                const icon = document.createElement("i")
+                                const editBtn = document.createElement("button")
+                                const delBtn = document.createElement("button")
+
+                                const search_Regex = new RegExp(searchVal, 'gi');
+                                search_Title = data.title;
+                                search_Title = search_Title.replace(search_Regex, `<span id="search-hl" >${searchVal}</span>`);
+
+                                title.setAttribute("href", `/blogs/${data._id}`)
+                                editBtn.setAttribute("data-id", `${data._id}`)
+                                delBtn.setAttribute("data-id", `${data._id}`)
+
+                                parent.classList.add("blog-item");
+                                subParent1.classList.add("sub-parent-1");
+                                subParent2.classList.add("sub-parent-2");
+                                snippet.classList.add("blog-snippet");
+                                editBtn.classList.add("edit-btn");
+                                delBtn.classList.add("del-btn");
+
+                                img.src = data.hero;
+                                title.innerHTML = search_Title;
+                                date.innerText = `Published: ${data.createdAt}`;
+                                snippet.innerText = data.blogSect1;
+                                editBtn.innerHTML = `<i class="fas fa-tasks"></i> Edit Blog`
+                                delBtn.innerHTML = `<i class="fas fa-trash-alt"></i> Delete Blog`
+
+                                editBtn.addEventListener("click", () => {
+                                    const editModal = document.querySelector(".edit-modal")
+                                    const editModalCancel = document.querySelector(".edit-modal .fa-window-close")
+                                    
+                                    const editForm = document.querySelector(".edit-modal #bc-form");
+
+                                    const category = document.querySelector(".edit-modal #bc-form .dropdown #input input")
+                                    const title = document.querySelector(".edit-modal #bc-form .title input")
+                                    const author = document.querySelector(".edit-modal #bc-form .author-name input")
+                                    const poster = document.querySelector(".edit-modal #hero #hero-img")
+                                    const posterBtn = document.querySelector(".edit-modal #hero-text label")
+                                    const snippet = document.querySelector(".edit-modal #bc-form .snippet input")
+                                    const blogSect1 = document.querySelector(".edit-modal #bc-form .blog-sect textarea#blog-sect-1")
+                                    const blogImages = document.querySelector(".edit-modal .blog-posters")
+                                    const blogImagesLinks = document.querySelectorAll("div.link-cont input")
+                                    const blogImagesLinksBtn = document.querySelector(".edit-modal #blog-images-links-btn")
+                                    const blogImagesPreviewBtn = document.querySelector(".edit-modal label#blog-images-review-btn")
+                                    const blogSect2 = document.querySelector(".edit-modal #bc-form .blog-sect textarea#blog-sect-2")
+                                    const closingRemark = document.querySelector(".edit-modal #bc-form .remark input")
+                                    const tags = document.querySelector(".edit-modal .blog-tags-sect .blog-tags input")
+                                    const tagsBtn = document.querySelector(".edit-modal .blog-tags-sect .blog-tags span")
+
+                                    editModalCancel.addEventListener("click", () => {
+                                        editModal.style.display = "none";
+                                    })
+
+                                    editForm.addEventListener("submit", (e) => {
+                                        const submitBtn = document.querySelector(".edit-modal button.submit")
+                                        const loader = `<svg>
+                                                            <defs>
+                                                                <linearGradient id="linear-5" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%"   stop-color="#01d3c1"/>
+                                                                <stop offset="100%" stop-color="#cc01aa"/>
+                                                                </linearGradient>
+                                                            </defs>
+                                                            <circle class="spinner-5">
+                                                            </circle>
+                                                        </svg>`
+
+                                        e.preventDefault()
+                                        submitBtn.disabled = true
+                                        submitBtn.innerText = ""
+                                        submitBtn.innerHTML = loader
+                                        submitBtn.style.cursor = "not-allowed"
+
+                                        function populateBodyImages () {
+                                            let arr = []
+                                            const images = document.querySelectorAll(".blog-posters")
+                                            images.forEach(img => {
+                                                arr.push(img.value)
+                                            })
+                                            return arr
+                                        }
+                                        const bodyImagesArr = populateBodyImages()
+                                        
+                                        function populateTags () {
+                                            let arr = []
+                                            const tags = document.querySelectorAll(".tag")
+                                            tags.forEach(tag => {
+                                                arr.push(tag.value)
+                                            })
+                                            return arr
+                                        }
+                                        const tagsArr = populateTags()
+
+                                        let editBody = {
+                                            category: category.value,
+                                            title: title.value,
+                                            author: author.value,
+                                            hero: poster.value,
+                                            snippet: snippet.value,
+                                            blogSect1: blogSect1.value,
+                                            bodyImages: bodyImagesArr,
+                                            blogSect2: blogSect2.value,
+                                            closingRemark: closingRemark.value,
+                                            tags: tagsArr
+                                        };
+                                        console.log(editBody)
+                                        fetch(`/blogs/manage-blogs/${data._id}`, {
+                                            method: 'PUT',
+                                            body: JSON.stringify(editBody),
+                                            headers: {
+                                                "Content-Type": "application/json"
+                                            }
+                                        })
+                                        .then(blob => blob.json())
+                                        .then(response => {
+                                            submitBtn.disabled = false
+                                            submitBtn.innerHTML = ""
+                                            submitBtn.innerText = "edit blog"
+                                            submitBtn.style.cursor = "pointer"
+
+                                            const successModal = document.createElement("div") 
+                                            const message = document.createElement("p") 
+
+                                            message.innerText = "Blog post successfully updated."
+
+                                            successModal.classList.add("succ-modal")
+                                            message.classList.add("succ-msg")
+
+                                            editModal.before(successModal)
+                                            successModal.appendChild(message)
+
+                                            const succTimeout = setTimeout(() => {
+                                                successModal.remove()
+                                            }, 5000);
+
+                                            location.reload();
+                                        })
+                                        .catch(err => {
+                                            submitBtn.disabled = false
+                                            submitBtn.innerHTML = ""
+                                            submitBtn.innerText = "edit blog"
+                                            submitBtn.style.cursor = "pointer"
+
+                                            const errorModal = document.createElement("div") 
+                                            const message = document.createElement("p") 
+
+                                            message.innerText = "Something's wrong, we couldn't update this blog post."
+
+                                            errorModal.classList.add("err-modal")
+                                            message.classList.add("err-msg")
+
+                                            editModal.before(errorModal)
+                                            errorModal.appendChild(message)
+
+                                            const succTimeout = setTimeout(() => {
+                                                errorModal.remove()
+                                            }, 5000);
+                                        })
+                                    })
+                                    
+                                    editModal.style.display = "block";
+                                    category.value = data.category;
+                                    title.value = data.title;
+                                    author.value = data.author;
+                                    poster.value = data.hero;
+                                    posterBtn.click()
+                                    snippet.value = data.snippet;
+                                    blogSect1.value = data.blogSect1;
+                                    for (let i = 0; i < data.bodyImages.length; i++) {
+                                        const element = data.bodyImages[i];
+                                        if (i === data.bodyImages.length - 1 ) {
+                                            blogImagesLinks[i].value = element;
+                                        } else {
+                                            blogImagesLinks[i].value = element;
+                                            blogImagesLinksBtn.click();
+                                        }
+                                    }
+                                    blogImagesPreviewBtn.click()
+                                    blogSect2.value = data.blogSect2;
+                                    closingRemark.value = data.closingRemark;
+                                    for (let i = 0; i < data.tags.length; i++) {
+                                        const element = data.tags[i];
+                                        
+                                        tags.value = element;
+                                        tagsBtn.click();
+                                    }
+                                })
+                                
+                                delBtn.addEventListener("click", () => {
+                                    const body = document.querySelector("header")
+
+                                    const modal = document.createElement("div")
+                                    const delModal = document.createElement("div")
+                                    const header = document.createElement("h3")
+                                    const message = document.createElement("p")
+                                    const btnBox = document.createElement("div")
+                                    const cancel = document.createElement("button")
+                                    const ok = document.createElement("button")
+
+                                    modal.classList.add("bm-modal");
+                                    delModal.classList.add("del-modal");
+
+                                    header.innerText = "Delete Blog"
+                                    message.innerText = `Are you sure you want to delete the blog with the title: \n "${data.title}"`
+                                    cancel.innerText = "Cancel"
+                                    ok.innerText = "Delete"
+
+                                    cancel.addEventListener("click", () => {
+                                        modal.remove();
+                                    })
+                                    ok.addEventListener("click", function () {
+                                        header.innerText = "Deleting Blog";
+                                        message.innerHTML = `<svg>
+                                                                <defs>
+                                                                    <linearGradient id="linear-modal" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                    <stop offset="0%"   stop-color="#01d3c1"/>
+                                                                    <stop offset="100%" stop-color="#cc01aa"/>
+                                                                    </linearGradient>
+                                                                </defs>
+                                                                <circle>
+                                                                </circle>
+                                                            </svg>`
+                                        message.style.display = "block";
+                                        cancel.disabled = true
+                                        ok.disabled = true
+
+                                        fetch(`/blogs/manage-blogs/${delBtn.dataset.id}`, {
+                                            method: "DELETE"
+                                        })
+                                        .then(blob => blob.json())
+                                        .then(result => {
+                                            header.innerText = "Blog Deleted";
+                                            message.innerHTML = "";
+                                            message.innerText = `Blog article with title "${result.title}" has been successfully deleted`
+                                            ok.remove();
+                                            cancel.disabled = false;
+                                            cancel.innerText = "Close";
+
+                                            let delTimeout = setTimeout(() => {
+                                                location.reload();
+                                            }, 0);
+                                        })
+                                    })
+                                    
+                                    modal.appendChild(delModal)
+                                    delModal.appendChild(header)
+                                    delModal.appendChild(message)
+                                    delModal.appendChild(btnBox)
+                                    btnBox.appendChild(cancel)
+                                    btnBox.appendChild(ok)
+
+                                    body.before(modal)
+                                })
+
+                                switch (data.category) {
+                                    case 'Xbox':
+                                        parent.style.borderRight = "5px solid green";
+                                        parent.style.borderRadius = "5px";
+                                        icon.classList.add("fab", "fa-xbox");
+                                        break;
+                                    case 'Playstation':
+                                        parent.style.borderRight = "5px solid blue";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.color = "blue";
+                                        icon.style.right = "10px";
+                                        icon.classList.add("fab", "fa-playstation");
+                                        break;
+                                    case 'Nintendo':
+                                        const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
+                                        parent.style.borderRight = "5px solid red";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.filter = filter;
+                                        icon.style.webkitFilter = filter;
+                                        icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
+                                        break;
+                                    case 'PC':
+                                        parent.style.borderRight = "5px solid #5f5f5f";
+                                        parent.style.borderRadius = "5px";
+                                        icon.style.filter = "invert(50%)";
+                                        icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
+                                        break;
+                                    default:
+                                        break;
+                                }
+
+                                parent.appendChild(subParent1);
+                                parent.appendChild(subParent2);
+                                parent.appendChild(editBtn);
+                                parent.appendChild(delBtn);
+                                subParent1.appendChild(img);
+                                subParent2.appendChild(title);
+                                subParent2.appendChild(date);
+                                subParent2.appendChild(snippet);
+                                subParent2.appendChild(icon);
+
+                                container.appendChild(parent); 
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                    })
+                })
+            }
+           
+        // result logic
+        data.forEach(data => {
+                    const parent = document.createElement("div")
+                    const subParent1 = document.createElement("div")
+                    const subParent2 = document.createElement("div")
+                    const img = document.createElement("img")
+                    const title = document.createElement("a")
+                    const date = document.createElement("p")
+                    const snippet = document.createElement("span")
+                    const icon = document.createElement("i")
+                    const editBtn = document.createElement("button")
+                    const delBtn = document.createElement("button")
+
+                    const searchRegex = new RegExp(searchVal, 'gi');
+                    searchTitle = data.title;
+                    searchTitle = searchTitle.replace(searchRegex, `<span id="search-hl" >${searchVal}</span>`);
+
+                    title.setAttribute("href", `/blogs/${data._id}`)
+                    editBtn.setAttribute("data-id", `${data._id}`)
+                    delBtn.setAttribute("data-id", `${data._id}`)
+
+                    parent.classList.add("blog-item");
+                    subParent1.classList.add("sub-parent-1");
+                    subParent2.classList.add("sub-parent-2");
+                    snippet.classList.add("blog-snippet");
+                    editBtn.classList.add("edit-btn");
+                    delBtn.classList.add("del-btn");
+
+                    img.src = data.hero;
+                    title.innerHTML = searchTitle;
+                    date.innerText = `Published: ${data.createdAt}`;
+                    snippet.innerText = data.blogSect1;
+                    editBtn.innerHTML = `<i class="fas fa-tasks"></i> Edit Blog`
+                    delBtn.innerHTML = `<i class="fas fa-trash-alt"></i> Delete Blog`
+
+                    editBtn.addEventListener("click", () => {
+                        const editModal = document.querySelector(".edit-modal")
+                        const editModalCancel = document.querySelector(".edit-modal .fa-window-close")
+                        
+                        const editForm = document.querySelector(".edit-modal #bc-form");
+
+                        const category = document.querySelector(".edit-modal #bc-form .dropdown #input input")
+                        const title = document.querySelector(".edit-modal #bc-form .title input")
+                        const author = document.querySelector(".edit-modal #bc-form .author-name input")
+                        const poster = document.querySelector(".edit-modal #hero #hero-img")
+                        const posterBtn = document.querySelector(".edit-modal #hero-text label")
+                        const snippet = document.querySelector(".edit-modal #bc-form .snippet input")
+                        const blogSect1 = document.querySelector(".edit-modal #bc-form .blog-sect textarea#blog-sect-1")
+                        const blogImages = document.querySelector(".edit-modal .blog-posters")
+                        const blogImagesLinks = document.querySelectorAll("div.link-cont input")
+                        const blogImagesLinksBtn = document.querySelector(".edit-modal #blog-images-links-btn")
+                        const blogImagesPreviewBtn = document.querySelector(".edit-modal label#blog-images-review-btn")
+                        const blogSect2 = document.querySelector(".edit-modal #bc-form .blog-sect textarea#blog-sect-2")
+                        const closingRemark = document.querySelector(".edit-modal #bc-form .remark input")
+                        const tags = document.querySelector(".edit-modal .blog-tags-sect .blog-tags input")
+                        const tagsBtn = document.querySelector(".edit-modal .blog-tags-sect .blog-tags span")
+
+                        editModalCancel.addEventListener("click", () => {
+                            editModal.style.display = "none";
+                        })
+
+                        editForm.addEventListener("submit", (e) => {
+                            const submitBtn = document.querySelector(".edit-modal button.submit")
+                            const loader = `<svg>
+                                                <defs>
+                                                    <linearGradient id="linear-5" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                    <stop offset="0%"   stop-color="#01d3c1"/>
+                                                    <stop offset="100%" stop-color="#cc01aa"/>
+                                                    </linearGradient>
+                                                </defs>
+                                                <circle class="spinner-5">
+                                                </circle>
+                                            </svg>`
+
+                            e.preventDefault()
+                            submitBtn.disabled = true
+                            submitBtn.innerText = ""
+                            submitBtn.innerHTML = loader
+                            submitBtn.style.cursor = "not-allowed"
+
+                            function populateBodyImages () {
+                                let arr = []
+                                const images = document.querySelectorAll(".blog-posters")
+                                images.forEach(img => {
+                                    arr.push(img.value)
+                                })
+                                return arr
+                            }
+                            const bodyImagesArr = populateBodyImages()
+                            
+                            function populateTags () {
+                                let arr = []
+                                const tags = document.querySelectorAll(".tag")
+                                tags.forEach(tag => {
+                                    arr.push(tag.value)
+                                })
+                                return arr
+                            }
+                            const tagsArr = populateTags()
+
+                            let editBody = {
+                                category: category.value,
+                                title: title.value,
+                                author: author.value,
+                                hero: poster.value,
+                                snippet: snippet.value,
+                                blogSect1: blogSect1.value,
+                                bodyImages: bodyImagesArr,
+                                blogSect2: blogSect2.value,
+                                closingRemark: closingRemark.value,
+                                tags: tagsArr
+                            };
+                            console.log(editBody)
+                            fetch(`/blogs/manage-blogs/${data._id}`, {
+                                method: 'PUT',
+                                body: JSON.stringify(editBody),
+                                headers: {
+                                    "Content-Type": "application/json"
+                                }
+                            })
+                            .then(blob => blob.json())
+                            .then(response => {
+                                submitBtn.disabled = false
+                                submitBtn.innerHTML = ""
+                                submitBtn.innerText = "edit blog"
+                                submitBtn.style.cursor = "pointer"
+
+                                const successModal = document.createElement("div") 
+                                const message = document.createElement("p") 
+
+                                message.innerText = "Blog post successfully updated."
+
+                                successModal.classList.add("succ-modal")
+                                message.classList.add("succ-msg")
+
+                                editModal.before(successModal)
+                                successModal.appendChild(message)
+
+                                const succTimeout = setTimeout(() => {
+                                    successModal.remove()
+                                }, 5000);
+
+                                location.reload();
+                            })
+                            .catch(err => {
+                                submitBtn.disabled = false
+                                submitBtn.innerHTML = ""
+                                submitBtn.innerText = "edit blog"
+                                submitBtn.style.cursor = "pointer"
+
+                                const errorModal = document.createElement("div") 
+                                const message = document.createElement("p") 
+
+                                message.innerText = "Something's wrong, we couldn't update this blog post."
+
+                                errorModal.classList.add("err-modal")
+                                message.classList.add("err-msg")
+
+                                editModal.before(errorModal)
+                                errorModal.appendChild(message)
+
+                                const succTimeout = setTimeout(() => {
+                                    errorModal.remove()
+                                }, 5000);
+                            })
+                        })
+                        
+                        editModal.style.display = "block";
+                        category.value = data.category;
+                        title.value = data.title;
+                        author.value = data.author;
+                        poster.value = data.hero;
+                        posterBtn.click()
+                        snippet.value = data.snippet;
+                        blogSect1.value = data.blogSect1;
+                        for (let i = 0; i < data.bodyImages.length; i++) {
+                            const element = data.bodyImages[i];
+                            if (i === data.bodyImages.length - 1 ) {
+                                blogImagesLinks[i].value = element;
+                            } else {
+                                blogImagesLinks[i].value = element;
+                                blogImagesLinksBtn.click();
+                            }
+                        }
+                        blogImagesPreviewBtn.click()
+                        blogSect2.value = data.blogSect2;
+                        closingRemark.value = data.closingRemark;
+                        for (let i = 0; i < data.tags.length; i++) {
+                            const element = data.tags[i];
+                            
+                            tags.value = element;
+                            tagsBtn.click();
+                        }
+                    })
+                    
+                    delBtn.addEventListener("click", () => {
+                        const body = document.querySelector("header")
+
+                        const modal = document.createElement("div")
+                        const delModal = document.createElement("div")
+                        const header = document.createElement("h3")
+                        const message = document.createElement("p")
+                        const btnBox = document.createElement("div")
+                        const cancel = document.createElement("button")
+                        const ok = document.createElement("button")
+
+                        modal.classList.add("bm-modal");
+                        delModal.classList.add("del-modal");
+
+                        header.innerText = "Delete Blog"
+                        message.innerText = `Are you sure you want to delete the blog with the title: \n "${data.title}"`
+                        cancel.innerText = "Cancel"
+                        ok.innerText = "Delete"
+
+                        cancel.addEventListener("click", () => {
+                            modal.remove();
+                        })
+                        ok.addEventListener("click", function () {
+                            header.innerText = "Deleting Blog";
+                            message.innerHTML = `<svg>
+                                                    <defs>
+                                                        <linearGradient id="linear-modal" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                        <stop offset="0%"   stop-color="#01d3c1"/>
+                                                        <stop offset="100%" stop-color="#cc01aa"/>
+                                                        </linearGradient>
+                                                    </defs>
+                                                    <circle>
+                                                    </circle>
+                                                 </svg>`
+                            message.style.display = "block";
+                            cancel.disabled = true
+                            ok.disabled = true
+
+                            fetch(`/blogs/manage-blogs/${delBtn.dataset.id}`, {
+                                method: "DELETE"
+                            })
+                            .then(blob => blob.json())
+                            .then(result => {
+                                header.innerText = "Blog Deleted";
+                                message.innerHTML = "";
+                                message.innerText = `Blog article with title "${result.title}" has been successfully deleted`
+                                ok.remove();
+                                cancel.disabled = false;
+                                cancel.innerText = "Close";
+
+                                let delTimeout = setTimeout(() => {
+                                    location.reload();
+                                }, 0);
+                            })
+                        })
+                        
+                        modal.appendChild(delModal)
+                        delModal.appendChild(header)
+                        delModal.appendChild(message)
+                        delModal.appendChild(btnBox)
+                        btnBox.appendChild(cancel)
+                        btnBox.appendChild(ok)
+
+                        body.before(modal)
+                    })
+
+
+                    switch (data.category) {
+                        case 'Xbox':
+                            parent.style.borderRight = "5px solid green";
+                            parent.style.borderRadius = "5px";
+                            icon.classList.add("fab", "fa-xbox");
+                            break;
+                        case 'Playstation':
+                            parent.style.borderRight = "5px solid blue";
+                            parent.style.borderRadius = "5px";
+                            icon.style.color = "blue";
+                            icon.style.right = "10px";
+                            icon.classList.add("fab", "fa-playstation");
+                            break;
+                        case 'Nintendo':
+                            const filter = "brightness(50%) sepia(1)  hue-rotate(-49deg) saturate(5000%) brightness(100%)"
+                            parent.style.borderRight = "5px solid red";
+                            parent.style.borderRadius = "5px";
+                            icon.style.filter = filter;
+                            icon.style.webkitFilter = filter;
+                            icon.style.backgroundImage = "url(https://img.icons8.com/ios-filled/30/ffffff/nintendo-switch-logo.png)";
+                            break;
+                        case 'PC':
+                            parent.style.borderRight = "5px solid #5f5f5f";
+                            parent.style.borderRadius = "5px";
+                            icon.style.filter = "invert(50%)";
+                            icon.style.backgroundImage = "url(https://img.icons8.com/external-flatart-icons-outline-flatarticons/30/ffffff/external-pc-tower-devices-flatart-icons-outline-flatarticons.png)";
+                            break;
+                        default:
+                            break;
+                    }
+
+                    parent.appendChild(subParent1);
+                    parent.appendChild(subParent2);
+                    parent.appendChild(editBtn);
+                    parent.appendChild(delBtn);
+                    subParent1.appendChild(img);
+                    subParent2.appendChild(title);
+                    subParent2.appendChild(date);
+                    subParent2.appendChild(snippet);
+                    subParent2.appendChild(icon);
+
+                    blogsCont.appendChild(parent);
+                })      
+    }
+
+    bmSearchForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        controller.abort()
+
+        // disabling search until fetched data is resolved;
+        blogsSearchBar.disabled = true;
+
+        if (blogsSearchBar.value.trim() === "") return;
+
+        bmCategories.remove();
+
+        pageControlsCont.innerHTML = "";
+        const blogsSearchVal = blogsSearchBar.value;
+        blogsCont.classList.add("results");
+        blogsLoaderCopy.firstElementChild.firstElementChild.id = "linear";
+        
+        blogsCont.innerHTML = "";
+        searchHeader.classList.add("search-header");
+        searchHeader.textContent = "Searching for results...";
+        resultBox.innerHTML = ""
+
+        backBtn.classList.add("back-btn");
+        backBtn.textContent = "Go back";
+
+        // results info
+        const resultsFound = document.createElement('div'); 
+        const resultsPages = document.createElement('div'); 
+
+        resultsFound.innerHTML = `
+                                        <span class="review-count"></span>
+                                        <span>Results Found</span>
+                                 `;
+        resultsPages.innerHTML = `
+                                    <span>Page</span>
+                                    <span class="current-page">~</span>
+                                    <span>of</span>
+                                    <span class="num-of-pages">~</span>
+                                `;
+
+        resultBox.id = "blog-pages";
+        resultsFound.classList.add("pages");
+        resultsPages.classList.add("pages");
+        resultBox.appendChild(resultsFound)
+        resultBox.appendChild(resultsPages)
+
+        if (blogsCont.previousElementSibling.previousElementSibling.className.includes("search-header")) {
+            blogsCont.previousElementSibling.previousElementSibling.remove();
+            blogsCont.before(searchHeader);
+        } else {
+            //creating new search heading
+            blogsCont.before(searchHeader);
+            searchHeader.before(backBtn);
+        }
+        // resetting blogsCont
+        if (blogsCont.previousElementSibling.previousElementSibling.id === "blog-pages") {
+            blogsCont.previousElementSibling.previousElementSibling.remove();
+            blogsCont.before(resultBox);
+        } else {
+            //creating new search heading
+            blogsCont.before(resultBox);
+        }
+        
+        blogsSearchBar.value = "";
+
+        blogsCont.appendChild(blogsLoaderCopy);
+    
+        blogsLoaderCopy.style.display = "block";
+        
+        fetch("/blogs?limit=10&page=0", {
+            method: "post",
+            headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+            body: JSON.stringify({search: blogsSearchVal})
+        })
+        .then(blob => blob.json())
+        .then(data => {
+            blogsSearchBar.disabled = false;
+            blogsSearchBar.focus();
+            // populate blogs page with search results
+            fillWithSearch(data.result, data.count, data.pageIndex, data.page, data.pages, blogsSearchVal, searchHeader, resultBox);
+        
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    })
+
+    backBtn.addEventListener("click", () => {
+        location.reload()
+    })
+
+</script>
 </body>
 </html>

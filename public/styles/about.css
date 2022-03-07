@@ -11,18 +11,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
 } 
 .about-cont .about-hero {
     perspective: 100px;
     border-radius: 10px;
     width: max-content;
-    padding: 30px;
     height: max-content;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    z-index: -1;
 }
 .about-cont .about-hero h1{
     width: fit-content;
@@ -46,7 +46,7 @@
 }
 .about-body p {
     font-size: 1.2em;
-    text-align: left;
+    text-align: center;
     line-height: 30px;
 }
 .about-body h3 {
@@ -120,4 +120,15 @@
     width: 130px;
     filter: grayscale(1) brightness(0.5);
     margin-bottom: 10px;
+}
+
+
+@media only screen and (max-width: 450px) {
+    /* For screens less than 450px */
+    .about-cont .about-hero h1{
+        font-size: 3em;
+    }
+    .about-cont .about-hero p {
+        font-size: 1.2em;
+    }
 }

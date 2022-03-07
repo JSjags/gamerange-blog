@@ -587,6 +587,7 @@
     margin: 20px 0;
     font-size: 1.4em;
     height: 40px;
+    padding-right: 0;
 }
 .pages {
     font-weight: bolder;
@@ -601,7 +602,13 @@
     color: transparent;
     font-size: 1.6em;
 }
-.current-page,
+.current-page {
+    background: linear-gradient(315deg, #01d3c1, #cc01aa);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-size: 1.6em;
+}
 .num-of-pages {
     background: var(--background-color);
     background-clip: text;
@@ -822,4 +829,18 @@
     top: 200px;
     left: 50%;
     transform: translateX(-50%);
+}
+
+/* for screens less than 400px */
+@media only screen and (max-width: 400px) {
+    #pages {
+        font-size: 1em;
+    }
+}
+
+@media only screen and (max-width: 325px) {
+    /* For screens less than 325px */
+    .highest-rated {
+        box-shadow: none;
+    }
 }

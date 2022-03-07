@@ -1,5 +1,5 @@
 <div id="search-div">
-    <div>
+    <div class="search-btn-icon">
         <form action="" id="search-form">
         <% if(title === 'Reviews Page') {%>
         <input id= "reviews-search" type="search" name="search" id="search" placeholder="Search reviews here...">
@@ -7,6 +7,8 @@
         <input id= "videos-search" type="search" name="search" id="search" placeholder="Search videos here...">
         <% } else if(title === 'Blogs Page') {%>
         <input id= "blogs-search" type="search" name="search" id="search" placeholder="Search blogs here...">
+        <% } else if(title === 'Manage Blogs') {%>
+        <input id= "bm-search" type="search" name="search" id="search" placeholder="Search blogs here...">
         <% } else { %>
         <input id= "home-search" type="search" name="search" id="search" placeholder="Search here...">
         <% } %>
@@ -15,3 +17,8 @@
     </div>
 </div>
 <a style="visibility: hidden; display: none;" href="https://icons8.com/icon/heDfCv4pIFyv/cancel">Cancel icon by Icons8</a>
+
+<div id="menu-btn-icon">
+    <i class="fas fa-bars resp-menu"></i>
+    <span class="menu-btn-text">Menu</span>
+</div> 

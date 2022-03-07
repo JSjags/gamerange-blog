@@ -2,6 +2,7 @@
 <html lang="en">
 
 <%- include('./partials/header.ejs') %>
+</head>
 
 <body>
 <div class="container">
@@ -102,6 +103,8 @@
             .then(data => {
                 data.forEach(data => {
                     const parent = document.createElement("div")
+                    const imgBox = document.createElement("div")
+                    const blogDetsBox = document.createElement("div")
                     const img = document.createElement("img")
                     const title = document.createElement("a")
                     const date = document.createElement("p")
@@ -110,6 +113,8 @@
                     title.setAttribute("href", `/blogs/${data._id}`)
 
                     parent.classList.add("recent-blog-item");
+                    imgBox.classList.add("img-box");
+                    blogDetsBox.classList.add("blog-dets-box");
 
                     img.src = data.hero;
                     title.innerText = data.title;
@@ -138,9 +143,12 @@
                     }
 
                     parent.appendChild(img);
-                    parent.appendChild(title);
-                    parent.appendChild(date);
-                    parent.appendChild(snippet);
+                    parent.appendChild(imgBox);
+                    parent.appendChild(blogDetsBox);
+                    imgBox.appendChild(img);
+                    blogDetsBox.appendChild(title);
+                    blogDetsBox.appendChild(date);
+                    blogDetsBox.appendChild(snippet);
 
                     recentArticleSpinner.remove();
                     recentArticleContainer.appendChild(parent);
