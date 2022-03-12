@@ -61,7 +61,7 @@
                 <circle cx= "20px" cy= "20px" r= "10px" class="spinner-home">
                 </circle>
             </svg>
-            <h1 class="latest">Latest Blogs</h1>
+            
             <div class="carousel">
                 <div class="carousel-slider">
                     <% for(let i = 0; i < (blogs.length - 1); i++) { %>
@@ -82,6 +82,7 @@
 
                 </div>
             </div>
+            <h1 class="latest">Latest Blogs</h1>
             <div id="blog-card-sect">
                 <div id="backboard">
                 </div>
@@ -566,7 +567,7 @@ prevBtn.addEventListener('click', prevSlide);
 
 </script>
 
-<!-- search functionality -->
+<!-- search logic -->
 <script>
     const form = document.querySelector('#search-form');
     const homeSearch = document.querySelector('#home-search');
@@ -1044,5 +1045,6 @@ prevBtn.addEventListener('click', prevSlide);
         searchData();
     })
 </script>
+
 </body>
 </html>

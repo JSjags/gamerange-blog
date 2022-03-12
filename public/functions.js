@@ -5,7 +5,7 @@ let searchBox = false;
 search.onclick = () => {
     if (searchBox === false) {
         inputBox.focus()
-        searchDiv.style.width = "17em";
+        searchDiv.style.width = "15em";
         searchBox = true;
     } else {
         inputBox.blur();

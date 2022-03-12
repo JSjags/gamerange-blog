@@ -27,7 +27,6 @@ body {
     background: linear-gradient(to bottom, #ffffff, #858484);
     background-attachment: fixed;
     min-height: 100vh;
-    scrollbar-3dlight-color: red;
 }
 body::-webkit-scrollbar{
     appearance: none;
@@ -468,13 +467,13 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 /* back to homepage btn */
 .back-btn.home {
-    opacity: 0;
+    display: none;
     cursor: pointer;
     pointer-events: none;
     transition: all 300ms ease;
 }
 .back-btn.home.visible {
-    opacity: 1;
+    display: block;
     cursor: pointer;
     pointer-events: visible;
     transition: all 300ms ease;
@@ -482,7 +481,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 /* latest blogs */
 .latest {
-    margin: 0 0 0 20px;
+    margin: 0 0 30px 20px;
     font-size: 4vw;
     color: transparent;
     background: var(--background-color);
@@ -749,6 +748,7 @@ input[type="search"]::-webkit-search-cancel-button {
 #blog-card-sect .blog-card-sect::-webkit-scrollbar {
     appearance: none;
     width: 6px;
+    height: 6px;
     cursor: pointer;
 }
 #blog-card-sect .blog-card-sect::-webkit-scrollbar-thumb {
@@ -939,6 +939,7 @@ input[type="search"]::-webkit-search-cancel-button {
 #video-card-sect .video-card-sect::-webkit-scrollbar {
     appearance: none;
     width: 6px;
+    height: 6px;
     cursor: pointer;
 }
 #video-card-sect .video-card-sect::-webkit-scrollbar-thumb {
@@ -1120,6 +1121,7 @@ input[type="search"]::-webkit-search-cancel-button {
 #review-card-sect .review-card-sect::-webkit-scrollbar {
     appearance: none;
     width: 6px;
+    height: 6px;
     cursor: pointer;
 }
 #review-card-sect .review-card-sect::-webkit-scrollbar-thumb {
@@ -1731,12 +1733,12 @@ input[type="search"]::-webkit-search-cancel-button {
 @media only screen and (max-width: 875px) {
     /* For screens less than 875px */
     header nav{
-        position: absolute;
+        position: fixed;
         z-index: 10000;
         top: 0;
         left: 0;
         width: 100vw;
-        height: 100vh;
+        height: 120vh;
         background: black;
         clip-path: circle(0 at 40px 17%);
         transition: all 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -1793,8 +1795,17 @@ input[type="search"]::-webkit-search-cancel-button {
     #menu-btn-icon .menu-btn-text {
         display: inline;
     }
+    input[type="search"] {
+        padding: 0.3em 0 0.3em 45px;
+    }
 }
 
+@media only screen and (max-width: 520px) {
+    /* For screens less than 520px */
+    .carousel {
+        width: calc(100% - 5px);
+    }
+}
 @media only screen and (max-width: 425px) {
     /* For screens less than 425px */
     header #logo a h1 {
@@ -1816,6 +1827,12 @@ input[type="search"]::-webkit-search-cancel-button {
     }
     #menu-btn-icon .menu-btn-text {
         display: none;
+    }
+    .back-btn.home {
+        height: 30px;
+        border-radius: 20px;
+        padding: 0 10px 0 0;
+        font-size: 0.9em;
     }
 }
 

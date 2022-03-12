@@ -46,6 +46,7 @@
 .videos-cont h3 {
     width: fit-content;
     margin-top: 30px;
+    padding-right: 20px;
 }
 
 .videos-cont h1::after,
@@ -100,7 +101,7 @@
 .videos-cont .recent-videos::-webkit-scrollbar {
     appearance: none;
     width: 6px;
-    height: 10px;
+    height: 6px;
 }
 .videos-cont .recent-videos::-webkit-scrollbar-thumb {
     appearance: none;
@@ -576,4 +577,11 @@
         font-size: 1.1em;
         white-space: nowrap;
     }
+    .page-control-btn {
+        font-size: 1em;
+        margin: 10px 0px;
+    }
+    .page-controls-cont {
+        justify-content: space-between;
+    } 
 }
