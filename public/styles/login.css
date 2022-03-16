@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: center;
 }
-.form-control {
+.login-cont .form-control {
     background: #ffffffa2;
     width: fit-content;
     padding: 20px;
@@ -16,20 +16,20 @@
     margin: 50px 10px;
     box-shadow: 0 10px 30px #0000006e;
 }
-.form-control hr {
+.login-cont .form-control hr {
     border: none;
     border-bottom: 1px solid #5A5B5C;
     margin-top: 5px;
 }
-.form-control form {
+.login-cont .form-control form {
     padding: 10px 0;
 }
-.form-control form div label {
+.login-cont .form-control form div label {
     display: inline-block;
     margin-bottom: 5px;
     font-size: 1.1em;
 }
-.form-control form div input {
+.login-cont .form-control form div input {
     width: 100%;
     font-size: 1.2em;
     border: none;
@@ -39,20 +39,20 @@
     border: 1px solid #5A5B5C;
     outline: none;
 }
-.form-control form div input:focus {
+.login-cont .form-control form div input:focus {
     border: 1px solid #000000d3;
 }
-.form-control form div span {
+.login-cont .form-control form div span {
     display: block;
     height: 30px;
     padding: 5px 0;
     color: red;
 }
-.form-control form .username {
+.login-cont .form-control form .username {
     padding: 5px 0 10px 0;
     margin-bottom: 0 0 10px;
 }
-.form-control form button {
+.login-cont .form-control form button {
     width: 100%;
     margin-top: 20px;
     padding: 5px 0;
@@ -64,13 +64,13 @@
     border: none;
     cursor: pointer;
 }
-.form-control form button:hover {
+.login-cont .form-control form button:hover {
     background: var(--background-color);
 }
-.form-control a {
+.login-cont .form-control a {
     color: black;
 }
-.form-control a:hover {
+.login-cont .form-control a:hover {
     background: var(--background-color);
     background-clip: text;
     -webkit-background-clip: text;

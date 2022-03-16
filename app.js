@@ -308,11 +308,11 @@ app.put('/user/profile/:id', requireAuth, async (req, res) => {
     User.updateOne(
       { _id : id },
       { $set: { profile_pic: update.profile_pic}},{upsert:true})
-      .then((result, err) => {
-         return res.status(200).json({ data: result, message:"Profile Updated Successfully" });
-     })
+    //   .then((result, err) => {
+    //      return res.json({ data: result, message:"Profile Updated Successfully" });
+    //  })
   }
-  res.status(200).json({ data: data, message:"Profile Updated Successfully" });
+  res.json({ data: data, message:"Profile Updated Successfully" });
 });
 app.get('/create-blog', requireAuth, (req, res) => {
   res.render('blog-creator', {title: 'Blog Creator'});

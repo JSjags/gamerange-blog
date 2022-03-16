@@ -1809,10 +1809,10 @@ input[type="search"]::-webkit-search-cancel-button {
 @media only screen and (max-width: 425px) {
     /* For screens less than 425px */
     header #logo a h1 {
-        font-size: 1.5em;
+        font-size: 1.6em;
     }
     header #logo p {
-        font-size: 0.9em;
+        font-size: 0.8em;
     }
     header nav ul {
         display: flex;
@@ -1835,4 +1835,15 @@ input[type="search"]::-webkit-search-cancel-button {
         font-size: 0.9em;
     }
 }
-
+@media only screen and (max-width: 360px) {
+    /* For screens less than 360px */
+    #login-div {
+        margin: 0;
+    }
+    header #logo a h1 {
+        font-size: 1.4em;
+    }
+    header #logo p {
+        font-size: 0.7em;
+    }
+}
