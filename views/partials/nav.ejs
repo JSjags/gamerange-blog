@@ -25,7 +25,7 @@
     <div id="login-div">
         <% if (user) { %>
         <div id="user-box">
-            <% if (user.profile_pic.includes('data:image/png;base64')) { %>
+            <% if (user.profile_pic) { %>
                 <img class="avatar" src= <%=user.profile_pic%> ></img>
             <% } else { %>
                 <i class="fas fa-user-circle"></i>

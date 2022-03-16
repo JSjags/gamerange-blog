@@ -1,8 +1,11 @@
+#menu-btn-icon {
+    margin-left: -10px;
+}
+
 #blogs-manager-body {
     background: black;
     width: 100%;
     min-height: 100vh;
-    padding-left: 10px;
 }
 #blogs-manager-body .pages {
     background: var(--background-color);
@@ -24,6 +27,7 @@
 .bm-title {
     color: white;
     margin-top: 30px;
+    margin-left: 10px;
     background: radial-gradient(circle, red, orange, yellow, green, blue, indigo, violet);
     -webkit-background-clip: text;
     background-clip: text;
@@ -43,6 +47,8 @@
     align-items: center;
     justify-content: space-between;
     max-width: 800px;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 .bm-tabs .bm-tab {
     font-weight: bolder;
@@ -121,7 +127,7 @@
     height: 100px;
 }
 .bm-page-cont svg circle {
-    margin-left: 50px;
+    margin: auto;
     cx: 50%;
     cy: 40px;
     r: 20px;
@@ -273,14 +279,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 100;
+    z-index: 10000820px0;
 }
 .del-modal {
     max-width: 400px;
     height: fit-content;
     padding: 20px;
     border-radius: 10px;
-    background: white;
+    background: black;
+    color: white;
+    border: 1px solid #5f5f5f;
+    margin: 10px;
 }
 .del-modal h3{
     color: red;
@@ -341,13 +350,28 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 100;
+    z-index: 100000;
     background: #00000033;
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     overflow: scroll;
 }
-
+.edit-modal::-webkit-scrollbar{
+    appearance: none;
+    background: black;
+    width: 6px;
+}
+.edit-modal::-webkit-scrollbar-thumb {
+    appearance: none;
+    border-radius: 10px;
+    background: linear-gradient(315deg, #cc01aa, #01d3c1);
+    width: 10px;
+    height: 10px;
+}
+.edit-modal::-webkit-scrollbar-corner {
+    appearance: none;
+    background: #000;
+}
 .edit-modal .fa-window-close {
     position: fixed;
     color: white;
@@ -734,6 +758,22 @@
     caret-color: #cc01aa;
     color: white;
     transition: all 200ms ease;
+}
+.edit-modal #bc-form .blog-sect textarea::-webkit-scrollbar{
+    appearance: none;
+    background: black;
+    width: 6px;
+}
+.edit-modal #bc-form .blog-sect textarea::-webkit-scrollbar-thumb {
+    appearance: none;
+    border-radius: 10px;
+    background: linear-gradient(315deg, #cc01aa, #01d3c1);
+    width: 10px;
+    height: 10px;
+}
+.edit-modal #bc-form .blog-sect textarea::-webkit-scrollbar-corner {
+    appearance: none;
+    background: #000;
 }
 .edit-modal ::-webkit-resizer {
     appearance: none;
@@ -1223,4 +1263,239 @@
     border: 1px solid #5f5f5f;
     font-size: 1.4em;
     border-radius: 5px;
+}
+
+/* for screens less than 820px */
+@media only screen and (max-width: 820px) {
+
+    /* edit modal */
+    .edit-modal #bc-header {
+        padding: 10px;
+    } 
+    .edit-modal #bc-header .logo {
+        width: fit-content;
+    }
+    .edit-modal #bc-header .logo a h1 {
+        font-size: 1.4em;
+    }
+    .edit-modal #bc-header .logo p {
+        font-size: 0.9em;
+    }
+    .edit-modal #bc-header #bc-title svg {
+        width: 14px;
+        height: 14px;
+    }
+    .edit-modal #bc-header #bc-title p {
+        font-size: 1em;
+    }
+    .edit-modal .header p {
+        padding-top: 10px;
+    }
+    .edit-modal #bc-form {
+        width: calc(100% - 10px);
+    }
+    .edit-modal #bc-form .title input {
+        width: 100%;
+    }
+    .edit-modal #hero {
+        flex-direction: column;
+        padding: 20px 0 0 0;
+    }
+    .edit-modal #hero-text {
+        width: 100%;
+    }
+    .edit-modal #hero #hero-img {
+        width: 100%;
+    }
+    .edit-modal #hero-img-sect {
+        width: 100%;
+        margin: 10px 10px 0 10px;
+    }
+    .edit-modal #hero #hero-img-sect img {
+        width: calc(100% - 20px);
+    }
+    .edit-modal #bc-form .blog-sect textarea {
+        width: 100%;
+    }
+    .edit-modal #bc-form .author-name input {
+        width: 100%;
+    }
+    .edit-modal #hero #hero-img-sect img::after {
+        padding: 0;
+    }
+    .edit-modal #bc-form .snippet input {
+        width: 100%;
+    }
+    .edit-modal #blog-images {
+        flex-direction: column;
+    }
+    .edit-modal #blog-images-text {
+        width: 100%;
+    }
+    .edit-modal #blog-images-links {
+        width: 100%;
+    }
+    .edit-modal .link-cont {
+        padding: 5px 0 5px 0;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .edit-modal #blog-images-sect {
+        width: 100%;
+    }
+    .edit-modal #blog-images-sect>p {
+        padding: 10px 0 5px 0;
+    }
+    .edit-modal #blog-images-preview {
+        width: 360px;
+    }
+    .edit-modal #bc-form .remark input {
+        width: 100%;
+    }
+    .edit-modal .blog-tags-sect {
+        flex-direction: column;
+    }
+    .edit-modal .blog-tags-sect .blog-tags {
+        width: 100%;
+    }
+    .edit-modal .blog-tags-sect .blog-tags input {
+        width: 100%;
+    }
+    .edit-modal .blog-tags-sect .tags-display {
+        width: 100%;
+    }
+}
+/* for screens less than 820px */
+@media only screen and (max-width: 820px) {
+    .bm-page-cont {
+        width: calc(100% - 20px);
+        border-radius: 10px;
+        margin-top: 30px;
+    }
+    .bm-page-cont .blog-item .sub-parent-2 a {
+        font-size: 1.1em;
+        height: 68px;
+        -webkit-line-clamp: 3;
+    }
+}
+/* for screens less than 555px */
+@media only screen and (max-width: 555px) {
+    .bm-page-cont .blog-item {
+        flex-direction: column;
+        display: flex;
+        padding: 0;
+        margin-bottom: 30px;
+    }
+    .bm-page-cont .blog-item .sub-parent-1 {
+        border-radius: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+    .bm-page-cont .blog-item .sub-parent-1 img {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+    .bm-page-cont .blog-item .sub-parent-2 {
+        margin-left: 0;
+        padding: 5px;
+    }
+    .bm-page-cont .blog-item .sub-parent-2::before {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #0000007c;
+        backdrop-filter: blur(2px);
+        top: 0;
+        left: 0;
+    }
+    .bm-page-cont .blog-item .sub-parent-2 a {
+        color: white;
+        position: relative;
+    }
+    .bm-page-cont .blog-item .sub-parent-2 p {
+        color: #ffffff83;
+        position: relative;
+    }
+    
+    .bm-page-cont .blog-item .sub-parent-2 .blog-snippet {
+        background: linear-gradient(to bottom, white 20%, transparent);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-weight: bolder;
+    }
+    .bm-page-cont .blog-item .sub-parent-2 .blog-snippet::after {
+        display: none;
+    }
+    .bm-page-cont .blog-item .sub-parent-2 span {
+        background: linear-gradient(to bottom, white 20%, transparent);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-weight: bolder;
+    }
+    .bm-page-cont .blog-item .sub-parent-2 span::after {
+        display: none;
+    }
+    
+}
+/* for screens less than 480px */
+@media only screen and (max-width: 480px) {
+    /* For screens less than 480px */
+ 
+    .bm-tabs {
+        width: 100%;
+        max-width: none;
+        overflow: scroll;
+        padding-bottom: 10px;
+        padding-right: 0;
+    }
+    .bm-tabs .bm-tab {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+    .bm-tabs::-webkit-scrollbar {
+        appearance: none;
+        width: 6px;
+        height: 6px;
+        cursor: pointer;
+    }
+    .bm-tabs::-webkit-scrollbar-thumb {
+        appearance: none;
+        border-radius: 10px;
+        background: linear-gradient(315deg, #cc01aa, #01d3c1);
+        width: 10px;
+        height: 10px;
+        margin-left: 20px;
+        cursor: pointer;
+    }
+    .bm-tabs::-webkit-scrollbar-corner {
+        appearance: none;
+    }
+}
+/* for screens less than 420px */
+@media only screen and (max-width: 420px) {
+    /* For screens less than 420px */
+ 
+    .edit-modal #blog-images-preview {
+        width: 100%;
+    }
+}
+/* for screens less than 400px */
+@media only screen and (max-width: 400px) {
+    #blog-pages {
+        font-size: 1em;
+    }
+    .back-btn {
+        height: 30px;
+        border-radius: 20px;
+        padding: 0 10px 0 0;
+        font-size: 0.9em;
+    }
 }

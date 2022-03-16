@@ -798,3 +798,110 @@ button.submit:hover {
     background: #cc01aa;
     box-shadow: 0 0 10px #cc01aa;
 }
+
+
+@media only screen and (max-width: 775px) {
+    /* For screens less than 775px */
+    #bc-header {
+        padding: 10px;
+    } 
+    #bc-header .logo {
+        width: fit-content;
+    }
+    #bc-header .logo a h1 {
+        font-size: 1.4em;
+    }
+    #bc-header .logo p {
+        font-size: 0.9em;
+    }
+    #bc-header #bc-title svg {
+        width: 14px;
+        height: 14px;
+    }
+    #bc-header #bc-title p {
+        font-size: 1em;
+    }
+    .header p {
+        padding-top: 10px;
+    }
+    #bc-form {
+        width: calc(100% - 10px);
+    }
+    #bc-form .title input {
+        width: 100%;
+    }
+    #hero {
+        flex-direction: column;
+        padding: 20px 0 0 0;
+    }
+    #hero-text {
+        width: 100%;
+    }
+    #hero #hero-img {
+        width: 100%;
+    }
+    #hero-img-sect {
+        width: 100%;
+        margin: 10px 10px 0 10px;
+    }
+    #hero #hero-img-sect img {
+        width: 100%;
+    }
+    #bc-form .blog-sect textarea {
+        width: 100%;
+    }
+    #bc-form .author-name input {
+        width: 100%;
+    }
+    #hero #hero-img-sect img::after {
+        padding: 0;
+    }
+    #bc-form .snippet input {
+        width: 100%;
+    }
+    #blog-images {
+        flex-direction: column;
+    }
+    #blog-images-text {
+        width: 100%;
+    }
+    #blog-images-links {
+        width: 100%;
+    }
+    .link-cont {
+        padding: 5px 0 5px 0;
+        justify-content: space-between;
+        width: 100%;
+    }
+    #blog-images-sect {
+        width: 100%;
+    }
+    #blog-images-sect>p {
+        padding: 10px 0 5px 0;
+    }
+    #blog-images-preview {
+        width: 360px;
+    }
+    #bc-form .remark input {
+        width: 100%;
+    }
+    .blog-tags-sect {
+        flex-direction: column;
+    }
+    .blog-tags-sect .blog-tags {
+        width: 100%;
+    }
+    .blog-tags-sect .blog-tags input {
+        width: 100%;
+    }
+    .blog-tags-sect .tags-display {
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 420px) {
+    /* For screens less than 420px */
+ 
+    #blog-images-preview {
+        width: 100%;
+    }
+}

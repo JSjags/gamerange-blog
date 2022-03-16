@@ -329,35 +329,6 @@ header nav ul a li {
 #login:hover::before, #signup:hover::after {
     background: var(--background-color);
 }
-/* responsive navigation menu */
-/* #responsive-nav {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: black;
-}
-#responsive-nav ul {
-    padding: 20vh 0;
-    width: 100%;
-    height: 100%;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-}
-#responsive-nav ul a {
-    color: white;
-    display: block;
-    padding: 10px 20px;
-}
-#responsive-nav ul a li {
-    list-style-type: none;
-    font-weight: bolder;
-} */
-
 #search-div {
     display: grid;
     align-items: center;
@@ -509,7 +480,7 @@ input[type="search"]::-webkit-search-cancel-button {
     aspect-ratio: 2/1.2;
     box-shadow: 0 10px 20px #4e4e4e;
     border-radius: 10px;
-    margin: 4vh auto;
+    margin: 9vh auto;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -685,31 +656,6 @@ input[type="search"]::-webkit-search-cancel-button {
     background: rgba(255, 255, 255, 0.3);
     transition: background 300ms ease-in-out;
 }
-
-
-/* top stories section */
-/* .top-stories {
-    width: 80vw;
-    height: fit-content;
-    padding: 20px 10px;
-    background: #cfcfcf;
-    box-shadow: 0 10px 20px #858484;
-    margin: 0 auto 20px;
-    color: #1d1d1d;
-    border-radius: 20px;
-    font-family: 'Average Sans', sans-serif;
-    text-transform: capitalize;
-}
-.top-stories h1 {
-    margin: 0 10px 5px;
-}
-.top-stories hr {
-    margin: 0 10px;
-    border: 1px solid #333333;
-    border-radius: 1px;
-} */
-
-/* backboard */
 
 /* blog card section */
 #blog-card-sect {
@@ -1798,6 +1744,9 @@ input[type="search"]::-webkit-search-cancel-button {
     input[type="search"] {
         padding: 0.3em 0 0.3em 45px;
     }
+    .carousel {
+        margin: 4vh auto;
+    }
 }
 
 @media only screen and (max-width: 520px) {
@@ -1809,10 +1758,10 @@ input[type="search"]::-webkit-search-cancel-button {
 @media only screen and (max-width: 425px) {
     /* For screens less than 425px */
     header #logo a h1 {
-        font-size: 1.5em;
+        font-size: 1.6em;
     }
     header #logo p {
-        font-size: 0.9em;
+        font-size: 0.8em;
     }
     header nav ul {
         display: flex;
@@ -1835,4 +1784,15 @@ input[type="search"]::-webkit-search-cancel-button {
         font-size: 0.9em;
     }
 }
-
+@media only screen and (max-width: 360px) {
+    /* For screens less than 360px */
+    #login-div {
+        margin: 0;
+    }
+    header #logo a h1 {
+        font-size: 1.4em;
+    }
+    header #logo p {
+        font-size: 0.7em;
+    }
+}

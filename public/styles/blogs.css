@@ -98,9 +98,15 @@
 }
 .blogs-section .blog-item .sub-parent-1 {
     width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 5px;
 }
 .blogs-section .blog-item .sub-parent-1 img{
     width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-radius: 6px;
 }
 .blogs-section .blog-item .sub-parent-2 {
@@ -254,9 +260,15 @@
 }
 .blog-page-cont .blog-item .sub-parent-1 {
     width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    border-radius: 5px;
 }
 .blog-page-cont .blog-item .sub-parent-1 img{
     width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-radius: 6px;
 }
 .blog-page-cont .blog-item .sub-parent-2 {
@@ -322,8 +334,8 @@
   }
 
 
-/* for screens less than 585px */
-@media only screen and (max-width: 585px) {
+/* for screens less than 780px */
+@media only screen and (max-width: 780px) {
     .blogs-section .tabs {
         overflow: scroll;
         width: calc(100% - 14px);
