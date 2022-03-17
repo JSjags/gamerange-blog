@@ -827,12 +827,17 @@ button.submit:hover {
     #bc-form {
         width: calc(100% - 10px);
     }
+<<<<<<< HEAD
     #bc-form .title input {
         width: 100%;
     }
     #hero {
         flex-direction: column;
         padding: 20px 0 0 0;
+=======
+    #hero {
+        flex-direction: column;
+>>>>>>> origin/main
     }
     #hero-text {
         width: 100%;
@@ -856,9 +861,12 @@ button.submit:hover {
     #hero #hero-img-sect img::after {
         padding: 0;
     }
+<<<<<<< HEAD
     #bc-form .snippet input {
         width: 100%;
     }
+=======
+>>>>>>> origin/main
     #blog-images {
         flex-direction: column;
     }
