@@ -11,7 +11,7 @@
         <form method="post" action="" enctype="application/x-www-form-urlencoded" id="bc-form">
             <div class="header">
                 <h2>
-                    create a new blog below
+                    edit blog below
                 </h2>
                 <p>all input fields are required.no input field should be submitted blank. </p>
             </div>
@@ -2368,6 +2368,18 @@
         location.reload()
     })
 
+</script>
+
+<!-- blog tags functionality -->
+<script>
+    const tagsBox = document.querySelector(".tags-display");
+    tagsBox.children.forEach(tag => {
+        const tagRemoveBtn = document.createElement("span");
+        tagRemoveBtn.innerText = "✕";
+
+        tag.appendChild(tagRemoveBtn)
+        
+    })
 </script>
 </body>
 </html>

@@ -100,8 +100,15 @@ const tagBtn = document.querySelector(".add-tag");
 
 tagBtn.addEventListener('click', () => {
     const tagValue = document.querySelector("#tags").value;
+    const tagBox = document.createElement("div");
     const tag = document.createElement("input");
-    
+    const tagRemoveBtn = document.createElement("span");
+        
+    tagBox.classList.add("tag-box")
+    tagRemoveBtn.classList.add("tag-remove-btn")
+
+    tagRemoveBtn.innerText = "✕";
+
     if(tagValue.length < 1) return;
 
     tag.setAttribute("name", "tags");
@@ -109,6 +116,12 @@ tagBtn.addEventListener('click', () => {
     tag.classList.add("tag");
     tag.style.width = `calc((${(tagValue.length)}ch) + 20px)`
     tag.value = tagValue;
-    tagsDisplay.appendChild(tag);
+    tagBox.appendChild(tag)
+    tagBox.appendChild(tagRemoveBtn)
+    tagsDisplay.appendChild(tagBox);
     tagsInputBox.value = "";
+
+    tagRemoveBtn.addEventListener('click', function () {
+        this.parentElement.remove()
+    })
 })

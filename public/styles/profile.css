@@ -275,7 +275,7 @@
         height: fit-content;
         padding-bottom: 20px;
         width: calc(100% - 20px);
-        margin: 0 10px;
+        margin: 0 10px 30px;
     }
     .profile-pic {
         height: 30vh;
