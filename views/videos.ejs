@@ -115,7 +115,7 @@
     }
 
     function populateRecentVideosAndShows () {
-        fetch("https://pointblank-proxy-server.herokuapp.com/https://www.giantbomb.com/api/videos/?format=json&api_key=<%=GIANT_BOMB_KEY%>&sort=publish_date:desc&limit=20")
+        fetch("https://non-cors.herokuapp.com/https://www.giantbomb.com/api/videos/?format=json&api_key=<%=GIANT_BOMB_KEY%>&sort=publish_date:desc&limit=20")
         .then(blob => blob.json())
         .then(data => {
             recentVideosBox.firstElementChild.style.display = "none";
@@ -183,7 +183,7 @@
     }
 
     function populateGameTrailers () {
-        fetch("https://pointblank-proxy-server.herokuapp.com/https://www.giantbomb.com/api/videos/?api_key=9e432dca5c5d0c83e207887415befd689bec382b&format=json&filter=video_categories:7&sort=publish_date:desc&limit=20")
+        fetch("https://non-cors.herokuapp.com/https://www.giantbomb.com/api/videos/?api_key=9e432dca5c5d0c83e207887415befd689bec382b&format=json&filter=video_categories:7&sort=publish_date:desc&limit=20")
         .then(blob => blob.json())
         .then(data => {
             gameTrailersBox.firstElementChild.style.display = "none";
@@ -263,7 +263,7 @@
 
     window.addEventListener("load", () => {
         // recent videos and shows script
-        fetch("https://pointblank-proxy-server.herokuapp.com/https://www.giantbomb.com/api/videos/?api_key=<%=GIANT_BOMB_KEY%>&format=json&sort=publish_date:desc&limit=20", {
+        fetch("https://non-cors.herokuapp.com/https://www.giantbomb.com/api/videos/?api_key=<%=GIANT_BOMB_KEY%>&format=json&sort=publish_date:desc&limit=20", {
             headers: {
                 "User-Agent": "My Awesome App"
             }
@@ -342,7 +342,7 @@
         })
 
         // trailers fetch script
-        fetch("https://pointblank-proxy-server.herokuapp.com/https://www.giantbomb.com/api/videos/?api_key=<%=GIANT_BOMB_KEY%>&format=json&filter=video_categories:7&sort=publish_date:desc&limit=20", {
+        fetch("https://non-cors.herokuapp.com/https://www.giantbomb.com/api/videos/?api_key=<%=GIANT_BOMB_KEY%>&format=json&filter=video_categories:7&sort=publish_date:desc&limit=20", {
             headers: {
                 "User-Agent": "My Awesome App"
             }
@@ -472,7 +472,7 @@
         
         videoSearchInput.value = "";
 
-        fetch(`https://pointblank-proxy-server.herokuapp.com/https://www.giantbomb.com/api/search/?format=json&api_key=<%=GIANT_BOMB_KEY%>&query=${videoSearchVal}&resources=video`, {
+        fetch(`https://non-cors.herokuapp.com/https://www.giantbomb.com/api/search/?format=json&api_key=<%=GIANT_BOMB_KEY%>&query=${videoSearchVal}&resources=video`, {
             headers: {
                 "User-Agent": "My Awesome App"
             }
@@ -577,7 +577,7 @@
                                                 `;
 
                         // fetching page number based on button data-offset
-                        fetch(`https://pointblank-proxy-server.herokuapp.com/https://www.giantbomb.com/api/search/?format=json&api_key=<%=GIANT_BOMB_KEY%>&page=${currentPage}&query=${videoSearchVal}&resources=video`, {
+                        fetch(`https://non-cors.herokuapp.com/https://www.giantbomb.com/api/search/?format=json&api_key=<%=GIANT_BOMB_KEY%>&page=${currentPage}&query=${videoSearchVal}&resources=video`, {
                             headers: {
                                 "User-Agent": "My Awesome App"
                                 }
