@@ -394,7 +394,7 @@
 }
 
 /* error message and button for recent videos and shows */
-.err-box-1 {
+.err-box {
   width: 100%;
   height: fit-content;
   padding-left: 10px 0;
@@ -403,13 +403,14 @@
   align-items: center;
   flex-direction: column;
 }
-.err-msg-1 {
+.err-msg {
   width: 100%;
   text-align: center;
   font-size: 1.2em;
   font-weight: bolder;
+  color: black !important;
 }
-.err-btn-1 {
+.err-btn {
   display: block;
   margin-top: 20px;
   width: 60px;
@@ -420,10 +421,10 @@
   border: none;
   cursor: pointer;
 }
-.err-btn-1:hover {
+.err-btn:hover {
   background: var(--background-color);
 }
-.err-btn-1::after {
+.err-btn::after {
   content: url("https://api.iconify.design/ep/refresh-right.svg?color=white&width=50");
   display: block;
   position: absolute;

@@ -168,12 +168,12 @@
         .catch(err => {
             const loadingSvg = recentVideosBox.firstElementChild;
             recentVideosBox.innerHTML = `
-                                            <div class="err-box-1">
-                                                <p class="err-msg-1">Couldn't fetch recent videos and shows, Click button below to try again</p>
-                                                <button class="err-btn-1"></button>
+                                            <div class="err-box">
+                                                <p class="err-msg">Couldn't fetch recent videos and shows, Click button below to try again</p>
+                                                <button class="err-btn"></button>
                                             </div>
                                         `
-            const errBtn = document.querySelector(".err-btn-1");
+            const errBtn = document.querySelector(".err-btn");
             errBtn.addEventListener("click", () => {
                 recentVideosBox.innerHTML = "";
                 recentVideosBox.firstElementChild = loadingSvg;
